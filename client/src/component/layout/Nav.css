@@ -1,0 +1,20 @@
+#navBack{
+    background-color: rgba(229, 28, 35, 0.8);
+
+}
+.allpage{
+    position: fixed;
+    bottom: 8px;
+    left:  16px;
+
+}
+#navbarScrollingDropdown{
+    color: #0f52ba
+}
+.bg-nav{
+    background-image: url("../../../public/back-g-nav-2.png");
+}
+.logo-nav{
+    height: 40px;
+    width: auto;
+}

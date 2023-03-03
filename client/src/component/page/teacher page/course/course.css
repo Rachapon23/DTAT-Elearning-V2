@@ -1,0 +1,43 @@
+.iconx{
+    font-size: 25px;
+    -webkit-text-stroke-width: 0.3px;
+    color: grey;
+}.iconPlus{
+    font-size: 20px;
+    -webkit-text-stroke-width: 0.3px;
+    color: grey;
+}
+#select{
+    max-width: 100px;
+
+}
+#titleTopic{
+    color:#2c7ecd;
+}
+
+
+.bg-body-course-t{
+    background-color: rgba(0, 0, 0, 0.2);  
+}
+
+
+.size-pdf{
+  font-size: 16px;
+}
+@media screen and (max-width:414px) {
+  .size-pdf{
+    font-size: 11px;
+  }
+}
+@media screen and (max-width:428px) {
+  .size-file{
+    font-size: 9px;
+  }
+}
+.bg-addcouse{
+  background-color: rgb(255, 255, 255);
+}
+
+.nodata{
+  color: rgba(0, 0, 0, 0.2);
+}

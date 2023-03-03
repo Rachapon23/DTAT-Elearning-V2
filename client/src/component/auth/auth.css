@@ -1,0 +1,17 @@
+.bg-nav{
+    /* background-color:  rgba(229, 28, 35, 0.8); 
+    background-image: url("../../../public/back-g-nav.png");  */
+
+}
+.black-g{
+    background-image: url("../../../public/back-login.png");
+    position: fixed;
+    min-width: 100%;
+    min-height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+.logo-nav{
+    height: 40px;
+    width: auto;
+}

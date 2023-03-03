@@ -1,0 +1,11 @@
+.size-pdf{
+    font-size: 16px;
+  }
+  @media screen and (max-width:414px) {
+    .size-pdf{
+      font-size: 11px;
+    }
+  }
+  .teacher-link{
+    cursor: pointer;
+  }

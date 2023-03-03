@@ -1,0 +1,24 @@
+#table_header {
+    width: 10%;
+}
+
+.Avatar{
+    font-size: 10rem;
+    /* margin-top: 10px; */
+}
+.Avatar-2{
+    width: 11rem;
+    height: 11rem;
+
+    /* margin-top: 10px; */
+}
+.bg-secondary-css{
+    background-color: rgb(108, 117, 125 ,0.1);
+}
+.edit-icon{
+    cursor: pointer;
+}
+.edit-icon:hover{
+    /* cursor: pointer; */
+    font-size: 1.1rem;
+}

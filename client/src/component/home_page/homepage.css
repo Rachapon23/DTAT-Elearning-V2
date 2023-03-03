@@ -1,0 +1,16 @@
+.logo-nav{
+    height: 40px;
+    width: auto;
+}
+.black-g-home{
+    background-image: url("../../../public/back-login.png");
+    position: relative;
+    min-width: 100%;
+    min-height: 100%;
+    background-size: cover;
+    /* min-height: 895px; */
+    background-position: center;
+}
+.bg-nav{
+    background-image: url("../../../public/back-g-nav-2.png");
+}

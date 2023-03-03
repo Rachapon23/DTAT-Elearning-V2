@@ -1,0 +1,21 @@
+
+
+#text-p-6 {
+    text-align: center;
+    color: #6c757d;
+    font-size: 12px;
+}
+
+
+
+.back-public-black-2:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+}
+
+.back-public-2 {
+    cursor: pointer;
+
+}

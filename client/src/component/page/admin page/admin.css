@@ -1,0 +1,77 @@
+.card-img-teacher {
+    background-image: url('https://cdn-icons-png.flaticon.com/512/3941/3941166.png');
+    background-color: rgb(0, 0, 0, 0.3);
+    height: 600px;
+    /* position: fixed; */
+    /* min-width: 50%;
+    min-height: 50%; */
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+.card-img-teacher:hover p {
+    font-size: 28px;
+    color: aliceblue;
+}
+
+.card-img-teacher:hover {
+    /* background-image: url('https://img.freepik.com/free-photo/elegant-young-teacher-with-brunette-hair-stylish-light-shirt-black-striped-suit-glasses-holding-writings-pen-giving-lecture_197531-24666.jpg?w=1380&t=st=1677117678~exp=1677118278~hmac=b12c641f1ab64693350fafe6e877a9748e6bdb38d0308c642cb9e5d57c1aea6d'); */
+    background-image: url('https://soranews24.com/wp-content/uploads/sites/3/2014/09/suugaku.jpg?resize=640,577');
+    height: 600px;
+    background-size: cover;
+    background-position: center;
+    animation: gradient 15s ease infinite;
+}
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.card-img-student {
+    background-image: url('https://cdn-icons-png.flaticon.com/512/3941/3941333.png');
+    background-color: rgb(0, 0, 0, 0.3);
+    height: 600px;
+    /* position: fixed; */
+    /* min-width: 50%;
+    min-height: 50%; */
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+.card-img-student:hover p {
+    font-size: 28px;
+    color: aliceblue;
+}
+
+.card-img-student:hover{
+    /* background-image: url('https://img.freepik.com/free-photo/positive-happy-teacher-clenches-fist-with-joyful-expression-holds-spiral-notepad-writes-notes-notepad-dressed-red-shirt_273609-25182.jpg?t=st=1677117652~exp=1677118252~hmac=4e54c3507ca71b6b2e159eb73e3a628898345740aae36be7ef69070d1ad0109f'); */
+    background-image: url('https://i.pinimg.com/474x/f7/ca/b3/f7cab3879372f6a0cf0d649abf25cfda.jpg');
+    height: 600px;
+    background-size: cover;
+    background-position: center;
+    animation: gradient-2 15s ease infinite;
+}
+@keyframes gradient-2 {
+    0% {
+        background-position: 50% 0%;
+    }
+    50% {
+        background-position: 50% 100%;
+    }
+    100% {
+        background-position: 50% 0%;
+    }
+}
+
+#remove{
+    cursor: pointer;
+}

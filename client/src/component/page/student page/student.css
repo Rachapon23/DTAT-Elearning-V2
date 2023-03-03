@@ -1,0 +1,38 @@
+#titleTopic{
+    color:#2c7ecd;
+}
+.body-card{
+    background-color: rgba(225, 245, 254, 1);
+}
+.search{
+    background-color: rgba(225, 245, 254, 1);
+}
+.card-h{
+    height: 300px;
+}
+
+.zoom-calendar{
+    color: black;
+    cursor: pointer;
+}
+
+.zoom-calendar:hover{
+    color: #2c7ecd;
+    font-size: 17px;
+}
+.overlay{
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+@media screen and (max-width:320px) {
+    .size-title{
+      font-size: 11px;
+    }
+  }
+
+
+  .head-form{
+    height: 10px;
+    border-radius: 3px 3px 0px 0px;
+}
+
