@@ -3,10 +3,9 @@ import NavStudent from "../../layout/NavStudent"
 import { listQuizby } from '../../../function/student/funcCourse'
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Swal from 'sweetalert2'
+// import Swal from 'sweetalert2'
 import { useParams } from 'react-router-dom'
 import { sendQuiz, checkAccessNumber, listScore } from '../../../function/student/funcQuiz';
-import Parser from 'html-react-parser';
 import { useLocation } from 'react-router-dom';
 import { Table } from "antd";
 

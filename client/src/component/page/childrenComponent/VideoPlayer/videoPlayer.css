@@ -1,0 +1,45 @@
+#playerWrapper {
+    width: 100%;
+    position: relative;
+  }
+  
+  #controlWarpper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between ;
+    z-index: 1;
+    cursor: auto;
+  }
+  
+  #controlIcons {
+    color: gray;
+    font-size: 50;
+    transform: scale(0.9);
+  }
+  
+  #controlIcons:hover {
+    color: #fff;
+    font-size: 50;
+    transform: scale(1);
+  }
+  
+  #buttomIcons {
+    color: #999;
+  }
+  
+  #buttomIcons:hover {
+    color: #fff;
+  }
+  
+  .single-thumb .range-slider__thumb[data-lower] {
+    width: 0;
+  }
+  .single-thumb .range-slider__range {
+    border-radius: 6px;
+  }
