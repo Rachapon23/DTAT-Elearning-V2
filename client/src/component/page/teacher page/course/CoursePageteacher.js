@@ -1,29 +1,32 @@
-import React from 'react'
+import React from 'react';
 import { useEffect, useState } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
 import NavTeacher from "../../../layout/NavTeacher";
-import './course.css'
+import './course.css';
 import Swal from "sweetalert2";
 import { Switch } from 'antd';
 // import { Link } from "react-router-dom";
 // import Parser from 'html-react-parser';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { getCourse, removeCourse, enablecourse } from "../../../../function/teacher/funcCourse";
+import VideoPlayer from '../../childrenComponent/VideoPlayer/VideoPlayer';
+
+
 
 
 const CoursePageteacher = () => {
     const { id } = useParams();
     const [course, setCourse] = useState("");
     const [topic, setTopic] = useState();
-    const [dataQuiz, setDataQuiz] = useState([])
-    const navigate = useNavigate()
-    const { pathname } = useLocation()
+    const [dataQuiz, setDataQuiz] = useState([]);
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
 
 
     const fetchCourse = () => {
         getCourse(sessionStorage.getItem("token"), id)
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 setCourse(response.data)
                 setTopic(response.data.topic)
             })
@@ -71,7 +74,7 @@ const CoursePageteacher = () => {
             if (result.isConfirmed) {
                 removeCourse(sessionStorage.getItem("token"), params)
                     .then(res => {
-                        console.log(res)
+                        // console.log(res)
                         Toast.fire({
                             icon: 'success',
                             title: 'Your Course has been deleted successfully'
@@ -99,7 +102,7 @@ const CoursePageteacher = () => {
                 enable: checked
             })
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 fetchCourse()
             })
             .catch((err) => {
@@ -107,6 +110,9 @@ const CoursePageteacher = () => {
             })
     };
 
+    
+
+    
 
     return (
         <div>
@@ -158,7 +164,6 @@ const CoursePageteacher = () => {
                             <div className="">
                                 <p className="fs-6">{item.description}</p>
 
-                                {console.log("-> ", item)}
                                 {item.text.length > 0 &&
                                     <div className=""><ul>
                                         {item.text.map((ttem, tdex) =>
@@ -173,20 +178,33 @@ const CoursePageteacher = () => {
                                 {item.link.length > 0 &&
                                     <div className=""><ul>
                                         {item.link.map((ttem, tdex) =>
-
-                                            <li key={tdex}>
-                                                <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
-                                            </li>
-
+                                            ttem.url.includes("youtube.com") ?
+                                            (
+                                                <div className="d-flex justify-content-center">
+                                                    <iframe 
+                                                        width="560" 
+                                                        height="315" 
+                                                        src={ttem.url.replace("watch?v=","embed/")} 
+                                                        title="YouTube video player" 
+                                                        frameborder="0" 
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                                        allowfullscreen
+                                                    />
+                                                </div>
+                                            )
+                                            :
+                                            (
+                                                <li key={tdex}>
+                                                    <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
+                                                </li>
+                                            )
                                         )}
                                     </ul>
                                     </div>
                                 }
-                                {console.log("-> ", item.file)}
+                                
                                 {item.file &&
                                     <div className="">
-
-
                                         {item.file.map((ttem, tdex) =>
 
                                             <div key={tdex} className="mb-2">
@@ -224,7 +242,7 @@ const CoursePageteacher = () => {
 
                                                                             </div>
                                                                             : <>
-                                                                                {ttem.filetype == "image/webp"
+                                                                                {ttem.filetype === "image/webp"
                                                                                     ? <div className="container">
                                                                                         <div className="d-flex justify-content-center">
                                                                                             <div className="w-50">
@@ -236,20 +254,25 @@ const CoursePageteacher = () => {
                                                                                     :
 
                                                                                     <>
-                                                                                        {ttem.filetype == "video/mp4"
-                                                                                            ? <div className="container">
-                                                                                                <p>{(ttem.name).split('.')[0]}</p>
-                                                                                                <div className="d-flex justify-content-center">
-                                                                                                    <div className="w-50">
-                                                                                                        <video className="w-100" controls>
-                                                                                                            <source src={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
-                                                                                                                type={ttem.filetype} />
-                                                                                                            Your browser does not support the video tag.
-                                                                                                        </video>
-                                                                                                    </div>
-                                                                                                </div>
+                                                                                        {ttem.filetype === "video/mp4" ?
+                                                                                            <VideoPlayer
+                                                                                                videoName={ttem.name}
+                                                                                                url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
+                                                                                            /> 
 
-                                                                                            </div>
+                                                                                            // <div className="container">
+                                                                                            //     <p>{(ttem.name).split('.')[0]}</p>
+                                                                                            //     <div className="d-flex justify-content-center">
+                                                                                            //         <div className="w-50">
+                                                                                            //             <video className="w-100" controls>
+                                                                                            //                 <source src={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
+                                                                                            //                     type={ttem.filetype} />
+                                                                                            //                 Your browser does not support the video tag.
+                                                                                            //             </video>
+                                                                                            //         </div>
+                                                                                            //     </div>
+
+                                                                                            // </div>
                                                                                             :
                                                                                             <>
                                                                                                 {ttem.filetype === "application/vnd.openxmlformats-officedocument.presentationml.presentation"
