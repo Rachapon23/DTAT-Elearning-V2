@@ -11,6 +11,7 @@ import './videoPlayer.css';
 export default ({
     videoName,
     url,
+    disableForward,
 }) => {
     const [count, setCount] = useState(0);
     const playRef = useRef(null);
@@ -108,31 +109,41 @@ export default ({
         // }
         setSeeking(true)
         console.log("value",value[1])
-        if(value[1] >= 100) {
-            setExceedLimit(exceedLimit+1);
-            setThumbsDisabled(true);
-            setPlayed([0, 1])
-            setSeeking(false)
-            return
+
+        if(disableForward) {
+            if(value[1] == 100) {
+                return
+            }
+            else if(value[1] >= 100) {
+                setExceedLimit(exceedLimit+1);
+                setThumbsDisabled(true);
+                setPlayed([0, 1])
+                setSeeking(false)
+                return
+            }
+        
+            if(played[1] <= maxPlayed && value[1]/100 <= maxPlayed) {
+                console.log("->",maxPlayed , value[1]/100, played)
+                setPlayed([0, parseFloat(value[1] / 100) ])
+                playRef.current.seekTo(parseFloat(value[1] / 100))
+                setSeeking(false)
+            }
+            else {
+                console.log("exceed")
+                setExceedLimit(exceedLimit+1);
+                setThumbsDisabled(true);
+                // setPlayed([0, played[1]])
+                // playRef.current.seekTo(played[1])
+                setPlayed(played)
+                setSeeking(false)
+                
+            }
         }
-    
-        if(played[1] <= maxPlayed && value[1]/100 <= maxPlayed) {
-            console.log("->",maxPlayed , value[1]/100, played)
+        else {
             setPlayed([0, parseFloat(value[1] / 100) ])
             playRef.current.seekTo(parseFloat(value[1] / 100))
             setSeeking(false)
         }
-        else {
-            console.log("exceed")
-            setExceedLimit(exceedLimit+1);
-            setThumbsDisabled(true);
-            // setPlayed([0, played[1]])
-            // playRef.current.seekTo(played[1])
-            setPlayed(played)
-            setSeeking(false)
-            
-        }
-        
     }
 
     const handleSeekMouseDown = () => {
