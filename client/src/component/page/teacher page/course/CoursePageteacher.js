@@ -258,6 +258,7 @@ const CoursePageteacher = () => {
                                                                                             <VideoPlayer
                                                                                                 videoName={ttem.name}
                                                                                                 url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
+                                                                                                disableForward={false}
                                                                                             /> 
 
                                                                                             // <div className="container">
