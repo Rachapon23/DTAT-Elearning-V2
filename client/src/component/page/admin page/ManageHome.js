@@ -85,7 +85,7 @@ const ManageHome = () => {
   const loadCourse = () => {
     getCourseHome(sessionStorage.getItem("token"))
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         setCourseSelectOpen(res.data.open);
         setCourseSelectClose(res.data.close);
       })

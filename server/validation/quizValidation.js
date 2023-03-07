@@ -28,7 +28,7 @@ exports.createQuizValidate = async (payload) => {
             console.log(`[-] invalid login request length ${Object.keys(payload).length}`)
             return {valid: false, data: `Payload must contain data`}
         }
-        // // console.log("<validate> ",payload)
+        // console.log("<validate> ",payload)
         
         // structure level validation
         if(typeof payload.body === "object") {
@@ -71,7 +71,7 @@ exports.createQuizValidate = async (payload) => {
                     const data_key = Object.keys(payload.body[structure_key[i]])
                     let data_counter = 0;
         
-                    if(data_key.length !== 4) {
+                    if(data_key.length !== 5) {
                         console.log(`[-] invalid head in data level ${data_key.length}`)
                         return {valid: false, data: `Length of body in head does not match`}
                     }

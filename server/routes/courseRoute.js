@@ -24,7 +24,7 @@ const {
     
     getRoom,
     getPlant,
-    getUserCourse,~
+    getUserCourse,
     getCourseHome
 
 } = require("../controllers/courseController");
