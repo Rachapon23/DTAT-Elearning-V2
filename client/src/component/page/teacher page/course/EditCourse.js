@@ -10,6 +10,7 @@ import { listRoom } from '../../../../function/teacher/funcMiscellaneous'
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom'
 import { uploadImg, upDateImg, uploadfile } from '../../../../function/teacher/funcMiscellaneous'
+import { Table } from 'antd';
 
 const EditCourse = () => {
 
@@ -784,11 +785,32 @@ const EditCourse = () => {
                                 </div>
                             )}
 
+                            <div className="mt-2">
+                                <div className="card">
+                                    <div className="row card-body p-0 ">
+                                    
+                                    {/* <Table dataSource={[1, 2, 3]}/> */}
+                                    {/* <div className="col pt-2 ps-4">Quiz</div> */}
+
+                                    <div className="col d-flex justify-content-end">
+                                        <button
+                                        type="button"
+                                        className="btn"
+                                        // onClick={handleAddNewQuiz}
+                                        >
+                                        <i className="bi bi-file-earmark-plus h5"/>
+                                        </button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div className="mt-2">
                                 <div className="card">
-                                    <div className="card-body p-0 ">
-                                        <div className="d-flex justify-content-end">
+                                    <div className="row card-body p-0 ">
+                                        <div className="col pt-2 ps-4">Topic</div>
+                                        <div className="col d-flex justify-content-end">
                                             <button type="button" className="btn"
                                                 onClick={handleAddTopic}
                                             >

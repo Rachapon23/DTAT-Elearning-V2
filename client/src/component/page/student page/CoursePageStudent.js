@@ -112,7 +112,7 @@ const CoursePageStudent = () => {
                                         <p className="card-text fs-6">Detail : {course.description}</p>
                                         {course.status !== "public" ?
                                             <div className="d-flex">
-                                                <p className="text-muted "> Course ID : {course.course_number}&nbsp;&nbsp;</p>
+                                                {/* <p className="text-muted "> Course ID : {course.course_number}&nbsp;&nbsp;</p> */}
                                                 <p className="text-muted "> Teacher :&nbsp;</p>
                                                 <a onClick={showModal} className="text-info teacher-link">{course.teacher.firstname}</a>
                                             </div>
@@ -129,7 +129,7 @@ const CoursePageStudent = () => {
                                         <p className="card-text fs-6">Detail : {course.description}</p>
                                         {course.status !== "public" ?
                                             <div className="d-flex">
-                                                <p className="text-muted "> Course ID : {course.course_number}&nbsp;&nbsp;</p>
+                                                {/* <p className="text-muted "> Course ID : {course.course_number}&nbsp;&nbsp;</p> */}
                                                 <p className="text-muted ">Teacher : {course.teacher.firstname}</p>
                                             </div>
 

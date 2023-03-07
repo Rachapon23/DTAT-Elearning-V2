@@ -1,8 +1,8 @@
 import React from 'react'
 import NavAdmin from '../../layout/NavAdmin'
-import { listTeacheruser, changeRole } from '../../../function/funcFromAdmin'
+import { listTeacheruser, changeRole } from '../../../function/admin/funcFromAdmin'
 import { useState, useEffect } from "react";
-import { changeEnable } from '../../../function/funcFromAdmin';
+import { changeEnable } from '../../../function/admin/funcFromAdmin';
 import { Table } from 'antd';
 import Swal from "sweetalert2";
 

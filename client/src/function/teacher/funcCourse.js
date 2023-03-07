@@ -39,6 +39,13 @@ headers:{
     authtoken,
 }
 });
+export const getUserCourse  = async(authtoken,id) =>
+await axios.get(process.env.REACT_APP_API+'/get-user-course/'+id,
+{
+headers:{
+    authtoken,
+}
+});
 
 export const removeCourse = async(authtoken,params) => 
 await axios.delete(process.env.REACT_APP_API+'/delete-courses/'+params,

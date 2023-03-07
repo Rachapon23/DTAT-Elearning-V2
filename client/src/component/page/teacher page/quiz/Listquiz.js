@@ -129,14 +129,13 @@ const Listquiz = () => {
     <div>
       <NavTeacher />
       <div className="container">
-      <div className="row p-2">
+      {/* <div className="row p-2">
                     <div className="d-flex justify-content-end mt-4 bg-addcouse p-3  shadow-sm">
-                        {/* <label className='form-label'>สร้างบทเรียน +</label> */}
                         <button type='button' className='btn btn-outline-success' onClick={createQuiz}
                         >Add Quiz &nbsp;<i className="bi bi-folder-plus"></i>
                         </button>
                     </div>
-                </div>
+                </div> */}
         <div className="row p-2 ">
           <div className="card">
             <div className="card-body">

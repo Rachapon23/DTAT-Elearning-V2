@@ -1,43 +1,47 @@
 const mongoose = require("mongoose");
-const {ObjectId} = mongoose.Schema;
+const { ObjectId } = mongoose.Schema;
 
-const CourseeSchema = new mongoose.Schema({
+const CourseeSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        require: true,
-        unique: true,
-    },
-    teacher: {
-        type: ObjectId,
-        ref: "users",
-    },
-    room: {
-        type: ObjectId,
-        ref: "layout",
+      type: String,
+      require: true,
+      unique: true,
     },
     description: {
-        type: String,
-    }
-    ,
-    // course_number: {
-    //     type: String,
-    //     Text:true
-    // },
-    // password:{
-    //     type:String
-    // },
-    image:{
-        type:String
+      type: String,
     },
-    status:{
-        type:String,
-        default:"private"
+    quiz: {
+      type: ObjectId,
+      ref: "quiz",
     },
-    enabled:{
-        type:Boolean,
-        default: false,
+    member:[],
+    calendar: [],
+    statuscourse: {
+      type: Boolean,
+    },
+    room: {
+      type: ObjectId,
+      ref: "layout",
+    },
+    teacher: {
+      type: ObjectId,
+      ref: "users",
+    },
+    user: [{
+      type: ObjectId,
+      ref:"user"
+  }],
+    image: {
+      type: String,
+    },
+    enabled: {
+      type: Boolean,
+      default: false,
     },
     topic: [],
-}, {timestamps: true});
+  },
+  { timestamps: true }
+);
 
 module.exports = Coursee = mongoose.model("coursee", CourseeSchema);

@@ -102,7 +102,7 @@ const CoursePageteacher = () => {
                 enable: checked
             })
             .then((response) => {
-                // console.log(response)
+                // console.log(response) // test pull
                 fetchCourse()
             })
             .catch((err) => {
@@ -330,11 +330,35 @@ const CoursePageteacher = () => {
 
                     ))}
                 </div>
-                <div className="d-flex justify-content-between mb-4">
-                    <button onClick={() => nextToCourse(course._id)} className="btn btn-warning w-25">Edit</button>
-                    <button onClick={() => remove(course._id)} className="btn btn-danger w-25">Delete</button>
-                </div>
+                <div className="row">
 
+                    <div className="col-md-8">
+                        <div className="d-grid">
+                        <a
+                            href={`/teacher/get-course/manageuser/` + course._id}
+                            className="btn btn-primary"
+                        >
+                            manage member
+                        </a>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="d-flex justify-content-end mb-4">
+                        <button
+                            onClick={() => nextToCourse(course._id)}
+                            className="btn btn-warning w-25"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            onClick={() => remove(course._id)}
+                            className="btn btn-danger w-25 ms-3"
+                        >
+                            Delete
+                        </button>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>

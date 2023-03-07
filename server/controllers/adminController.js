@@ -1,4 +1,6 @@
 const User = require('../models/userModel')
+const Plant = require('../models/plant')
+const Layout = require("../models/layout");
 
 exports.listAlluser = async (req, res) => {
     try {
@@ -38,7 +40,6 @@ exports.listTeacheruser = async (req, res) => {
     }
 };
 
-
 exports.ChangeRole = async (req, res) => {
     try {
         const value = req.body
@@ -70,3 +71,48 @@ exports.changeEnable = async (req, res) => {
         res.status(500).send("Server Error!!! on change enanbled");
     }
 }
+
+exports.createRoom = async (req, res) => {
+    try {
+      const room = new Layout(req.body);
+      await room.save();
+      // await Layout.insertMany(req.body)
+  
+      res.send(room);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server Error!!! on create Room");
+    }
+  };
+  exports.removeRoom = async (req, res) => {
+    try {
+      const room = await Layout.findOneAndDelete({ _id: req.params.id });
+      // console.log(req.params)
+      res.send(room);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server Error!!! on remove Room");
+    }
+  };
+exports.createPlant = async (req, res) => {
+    try {
+      const plant = new Plant(req.body);
+      await plant.save();
+      // await Layout.insertMany(req.body)
+  
+      res.send(plant);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server Error!!! on create plant");
+    }
+  };
+  exports.removePlant = async (req, res) => {
+    try {
+      const plant = await Plant.findOneAndDelete({ _id: req.params.id });
+      // console.log(req.params)
+      res.send(plant);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server Error!!! on remove Plant");
+    }
+  };

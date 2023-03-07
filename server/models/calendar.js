@@ -10,9 +10,9 @@ const calendarSchema = mongoose.Schema({
         ref:"coursee",
         // require: true,
     },
-    filename: {
-        type: String
-    },
+    // filename: {
+    //     type: String
+    // },
     start: {
         type: Date
     },
@@ -30,9 +30,9 @@ const calendarSchema = mongoose.Schema({
         type: ObjectId,
         ref:"users",
     },
-    floor: {
-        type: Number
-    }
+    // floor: {
+    //     type: Number
+    // }
 }, { timestamps: true })
 
 module.exports = Calendar = mongoose.model('calendar', calendarSchema)

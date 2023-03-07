@@ -41,6 +41,9 @@ const UserSchema = new mongoose.Schema({
         type: ObjectId,
         ref:"coursee"
     }],
+    plant: {
+        type: String,
+    },
     enabled:{
         type:Boolean,
         default: true,

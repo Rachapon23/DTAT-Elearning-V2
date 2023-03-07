@@ -8,9 +8,9 @@ const LayoutSchema = new mongoose.Schema({
     floor: {
         type: String,
     },
-    detail: {
-        type: String,
-    }
+    // detail: {
+    //     type: String,
+    // }
 });
 
 module.exports = Layout = mongoose.model("layout", LayoutSchema);

@@ -29,6 +29,22 @@ exports.carousel = async (req, res) => {
         res.status(500).send('Server Error!!! on carousel')
     }
 }
+// exports.privateCreate = async (req, res) => {
+//     try {
+   
+//         const hoe = new ReGiscourse({
+         
+//             coursee:"63fc557ea6ac3a6bd778a1d3",
+//             // register:"63fc557ea6ac3a6bd778a1d3"
+//         })
+//         await hoe.save()
+//         res.send(hoe)
+ 
+//     } catch (err) {
+//         console.log(err)
+//         res.status(500).send('Server Error!!! on privateCreate')
+//     }
+// }
 exports.course = async (req, res) => {
     try {
 
