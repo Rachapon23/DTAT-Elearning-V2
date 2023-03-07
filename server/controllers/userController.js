@@ -12,8 +12,8 @@ const UserValiation = require("../validation/userValidation")
 
 exports.register = async (req, res) => {
   try {
-    const validated_result = await UserValiation.registerValidate(req)
-    if (!validated_result.valid) return res.status(400).send(validated_result);
+    // const validated_result = await UserValiation.registerValidate(req)
+    // if (!validated_result.valid) return res.status(400).send(validated_result);
 
     const {
       employee_ID,
@@ -22,7 +22,9 @@ exports.register = async (req, res) => {
       email,
       firstname,
       lastname,
-    } = validated_result.data.body
+      plant,
+    } = req.body 
+    // validated_result.data.body
 
     //ตรวจสอบว่าเป็นสมาชิกหรือยัง
     let user = await User.findOne({ employee_ID })
@@ -44,6 +46,7 @@ exports.register = async (req, res) => {
       email,
       firstname,
       lastname,
+      plant
     });
 
     // Encrypt password

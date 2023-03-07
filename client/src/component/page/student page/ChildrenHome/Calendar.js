@@ -75,7 +75,7 @@ const Calendar = () => {
     }
 
     return (
-        <div>
+        <div className=''>
             <FullCalendar
                 plugins={[dayGridPlugin, bootstrap5Plugin]}
                 // initialView="dayGridMonth"
@@ -84,14 +84,16 @@ const Calendar = () => {
                     center: 'title',
                     right: ""
                 }}
+                height={500}
                 themeSystem='bootstrap5'
                 events={events}
+                eventClick={handdleClick}
             />
-            <div className="d-flex justify-content-end">
+            {/* <div className="d-flex justify-content-end">
                 <button className='btn my-2 zoom-calendar' onClick={showModal}
                 > Zoom <i className="bi bi-zoom-in"></i></button>
-            </div>
-            <Modal open={isModalOpen} width={1000} onOk={handleOk} onCancel={handleCancel}
+            </div> */}
+            {/* <Modal open={isModalOpen} width={1000} onOk={handleOk} onCancel={handleCancel}
 
                 footer={[
 
@@ -109,7 +111,7 @@ const Calendar = () => {
                     themeSystem='bootstrap5'
                     eventClick={handdleClick}
                 />
-            </Modal>
+            </Modal> */}
 
 
 

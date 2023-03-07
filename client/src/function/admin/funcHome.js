@@ -51,10 +51,15 @@ export const removeCourse2  = async(authtoken,value) =>
     }
 });
 
-export const listCourse  = async(authtoken) =>
-await axios.get(process.env.REACT_APP_API+'/get-mycourse-teacher',
-{
-headers:{
-    authtoken,
-}
-});
+
+
+// export const getCourseHome  = async(authtoken) =>
+// await axios.get(process.env.REACT_APP_API+'/get-courses-home',
+// {
+// headers:{
+//     authtoken,
+// }
+// });
+
+export const getCourseHome = async() =>
+await axios.get(process.env.REACT_APP_API+'/get-courses-home');
