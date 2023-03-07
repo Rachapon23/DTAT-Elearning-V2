@@ -13,25 +13,25 @@ exports.createCourse = async (req, res) => {
         // if(!validated_result.valid) return res.status(400).send(validated_result);
 
 
-        // const { head, body } = validated_result.data.body
+        const { head, body } = req.body// validated_result.data.body
 
 
-        // const status = "public"
-        // const course = new Coursee(
-        //     {
-        //         name: head.name,
-        //         description: head.description,
-        //         course_number: head.course_number,
-        //         password: head.password,
-        //         teacher: head.teacher,
-        //         status: status,
-        //         topic: body,
+        const status = "public"
+        const course = new Coursee(
+            {
+                name: head.name,
+                description: head.description,
+                course_number: head.course_number,
+                password: head.password,
+                teacher: head.teacher,
+                status: status,
+                topic: body,
 
-        //     }
-        // )
+            }
+        )
 
-        // await course.save()
-        // res.send(course)
+        await course.save()
+        res.send(course)
 
         console.log(req.body)
         res.send('OK corse Private')
