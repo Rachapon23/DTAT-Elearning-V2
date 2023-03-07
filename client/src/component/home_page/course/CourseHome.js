@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import { getCourse } from "../../../function/student/funcCourse";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
+import NavHome from "../NavHome";
 
 const CourseHome = () => {
   const [course, setCourse] = useState({});
   const { id } = useParams();
   const [topic, setTopic] = useState();
   const [member, setMember] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const fetchCourse = () => {
     getCourse(sessionStorage.getItem("token"), id)
@@ -31,15 +33,9 @@ const CourseHome = () => {
   }, []);
 
   return (
-    <div>
-      <nav className="navbar navbar-light  bg-nav d-flex justify-content-between px-5">
-        <a className="navbar-brand text-white brand" href="/">
-          <img src="/navbrand3.png" className="logo-nav" />
-          &nbsp;
-        </a>
-        {/* <a href="/login" className="btn btn btn-light text-primary">sign in</a> */}
-      </nav>
-      <div className="black-g-home py-5">
+    <div className="black-g-home">
+    <NavHome setOpen={setOpen} open={open} />
+    <div className=''>
         <div className="container">
           <div className="row">
             {course.statuscourse ? (

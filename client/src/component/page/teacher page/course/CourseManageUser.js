@@ -19,9 +19,34 @@ const CourseManageUser = () => {
       },
     },
     {
-      title: `name`,
+      title: `employee`,
+      align: "center",
+      dataIndex: "employee_ID",
+    },
+    {
+      title: `department`,
+      align: "center",
+      dataIndex: "department_ID",
+    },
+    {
+      title: `plant`,
+      align: "center",
+      dataIndex: "plant",
+    },
+    {
+      title: `first name`,
       align: "center",
       dataIndex: "firstname",
+    },
+    {
+      title: `last name`,
+      align: "center",
+      dataIndex: "lastname",
+    },
+    {
+      title: `Score`,
+      align: "center",
+      dataIndex: "xxxxx",
     },
     {
       title: `manage`,

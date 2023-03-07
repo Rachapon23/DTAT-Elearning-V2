@@ -86,12 +86,16 @@ function App() {
         {/* </Route> */}
 
         {/* student */}
+
         <Route element={<PrivateUser />}>
           <Route path="/student/home" element={<HomePageStudent />} />
           <Route path="/student/get-course/:id" element={<CoursePageStudent />} />
+          <Route path="/course-home/:id" element={<CourseHome />} />
           {/* <Route path="/student/test/:params" element={<Dotest />} /> */}
+
           <Route path="/course-home/:id" element={<CourseHome/>} />
         </Route>
+
 
 
 

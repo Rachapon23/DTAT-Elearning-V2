@@ -331,6 +331,7 @@ const CoursePageteacher = () => {
                     ))}
                 </div>
                 <div className="row">
+
                     <div className="col-md-8">
                         <div className="d-grid">
                         <a
@@ -358,7 +359,6 @@ const CoursePageteacher = () => {
                         </div>
                     </div>
                 </div>
-
 
             </div>
         </div>
