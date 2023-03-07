@@ -1,12 +1,10 @@
-
-import React from "react";
+import React from 'react';
 import { useEffect, useState } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
 import NavTeacher from "../../../layout/NavTeacher";
-import "./course.css";
-
+import './course.css';
 import Swal from "sweetalert2";
-import { Switch } from "antd";
+import { Switch } from 'antd';
 // import { Link } from "react-router-dom";
 // import Parser from 'html-react-parser';
 import { useNavigate } from 'react-router-dom';
@@ -141,19 +139,18 @@ const CoursePageteacher = () => {
                                         }
                                     </div>
                                 </div>
-                              </div>
                             </div>
-                          ) : (
-                            <>
-                              {ttem.filetype === "application/pdf" ? (
-                                <div>
-                                  <a
-                                    href={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
-                                    className="text-danger size-pdf"
-                                  >
-                                    <i className="bi bi-file-earmark-pdf"></i>{" "}
-                                    {ttem.name}
-                                  </a>
+                            :
+                            <div className="card mt-3">
+                                <div className="card-body alert-primary">
+                                    <div className="mt-3 px-2 text-dark">
+                                        <h3 className="card-title mb-3 fw-bold">{course.name}</h3>
+                                        <p className="card-text fs-6">Detail : {course.description}</p>
+                                        {course.status !== "public" ?
+                                            <p className="text-muted ">Teacher : {course.teacher.firstname}</p>
+                                            : <div></div>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -219,24 +216,8 @@ const CoursePageteacher = () => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                  </div>
-                                                </div>
-                                              ) : (
-                                                <>
-                                                  {ttem.filetype ===
-                                                  "application/vnd.openxmlformats-officedocument.presentationml.presentation" ? (
-                                                    <div>
-                                                      <a
-                                                        href={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
-                                                        className="text-warning"
-                                                      >
-                                                        <i className="bi bi-filetype-ppt"></i>{" "}
-                                                        {ttem.name}
-                                                      </a>
-                                                    </div>
-                                                  ) : (
+                                                    :
                                                     <>
-
                                                         {ttem.filetype === 'application/pdf'
                                                             ? <div>
                                                                 <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-danger size-pdf">
@@ -317,79 +298,47 @@ const CoursePageteacher = () => {
                                                             </>
                                                         }
                                                     </>
-                                                  )}
-                                                </>
-                                              )}
-                                            </>
-                                          )}
-                                        </>
-                                      )}
-                                    </>
-                                  )}
-                                </>
-                              )}
-                            </>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                                                }
 
-                  {item.quiz.length > 0 && (
-                    <div className="">
-                      <ul>
-                        {item.quiz.map((ttem, tdex) => (
-                          <li key={tdex}>
-                            <Link
-                              className="text-success"
-                              to={`/student/test/` + ttem.quiz}
-                              state={{ path: pathname }}
-                            >
-                              <i className="bi bi-clipboard2-check"></i>&nbsp;
-                              {ttem.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                                            </div>
+
+                                        )}
+
+                                    </div>
+                                }
+
+                                {item.quiz.length > 0 &&
+                                    <div className=""><ul>
+                                        {item.quiz.map((ttem, tdex) =>
+
+                                            <li key={tdex}>
+                                                <Link className="text-success" to={`/student/test/` + ttem.quiz} state={{ path: pathname }}>
+                                                    <i className="bi bi-clipboard2-check"></i>&nbsp;{ttem.name}
+                                                </Link>
+                                            </li>
+
+                                        )}
+                                    </ul>
+                                    </div>
+                                }
+                            </div>
+
+
+                            <hr className="mt-4" />
+                        </div>
+
+
+                    ))}
+                </div>
+                <div className="d-flex justify-content-between mb-4">
+                    <button onClick={() => nextToCourse(course._id)} className="btn btn-warning w-25">Edit</button>
+                    <button onClick={() => remove(course._id)} className="btn btn-danger w-25">Delete</button>
                 </div>
 
-                <hr className="mt-4" />
-              </div>
-            ))}
-        </div>
-        <div className="row">
-          <div className="col-md-8">
-            <div className="d-grid">
-              <a
-                href={`/teacher/get-course/manageuser/` + course._id}
-                className="btn btn-primary"
-              >
-                manage member
-              </a>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="d-flex justify-content-end mb-4">
-              <button
-                onClick={() => nextToCourse(course._id)}
-                className="btn btn-warning w-25"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => remove(course._id)}
-                className="btn btn-danger w-25 ms-3"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
-export default CoursePageteacher;
+            </div>
+        </div>
+    );
+}
+
+export default CoursePageteacher
