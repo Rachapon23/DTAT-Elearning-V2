@@ -20,18 +20,22 @@ import ManageHome from "./component/page/admin page/ManageHome";
 import HomePageTeacher from "./component/page/teacher page/HomePageTeacher";
 import CoursesPageteacher from "./component/page/teacher page/course/CoursesPageteacher";
 import CoursePageteacher from "./component/page/teacher page/course/CoursePageteacher";
-// import Quiz from "./component/page/teacher page/quiz/Quiz";
+
+import Quiz from "./component/page/teacher page/quiz/Quiz";
+
 import Course from "./component/page/teacher page/course/Course";
-// import EditCourse from "./component/page/teacher page/course/EditCourse";
-// import Listquiz from "./component/page/teacher page/quiz/Listquiz";
-// import Editquiz from "./component/page/teacher page/quiz/Editquiz";
+import EditCourse from "./component/page/teacher page/course/EditCourse";
+import Listquiz from "./component/page/teacher page/quiz/Listquiz";
+import Editquiz from "./component/page/teacher page/quiz/Editquiz";
 import Calendar from "./component/page/teacher page/calendar/Calendar";
 
 // //student
 import HomePageStudent from "./component/page/student page/HomePageStudent";
+
 // import Dotest from "./component/page/student page/Dotest";
+
 // import CoursesPageStudent from "./component/page/student page/CoursesPageStudent";
-// import CoursePageStudent from "./component/page/student page/CoursePageStudent";
+import CoursePageStudent from "./component/page/student page/CoursePageStudent";
 
 // new page
 import Home from "./component/home_page/Home";
@@ -69,23 +73,26 @@ function App() {
         {/* teacher */}
         {/* <Route element={<PrivateTeacher />}> */}
           <Route path="/teacher/home" element={<HomePageTeacher />} />
-          {/* <Route path="/teacher/quiz" element={<Quiz />} /> */}
+
+          <Route path="/teacher/quiz" element={<Quiz />} />
           <Route path="/teacher/course" element={<Course />} />
-          {/* <Route path="/teacher/edit-course/:id" element={<EditCourse />} />
-          <Route path="/teacher/edit-quiz/:id" element={<Editquiz />} />*/}
-          {/* <Route path="/teacher/list-quiz" element={<Listquiz />} /> */}
+          <Route path="/teacher/edit-course/:id" element={<EditCourse />} />
+          <Route path="/teacher/edit-quiz/:id" element={<Editquiz />} />
+          <Route path="/teacher/list-quiz" element={<Listquiz />} />
+
           <Route path="/teacher/list-courses" element={<CoursesPageteacher />} />
           <Route path="/teacher/get-course/:id" element={<CoursePageteacher />} />
           <Route path="/teacher/calendar-teacher" element={<Calendar />} /> 
         {/* </Route> */}
 
         {/* student */}
-        <Route element={<PrivateUser />}>
+
+        {/* <Route element={<PrivateUser />}> */}
           <Route path="/student/home" element={<HomePageStudent />} />
-        {/*   <Route path="/student/get-course/:id" element={<CoursePageStudent />} />
-          <Route path="/student/test/:params" element={<Dotest />} /> */}
-          <Route path="/course-home/:id" element={<CourseHome/>} />
-        </Route>
+          <Route path="/student/get-course/:id" element={<CoursePageStudent />} />
+          <Route path="/student/test/:params" element={<Dotest />} />
+        {/* </Route> */}
+
         
 
         

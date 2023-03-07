@@ -9,8 +9,8 @@ import {
     , deleteMyCourse
 } from "../../../function/student/funcCourse";
 import Swal from "sweetalert2";
-
 import { Modal } from 'antd';
+import VideoPlayer from '../childrenComponent/VideoPlayer/VideoPlayer';
 
 const CoursePageStudent = () => {
     // const course_id = useParams();
@@ -231,24 +231,29 @@ const CoursePageStudent = () => {
                                                                                             :
 
                                                                                             <>
-                                                                                                {ttem.filetype == "video/mp4"
-                                                                                                    ? <div className="container">
-                                                                                                        {/* <p>{(ttem.name).split('.')[0]}</p> */}
-                                                                                                        <div className="d-flex justify-content-center">
-                                                                                                            {/* <div className="w-50"> */}
-                                                                                                                <video className="w-75" controls>
-                                                                                                                    <source src={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
-                                                                                                                        type={ttem.filetype} />
-                                                                                                                    Your browser does not support the video tag.
-                                                                                                                </video>
-                                                                                                            {/* </div> */}
-                                                                                                        </div>
+                                                                                                {ttem.filetype == "video/mp4" ?
+                                                                                                    <VideoPlayer
+                                                                                                        videoName={ttem.name}
+                                                                                                        url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
+                                                                                                        disableForward={true}
+                                                                                                    />
+                                                                                                    //  <div className="container">
+                                                                                                    //     {/* <p>{(ttem.name).split('.')[0]}</p> */}
+                                                                                                    //     <div className="d-flex justify-content-center">
+                                                                                                    //         {/* <div className="w-50"> */}
+                                                                                                    //             <video className="w-75" controls>
+                                                                                                    //                 <source src={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
+                                                                                                    //                     type={ttem.filetype} />
+                                                                                                    //                 Your browser does not support the video tag.
+                                                                                                    //             </video>
+                                                                                                    //         {/* </div> */}
+                                                                                                    //     </div>
 
-                                                                                                    </div>
+                                                                                                    // </div>
                                                                                                     :
                                                                                                     <>
-                                                                                                    {ttem.filetype === "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-                                                                                                        ? <div>
+                                                                                                        {ttem.filetype === "application/vnd.openxmlformats-officedocument.presentationml.presentation"? 
+                                                                                                        <div>
                                                                                                             <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-warning">
                                                                                                                 <i className="bi bi-filetype-ppt"></i> {ttem.name}</a>
                                                                                                         </div>
