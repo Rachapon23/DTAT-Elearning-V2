@@ -8,3 +8,5 @@ export const listCalendar  = async(authtoken) =>
         authtoken,
     }
 });
+export const getCalendar  = async(authtoken,id) => 
+    await axios.get(process.env.REACT_APP_API+'/get-calendar/'+id);

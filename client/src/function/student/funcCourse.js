@@ -26,12 +26,7 @@ headers:{
 });
 
 export const getCourse  = async(authtoken,id) =>
-await axios.get(process.env.REACT_APP_API+'/get-course/'+id,
-{
-headers:{
-    authtoken,
-}
-});
+await axios.get(process.env.REACT_APP_API+'/get-course/'+id);
 
 export const listQuizby  = async(authtoken,params) => 
     await axios.get(process.env.REACT_APP_API+'/quiz/list-quiz-by/'+params,

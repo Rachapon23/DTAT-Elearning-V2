@@ -12,7 +12,7 @@ app.use(express.static('public'))
 
 
 //connect cloud Database
-mongoose.connect(process.env.DATABASE2,{
+mongoose.connect(process.env.DATABASE,{
     useNewUrlParser:true,
     useUnifiedTopology:false
 })

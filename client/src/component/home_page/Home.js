@@ -7,14 +7,14 @@ import {
     listHome,
 
 } from '../../function/admin/funcHome';
-
+import { useNavigate } from "react-router-dom";
 
 
 const Home = () => {
     const [reGisCoursedata, setReGisCoursedata] = useState([])
     const [coursedata, setCoursedata] = useState([]);
     const [carouseldata, setCarouseldata] = useState([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
         loadData()
 
@@ -35,10 +35,10 @@ const Home = () => {
     return (
         <div>
             <nav className="navbar navbar-light  bg-nav d-flex justify-content-between px-5">
-                <a className="navbar-brand text-white brand" href="/login">
+                <a className="navbar-brand text-white brand" href="/">
                     <img src="navbrand3.png" className="logo-nav" />&nbsp;
                 </a>
-                <a href="/">logout</a>
+                <a href="/login" className="btn btn btn-light text-primary">sign in</a>
             </nav>
             <div className="black-g-home py-5">
                 <div className="content ">
@@ -56,9 +56,11 @@ const Home = () => {
                             <label className="form-label">interesting course</label>
                             <div className="row">
                                 {coursedata.map((course, index) =>
-                                    <div className="col-md-4 p-2" key={index}>
-                                        <div className="card back-public-2 shadow-sm back-public-black-2"
-                                        //   onClick={() => nextToCourse(course._id)}
+                                    <div className="col-md-4 p-2 course-home" key={index}>
+                                        <div className="card shadow-sm "
+                                        onClick={() => {
+                                            navigate('/course-home/'+course._id)
+                                          }}
                                         >
                                             {course.image
                                                 ? <img src={`${process.env.REACT_APP_IMG}/${course.image}`} className="card-img-top w-100" />
@@ -72,9 +74,11 @@ const Home = () => {
                                         </div>
                                     </div>
                                 )}
-                                <div className="col-md-4 p-2">
-                                    <div className="card back-public-2 shadow-sm back-public-black-2"
-                                    //   onClick={() => nextToCourse(course._id)}
+                                <div className="col-md-4 p-2 course-home">
+                                    <div className="card shadow-sm"
+                                    onClick={() => {
+                                        navigate('/public-course')
+                                      }}
                                     >
                                         <div className="card-body ">
                                             <p className="card-title">shoe more +</p>
@@ -88,10 +92,12 @@ const Home = () => {
                         <div className="container">
                             <label className="form-label">open for registration</label>
                             <div className="row ">
-                                {coursedata.map((course, index) =>
-                                    <div className="col-md-4 p-2" key={index}>
-                                        <div className="card back-public-2 shadow-sm back-public-black-2"
-                                        //   onClick={() => nextToCourse(course._id)}
+                                {reGisCoursedata.map((course, index) =>
+                                    <div className="col-md-4 p-2 course-home" key={index}>
+                                        <div className="card shadow-sm "
+                                        onClick={() => {
+                                            navigate('/course-home/'+course._id)
+                                          }}
                                         >
                                             {course.image
                                                 ? <img src={`${process.env.REACT_APP_IMG}/${course.image}`} className="card-img-top w-100" />
@@ -105,9 +111,11 @@ const Home = () => {
                                         </div>
                                     </div>
                                 )}
-                                <div className="col-md-4 p-2">
-                                    <div className="card back-public-2 shadow-sm back-public-black-2"
-                                    //   onClick={() => nextToCourse(course._id)}
+                                <div className="col-md-4 p-2 course-home">
+                                    <div className="card shadow-sm "
+                                      onClick={() => {
+                                        navigate('/private-course')
+                                      }}
                                     >
                                         <div className="card-body ">
                                             <p className="card-title">shoe more +</p>

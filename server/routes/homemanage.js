@@ -10,6 +10,8 @@ const {
     ReGiscourse,
     removeCourse,
     removeCourse2,
+
+    // privateCreate,
 } = require('../controllers/homeControler')
 
 
@@ -26,6 +28,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single('file')
 /* Multer  */
 
+// router.post('/home/course-private',  privateCreate)
 
 router.post('/home/carousel', upload, carousel)
 router.post('/home/course',  course)

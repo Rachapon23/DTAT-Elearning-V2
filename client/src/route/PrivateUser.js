@@ -21,7 +21,7 @@ const PrivateUser = () => {
     useEffect(() => {
         CheckUser()
     }, [status])
-    return status ? <Outlet/> : <Navigate to="/"/> 
+    return status ? <Outlet/> : <Navigate to="/login"/> 
 }
 
 export default PrivateUser

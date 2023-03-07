@@ -17,12 +17,15 @@ const {
     getMyCourseTeacher,
     updateCourse,
     deleteCourse,
-    getRoom,
-    createRoom,
     uploadimg,
     updateimg,
     uploadfile,
-    enablecourse
+    enablecourse,
+    
+    getRoom,
+    getPlant,
+    getUserCourse,
+    getCourseHome
 
 } = require("../controllers/courseController");
 
@@ -56,14 +59,20 @@ router.put("/update-course", checkUser, checkTeacher, updateCourse);
 router.get("/list-courses", checkUser, listCourses);
 router.delete("/delete-courses/:id", checkUser, checkTeacher, deleteCourse);
 router.get("/get-mycourse-teacher",checkUser, checkTeacher, getMyCourseTeacher);
+//room
 router.get("/list-room", checkUser, checkTeacher, getRoom);
-// router.post("/create-room", createRoom);
+router.get("/list-plant",  getPlant);
+//get course home
+router.get("/get-courses-home",  getCourseHome);
+
+router.get("/get-user-course/:id", getUserCourse);
+
 
 // student
 router.post("/searchcourse", checkUser, searchCourse);
 router.post("/addchcourse", checkUser, addCourse);
 router.get("/get-my-course/:id", checkUser, getMyCourse);
-router.get("/get-course/:id", checkUser, getCourse);
+router.get("/get-course/:id", getCourse);
 router.get("/list-public-courses", checkUser, publicCourses);
 router.post("/delete-my-course/:id", checkUser, deleteMyCourse);
 

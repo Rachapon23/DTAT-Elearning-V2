@@ -28,6 +28,17 @@ exports.listCalendar = async (req, res) => {
         res.status(500).send("Server Error!!! on list calendar");
     }
 };
+exports.getCalendar = async (req, res) => {
+    try {
+        const {id} = req.params
+        const calendar = await Calendar.find({coursee:id}).populate("coursee")
+        // console.log(req.params)
+        res.send(calendar);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error!!! on list calendar");
+    }
+};
 
 exports.updateCalendar = async (req, res) => {
     try {

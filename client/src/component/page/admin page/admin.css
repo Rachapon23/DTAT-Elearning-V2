@@ -8,6 +8,8 @@
     background-size: cover;
     background-position: center;
     cursor: pointer;
+    max-width: auto;
+    max-height: 250px;
 }
 
 .card-img-teacher:hover p {
@@ -45,6 +47,8 @@
     background-size: cover;
     background-position: center;
     cursor: pointer;
+    max-width: auto;
+    max-height: 250px;
 }
 
 .card-img-student:hover p {
