@@ -33,6 +33,15 @@ export const getQuiz  = async(authtoken,id) =>
     }
 });
 
+export const getQuizByCourseID  = async(authtoken,id) =>  
+    await axios.get(process.env.REACT_APP_API+'/quiz/get-course-quiz/'+id, 
+    {
+    headers:{
+        authtoken,
+    }
+});
+
+
 export const updateQuiz  = async(authtoken,value) =>  
     await axios.put(process.env.REACT_APP_API+'/quiz/update-quiz',value, 
     {

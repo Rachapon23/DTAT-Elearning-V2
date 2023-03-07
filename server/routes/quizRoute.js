@@ -17,7 +17,8 @@ const {
     createQuiz,
     listQuiz,
     updateQuiz,
-    createExaminer
+    createExaminer,
+    getQuizByCourseID
 } = require('../controllers/quizController')
 
 
@@ -36,6 +37,7 @@ const {
 router.post('/quiz/create', checkUser, checkTeacher, createQuiz)
 router.get('/quiz/list-teacher',checkUser, checkTeacher, listQuiz)
 router.get('/quiz/get-quiz/:id', checkUser, checkTeacher, getQuiz)
+router.get('/quiz/get-course-quiz/:id', checkUser, checkTeacher, getQuizByCourseID)
 router.delete('/quiz/remove-quiz/:params', checkUser, checkTeacher, remove)
 router.put("/quiz/update-quiz", checkUser, checkTeacher, updateQuiz);
 

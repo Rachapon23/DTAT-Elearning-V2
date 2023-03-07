@@ -1,6 +1,6 @@
 import React from "react";
 import NavTeacher from "../../../layout/NavTeacher";
-import { listQuiz, createQuiz } from "../../../../function/teacher/funcQuiz";
+import { listQuiz, createQuiz, getQuizByCourseID } from "../../../../function/teacher/funcQuiz";
 import { createCourse } from "../../../../function/teacher/funcCourse";
 import {
   listRoom,
@@ -19,7 +19,7 @@ import CalendarForcourse from "../calendar/CalendarForcourse";
 const Course = () => {
   const [valuetopic, SetValueTopic] = useState([]);
   const [nextState, setNextState] = useState([]);
-  const [dataquiz, setDataQuiz] = useState([]);
+  const [dataquiz, setDataQuiz] = useState();
   const [newCourse, setNewCourse] = useState("");
   const [room, setRoom] = useState([]);
   const [file, setFile] = useState("");
@@ -155,7 +155,7 @@ const Course = () => {
   };
 
   const loadQuiz = () => {
-    listQuiz(sessionStorage.getItem("token"), sessionStorage.getItem("user_id"))
+    getQuizByCourseID(sessionStorage.getItem("token"), nameCourse.quiz)
       .then((res) => {
         // console.log(res.data)
         setDataQuiz(res.data);
