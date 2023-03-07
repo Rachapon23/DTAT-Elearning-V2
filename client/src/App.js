@@ -90,7 +90,7 @@ function App() {
         {/* <Route element={<PrivateUser />}> */}
           <Route path="/student/home" element={<HomePageStudent />} />
           <Route path="/student/get-course/:id" element={<CoursePageStudent />} />
-          <Route path="/student/test/:params" element={<Dotest />} />
+          {/* <Route path="/student/test/:params" element={<Dotest />} /> */}
         {/* </Route> */}
 
         
