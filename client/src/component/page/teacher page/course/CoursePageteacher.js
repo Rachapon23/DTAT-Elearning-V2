@@ -104,7 +104,7 @@ const CoursePageteacher = () => {
                 enable: checked
             })
             .then((response) => {
-                // console.log(response)
+                // console.log(response) // test pull
                 fetchCourse()
             })
             .catch((err) => {
