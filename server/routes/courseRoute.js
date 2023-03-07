@@ -29,8 +29,8 @@ const {
 
 } = require("../controllers/courseController");
 
-
-/* Multer  */
+// test pull
+/* Multer  */ 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './public/uploads')
