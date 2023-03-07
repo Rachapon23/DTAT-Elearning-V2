@@ -1,6 +1,6 @@
 import React from "react";
 import NavTeacher from "../../../layout/NavTeacher";
-import { listQuiz } from "../../../../function/teacher/funcQuiz";
+import { listQuiz, createQuiz } from "../../../../function/teacher/funcQuiz";
 import { createCourse } from "../../../../function/teacher/funcCourse";
 import {
   listRoom,
@@ -12,13 +12,15 @@ import { createCalendar } from "../../../../function/teacher/funcCalendar";
 import { useState, useEffect } from "react";
 import "./course.css";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Switch } from "antd";
 import CalendarForcourse from "../calendar/CalendarForcourse";
+
 const Course = () => {
   const [valuetopic, SetValueTopic] = useState([]);
   const [nextState, setNextState] = useState([]);
   const [dataquiz, setDataQuiz] = useState([]);
+  const [newCourse, setNewCourse] = useState("");
   const [room, setRoom] = useState([]);
   const [file, setFile] = useState("");
   const [plant, setPlant] = useState([]);
@@ -27,6 +29,7 @@ const Course = () => {
   const [nameCourse, setNameCourse] = useState({
     name: "",
     description: "",
+    quiz: null,
     member: [],
     calendar: [],
     statuscourse: false,
@@ -195,18 +198,83 @@ const Course = () => {
     },
   });
 
-  const hadleAddNewQuiz = () => {
+  const handleAddNewQuiz = () => {
     Swal.fire({
       icon: "warning",
       title: "Warning",
-      text: "Are you sure to leave this page your unsave data will be lost",
+      text: "Are you sure to leave this page",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sure",
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
-        navigate("/teacher/quiz");
+        await createCourse(sessionStorage.getItem("token"), {
+          head: nameCourse,
+          body: valuetopic,
+        })
+          .then(async (res) => {
+            setNewCourse(res.data._id)
+            const formData = new FormData();
+            formData.append("id", res.data._id);
+            formData.append("file", file);
+            if (file != "") {
+              await uploadImg(sessionStorage.getItem("token"), formData)
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }
+    
+            for (let i = 0; i < res.data.calendar.length; i++) {
+              await createCalendar(sessionStorage.getItem("token"), {
+                values: {
+                  title: res.data.name,
+                  coursee: res.data._id,
+                  start: res.data.calendar[i].start,
+                  end: res.data.calendar[i].end,
+                  color: res.data.calendar[i].color,
+                  teacher: res.data.teacher,
+                },
+              })
+                .then((res) => {
+                  console.log(res.data);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }
+            for (let i = 0; i < valuetopic.length; i++) {
+              for (let j = 0; j < valuetopic[i].file.length; j++) {
+                // console.log(valuetopic[i].file[j].name)
+                const formDatafile = new FormData();
+                formDatafile.append("id", res.data._id);
+                formDatafile.append("topic_number", i);
+                formDatafile.append("file_number", j);
+                formDatafile.append("file", valuetopic[i].file[j].file);
+                await uploadfile(sessionStorage.getItem("token"), formDatafile)
+                  .then((res) => {
+                    console.log(res);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }
+            }
+    
+            Toast.fire({
+              icon: "success",
+              title: "Your course created successfully",
+            });
+            
+            navigate("/teacher/quiz/" + res.data._id);
+          
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   };
@@ -348,15 +416,17 @@ const Course = () => {
   //     }
   // }
 
+
   const handdleSubmit = async (e) => {
-    e.preventDefault();
-    // console.log(nameCourse)
+    if(e) {
+      e.preventDefault()
+    }
     await createCourse(sessionStorage.getItem("token"), {
       head: nameCourse,
       body: valuetopic,
     })
       .then(async (res) => {
-        console.log("res : ", res.data);
+        setNewCourse(res.data._id)
         const formData = new FormData();
         formData.append("id", res.data._id);
         formData.append("file", file);
@@ -410,7 +480,10 @@ const Course = () => {
           icon: "success",
           title: "Your course created successfully",
         });
-        navigate("/teacher/get-course/" + res.data._id);
+        
+        if(e) {
+          navigate("/teacher/get-course/" + res.data._id);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -867,7 +940,7 @@ const Course = () => {
                         <button
                           className="btn btn-outline-secondary"
                           type="button"
-                          onClick={hadleAddNewQuiz}
+                          onClick={handleAddNewQuiz}
                         >
                           Create new quiz
                         </button>
@@ -931,8 +1004,26 @@ const Course = () => {
 
             <div className="mt-2">
               <div className="card">
-                <div className="card-body p-0 ">
-                  <div className="d-flex justify-content-end">
+                <div className="row card-body p-0 ">
+                  <div className="col pt-2 ps-4">Quiz</div>
+                  <div className="col d-flex justify-content-end">
+                    <button
+                      type="button"
+                      className="btn"
+                      onClick={handleAddNewQuiz}
+                    >
+                      <i className="bi bi-file-earmark-plus h5"/>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-2">
+              <div className="card">
+                <div className="row card-body p-0 ">
+                  <div className="col pt-2 ps-4">Topic</div>
+                  <div className="col d-flex justify-content-end">
                     <button
                       type="button"
                       className="btn"

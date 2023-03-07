@@ -74,7 +74,7 @@ function App() {
         {/* <Route element={<PrivateTeacher />}> */}
           <Route path="/teacher/home" element={<HomePageTeacher />} />
 
-          <Route path="/teacher/quiz" element={<Quiz />} />
+          <Route path="/teacher/quiz/:id" element={<Quiz />} />
           <Route path="/teacher/course" element={<Course />} />
           <Route path="/teacher/edit-course/:id" element={<EditCourse />} />
           <Route path="/teacher/edit-quiz/:id" element={<Editquiz />} />
@@ -93,11 +93,12 @@ function App() {
           <Route path="/course-home/:id" element={<CourseHome />} />
           {/* <Route path="/student/test/:params" element={<Dotest />} /> */}
 
+          <Route path="/course-home/:id" element={<CourseHome/>} />
         </Route>
 
-        
 
-        
+
+
         <Route path="/" element={<Home/>} />
         <Route path="/private-course" element={<HomeCourseClose/>} />
         <Route path="/public-course" element={<HomeCourseOpen/>} />

@@ -18,6 +18,7 @@ exports.createCourse = async (req, res) => {
     const course = new Coursee({
       name: head.name,
       description: head.description,
+      quiz: head.quiz,
       member: head.member,
       calendar: head.calendar,
       statuscourse: head.statuscourse,
@@ -536,10 +537,10 @@ exports.enablecourse = async (req, res) => {
 
 exports.getCourseHome = async (req, res) => {
   try {
-    const close = await Coursee.find({ statuscourse: true, enabled: true })
+    const close = await Coursee.find({ statuscourse: true})
       .populate("teacher", "-password")
       .exec();
-    const open = await Coursee.find({ statuscourse: false, enabled: true })
+    const open = await Coursee.find({ statuscourse: false})
       .populate("teacher", "-password")
       .exec();
 

@@ -2,6 +2,7 @@
 const Quize = require('../models/quize')
 const QuizValidation = require("../validation/quizValidation")
 const User = require("../models/userModel")
+const Course = require("../models/course")
 
 // exports.listquizUser = async (req, res) => {
 //     try {
@@ -84,10 +85,13 @@ exports.createQuiz = async (req, res) => {
             explanation:head.explanation,
             question:body,
             attemp: head.attemp,
-            teacher:head.teacher
+            teacher:head.teacher,
+            course: head.course,
         })
         await quiz.save()
-        res.send('create success')
+        await Course.findOneAndUpdate({_id: head.course}, {quiz: quiz._id})
+
+        res.send({quiz: quiz, msg:'create success'})
       
     } catch (err) {
         console.log(err)
@@ -96,20 +100,20 @@ exports.createQuiz = async (req, res) => {
 }
 exports.listQuiz = async (req, res) => {
     try {
-        const {user_id} = req.user
-        const user = await User.findOne({_id: user_id}).exec()
+        const {user_id} = req.user;
+        const user = await User.findOne({_id: user_id}).exec();
 
         if(user.role === "admin") {
-            const quizzs = await Quize.find({}).exec()
-            return res.send(quizzs)
+            const quizzs = await Quize.find({}).exec();
+            return res.send(quizzs);
         }
         else {
-            const quizzs = await Quize.find({teacher:user_id}).exec()
-            return res.send(quizzs)
+            const quizzs = await Quize.find({teacher:user_id}).exec();
+            return res.send(quizzs);
         }
     } catch (err) {
-        console.log(err)
-        res.status(500).send('Server Error!!! on listQuiz')
+        console.log(err);
+        res.status(500).send('Server Error!!! on listQuiz');
     }
 }
 

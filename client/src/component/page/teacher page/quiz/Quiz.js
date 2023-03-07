@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { createQuiz } from '../../../../function/teacher/funcQuiz'
 import Swal from "sweetalert2";
 import './quiz.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 const Quiz = () => {
-
+    const course_id = useLocation().pathname.split("/")[3];
     const [nextState, setNextState] = useState([]);
     const [valueQuiz, setValueQuiz] = useState([])
     const navigate = useNavigate()
@@ -14,6 +14,7 @@ const Quiz = () => {
         ({
             name: "",
             explanation: "",
+            course: course_id,
             attemp: 1,
             teacher: sessionStorage.getItem('user_id')
         })
@@ -43,6 +44,7 @@ const Quiz = () => {
         ans3: "",
         ans4: "",
     }) 
+
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -64,6 +66,7 @@ const Quiz = () => {
     }
     const handSubmit = (e) => {
         e.preventDefault();
+
 
         let valid = true;
 
