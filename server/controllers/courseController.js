@@ -6,6 +6,7 @@ const Plant = require("../models/plant");
 const Calendar = require("../models/calendar");
 const User = require("../models/userModel");
 const CourseValidation = require("../validation/courseValidation");
+const Examiner = require("../models/examiner")
 
 exports.createCourse = async (req, res) => {
   try {
@@ -78,7 +79,7 @@ exports.getUserCourse = async (req, res) => {
   try {
     // console.log(req.params)
     const { id } = req.params;
-   const user = await User.find({coursee:id}).exec()
+    const user = await User.find({ coursee: id }).exec()
     res.send(user);
   } catch (err) {
     console.log("fail to get courses");
@@ -112,6 +113,24 @@ exports.addCourse = async (req, res) => {
     let user = await User.findOne({ _id: user_id }).exec();
     const course = await Coursee.findOne({ _id: id }).exec();
 
+    let plus = false;
+
+    for (let i = 0; i < course.member.length; i++) {
+      if (course.member[i].plant == user.plant) {
+        // console.log(course.member[i].plant, user.plant)
+        plus = true
+        if(course.member[i].amount <= course.member[i].registerd){
+          return res.status(400).send(`amount ${course.member[i].plant} is max`)
+        }else{
+          course.member[i].registerd = course.member[i].registerd + 1
+        }
+     
+      }
+    }
+    if(!plus){
+      return res.status(400).send(`plant not math`)
+    }
+
     for (let i = 0; i < user.coursee.length; i++) {
       if (user.coursee[i] == id) {
         return res.status(400).send("course already exist");
@@ -123,9 +142,12 @@ exports.addCourse = async (req, res) => {
     user.coursee.push(id);
     const user_push = user.coursee;
 
+
+    // console.log(course.member)
     const newCourse = await Coursee.findOneAndUpdate(
       { _id: id },
-      { user: course_push }
+      { user: course_push ,member: course.member }
+      // {member: course.member}
     ).exec();
 
     const newUser = await User.findOneAndUpdate(
@@ -133,7 +155,10 @@ exports.addCourse = async (req, res) => {
       { coursee: user_push }
     ).exec();
 
+    //************************ */
+
     res.send({user:newUser,course:newCourse});
+    // res.send("{user:newUser,course:newCourse}");
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error!!! on AddCourse");
@@ -352,7 +377,7 @@ exports.deleteCourse = async (req, res) => {
     await Calendar.deleteMany({ coursee: course._id }).exec((err) => {
       if (err) {
         console.log(err);
-        res.status(400).send("err on delete carlendar");
+        return res.status(400).send("err on delete carlendar");
       }
     });
 
@@ -390,7 +415,7 @@ exports.deleteCourse = async (req, res) => {
     res.send(course_delete);
   } catch (err) {
     console.log(err);
-    res.status(500).send("Server Error!!! on remove course");
+    return res.status(500).send("Server Error!!! on remove course");
   }
 };
 

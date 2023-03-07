@@ -7,10 +7,14 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import { Addchcourse } from '../../../function/student/funcCourse'
 const PrivateCourse = ({ course, member }) => {
+
   const { id } = useParams();
   const navigate = useNavigate();
+  // console.log(course)
+// const [percent,setPercent] = useState(0)
+
   const registerCourse = () => {
-    console.log(id)
+    // console.log(id)
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -18,10 +22,10 @@ const PrivateCourse = ({ course, member }) => {
       timer: 3000,
       timerProgressBar: true,
       didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
       }
-  })
+    })
     Swal.fire({
       title: 'Are you about to add course?',
       showCancelButton: true,
@@ -29,36 +33,54 @@ const PrivateCourse = ({ course, member }) => {
       confirmButtonColor: '#28a745',
       showLoaderOnConfirm: true,
       preConfirm: (password) => {
-          return (
+        return (
 
-              Addchcourse(sessionStorage.getItem("token"), {id})
-                  .then(res => {
-                      console.log(res)
-                      Toast.fire({
-                          icon: 'success',
-                          title: 'Signed in successfully'
-                      })
-                      navigate('/student/home')
-                  }).catch(err => {
-                    if(err.response.data == 'course already exist'){
-                      Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'You already enrolled this course',
-                        confirmButtonColor: '#0d6efd',
-                        confirmButtonText: 'try again'
-                    })
-                    }else{
-                      console.log(err)
-                    }
-                  }
-                  ))
+          Addchcourse(sessionStorage.getItem("token"), { id })
+            .then(res => {
+              console.log(res)
+              Toast.fire({
+                icon: 'success',
+                title: 'Signed in successfully'
+              })
+              // navigate('/student/home')
+            }).catch(err => {
+              if (err.response.data == 'course already exist') {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'You already enrolled this course',
+                  confirmButtonColor: '#0d6efd',
+                  confirmButtonText: 'try again'
+                })
+              }else if(err.response.data == 'amount A is max'){
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: err.response.data,
+                  confirmButtonColor: '#0d6efd',
+                  confirmButtonText: 'try again'
+                })
+              
+              }else if(err.response.data == 'plant not math'){
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: err.response.data,
+                  confirmButtonColor: '#0d6efd',
+                  confirmButtonText: 'try again'
+                })
+              } else {
+                console.log(err)
+              }
+            }
+            ))
       },
 
-  })
+    })
+
   };
   return (
-    <div className="container ">
+    <div className="container mb-5">
       {course && (
         <>
           {course.image ? (
@@ -99,9 +121,10 @@ const PrivateCourse = ({ course, member }) => {
                         <p>
                           รับแผนก : {item.plant} จำนวน : {item.amount} คน
                         </p>
-                        <p>ลงชื่อแล้ว 10 คน</p>
+                        <p>ลงชื่อแล้ว : {item.registerd} คน</p>
                         <Progress
-                          percent={65}
+                        
+                          percent={((item.registerd)/(parseInt(item.amount)))*100}
                           strokeColor={{
                             "0%": "#108ee9",
                             "100%": "#87d068",

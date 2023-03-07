@@ -116,6 +116,7 @@ const Course = () => {
     nameCourse.member.push({
       plant: "",
       amount: 0,
+      registerd:0,
     });
     setNextState([...nextState]);
   };

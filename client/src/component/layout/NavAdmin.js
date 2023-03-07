@@ -5,19 +5,29 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import './Nav.css'
 import { useNavigate } from "react-router-dom";
-
+import { Button,Dropdown} from 'antd';
 const NavAdmin = () => {
 
   const navigate = useNavigate();
 
 
+  const items = [
+    {
+        key: '1',
+        label: "Log Out",
+    },
+];
+const handleMenuClick = (e) => {
+  sessionStorage.clear()
+  localStorage.clear()
+  navigate("/");
+};
   const logout = () => {
+
     sessionStorage.clear()
     localStorage.clear()
     navigate("/");
   };
-
-
   return (
     <Navbar className="bg-nav" expand="lg">
       <Container>
@@ -27,23 +37,27 @@ const NavAdmin = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {/* <Nav.Link href="/admin/home">หน้าแรก</Nav.Link> */}
+
             <Nav.Link href="/admin/managehome"> Manage Home </Nav.Link>
             <Nav.Link href="/admin/list-users"> All user </Nav.Link>
-            {/* <Nav.Link href="/homeadmin">จัดการแอดมิน</Nav.Link> */}
             <Nav.Link href="/admin/list-teachers"> Manage teacher </Nav.Link>
             <Nav.Link href="/admin/list-students"> Manage student </Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
 
-          <Navbar.Text className="">
-            Signed in as:&nbsp;
+        <Navbar.Text>
+            Signed in as:
           </Navbar.Text>
-
-          <NavDropdown title={sessionStorage.getItem("firstname")} id="navbarScrollingDropdown">
-              <NavDropdown.Item onClick={logout}>logout</NavDropdown.Item>
-            </NavDropdown>
+                        <Dropdown className="ms-2"
+                            menu={{
+                                items,
+                                onClick: handleMenuClick,
+                            }}
+                            placement="bottomRight"
+                        >
+                            <Button>{sessionStorage.getItem('firstname')}</Button>
+                        </Dropdown>
 
 
         </Navbar.Collapse>

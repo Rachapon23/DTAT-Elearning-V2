@@ -8,12 +8,15 @@
     min-width: 100%;
     min-height: 100%;
     background-size: cover;
-    min-height: 680px;
+    min-height: 900px;
     background-position: center;
+    /* z-index: 0; */
+    /* position: absolute; top: 0; right: 0; bottom: 0; left: 0; */
 
 }
 .bg-nav{
     background-image: url("../../../public/back-g-nav-2.png");
+    /* z-index: 1; */
 }
 .course-home{
     cursor: pointer;
