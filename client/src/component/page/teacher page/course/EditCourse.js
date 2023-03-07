@@ -3,7 +3,7 @@ import NavTeacher from '../../../layout/NavTeacher'
 // import { listQuiz, } from "../../../../function/teacher/funcQuiz";
 import { updateCourse } from '../../../../function/teacher/funcCourse';
 import { useState, useEffect } from 'react'
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { getQuizByCourseID, } from "../../../../function/teacher/funcQuiz";
 import { getCourse } from "../../../../function/teacher/funcCourse";
 import { listRoom } from '../../../../function/teacher/funcMiscellaneous'
@@ -23,6 +23,7 @@ const EditCourse = () => {
     const [nextState, setNextState] = useState([]);
     const [room, setRoom] = useState([]);
     const [file, setFile] = useState('');
+    const location = useLocation();
 
     const errorTopic = {
         title: "Please enter title of topic",
@@ -645,6 +646,42 @@ const EditCourse = () => {
                                 </div>
                             </div>
 
+                            <div className="mt-2">
+                                <div className="card">
+                                    <div className="card-body ">
+                                    {
+                                        dataquiz ? (
+                                            <div className="card">
+                                                <div className="input-group mb ">
+                                                    <span className="input-group-text" id="basic-addon1">Quiz</span>
+                                                    <Link style={{textDecoration: 'none'}} className="col-sm-10" to={`/student/test/${dataquiz._id}`} state={{path: location.pathname}}>
+                                                        <input type="text" className="form-control-plaintext ps-3" readOnly={true} value={dataquiz.name} />
+                                                    </Link>
+                                                    <button class="col btn btn-outline-warning" type="button" onClick={() => navigate(`/teacher/edit-quiz/${dataquiz._id}`)}>Edit Quiz</button>
+                                                </div>
+                                            </div>
+                                        )
+                                        :
+                                        (
+                                            <div className="card" >
+                                                <div className="input-group mb ">
+                                                        <span className="input-group-text" id="basic-addon1">Quiz</span>
+                                                        <Link style={{textDecoration: 'none'}} className="col-sm-10" to={`/teacher/quiz/${course._id}`} state={{path: location.pathname}} >
+                                                            <input type="text" className="form-control-plaintext ps-3" readOnly={true} />
+                                                        </Link>
+                                                    
+                                                    <button class="col btn btn-outline-success" type="button" onClick={() => navigate(`/teacher/quiz/${course._id}`)}>Add Quiz</button>
+                                                </div>
+                                            </div>
+                                        )
+                                        
+                                    }
+
+                                    
+                                    </div>
+                                </div>
+                            </div>
+
                             {valuetopic.map((item, index) =>
                                 <div key={index} className="card mt-2">
                                     <div className="position-relative">
@@ -897,39 +934,6 @@ const EditCourse = () => {
                                     </div>
                                 </div>
                             )}
-
-                            <div className="mt-2">
-                                <div className="card">
-                                    <div className="row card-body ">
-                                    
-                                    {
-                                        dataquiz ? (
-                                            <Link to={`/teacher/quiz/${dataquiz}`}>
-                                                <div className="input-group mb-3 ">
-                                                    <span className="input-group-text" id="basic-addon1">Quiz</span>
-                                                    <input type="text" className="form-control d-flex align-self-center" disabled={true} value={dataquiz.name} />
-                                                </div>
-                                            </Link>
-                                        )
-                                        :
-                                        <div className="col-1 d-flex justify-content-end">
-                                        <button
-                                            type="button"
-                                            className="btn"
-                                            onClick={handleAddNewQuiz}
-                                        >
-                                        <i className="bi bi-file-earmark-plus h5"/>
-                                        </button>
-                                    </div>
-                                        
-                                    }
-                                    
-
-                                    
-                                    </div>
-                                </div>
-                            </div>
-
 
                             <div className="mt-2">
                                 <div className="card">

@@ -130,7 +130,7 @@ exports.listquizby = async (req, res) => {
 
 exports.getQuizByCourseID = async (req, res) => {
     try {
-        console.log(req.params.id)
+        console.log("THIS ID ",req.params.id)
         const quiz = await Quize.findOne({ course: req.params.id }).exec()
         res.send(quiz)
 

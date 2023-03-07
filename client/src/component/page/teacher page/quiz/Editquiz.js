@@ -170,7 +170,7 @@ const Editquiz = () => {
                         icon: 'success',
                         title: 'Your quiz updated'
                     })
-                    navigate('/teacher/list-quiz')
+                    navigate(-1)
                 })
                 .catch((err) => {
                     console.log(err)
