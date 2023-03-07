@@ -11,6 +11,10 @@ const CourseeSchema = new mongoose.Schema(
     description: {
       type: String,
     },
+    quiz: {
+      type: ObjectId,
+      ref: "quiz",
+    },
     member:[],
     calendar: [],
     statuscourse: {

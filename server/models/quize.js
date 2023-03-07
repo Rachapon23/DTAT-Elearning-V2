@@ -18,6 +18,10 @@ const QuizeSchema = new mongoose.Schema({
     attemp: {
         type: Number,
         default: 1,
+    },
+    course: {
+        type: ObjectId,
+        ref:"course"
     }
 }, { timestamps: true });
 
