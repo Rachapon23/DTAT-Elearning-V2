@@ -145,15 +145,20 @@ const CoursePageteacher = () => {
         for(let i = 0 ; i < videoEnded.length ; i++) {
             videoProcess += videoEnded[i].played * 100 
         }
-        const currentProcess = videoProcess / totalProcess
-        console.log(" ->>>>> ",videoProcess, totalProcess, currentProcess, videoAmount)
-        updateProcess(sessionStorage.getItem("token"), currentProcess).then((res) => console.log(res))
+        const currentProcess = (videoProcess / totalProcess) * 100
+
+        // console.log(" ->>>>> ",videoProcess, totalProcess, currentProcess, videoAmount)
+        updateProcess(sessionStorage.getItem("token"), {process: currentProcess}).then((res) => console.log(res))
 
     }
 
     const handleVideoProcess = (data, index) => {
         videoEnded.splice(index, 1, data)
         console.log(videoEnded)
+    }
+
+    const handleRendered = (data) => {
+        setVideoAmount(data)
     }
     
 
@@ -340,8 +345,8 @@ const CoursePageteacher = () => {
                                                                                                     disableForward={false}
                                                                                                     onEnded={handleVideoEnded}
                                                                                                     onProcess={handleVideoProcess}
-                                                                                                /> 
-                                                                                                {setVideoAmount(videoAmount+1)}
+                                                                                                    onRender={handleRendered}
+                                                                                                />
                                                                                             </div>
                                                                                         
                                                                                         )
