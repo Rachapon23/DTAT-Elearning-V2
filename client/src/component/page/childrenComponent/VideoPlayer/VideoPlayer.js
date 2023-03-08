@@ -259,9 +259,9 @@ export default ({
         setThumbsDisabled(false);
     }
 
-    const handleReady = () => {
+    useEffect(() => {
         onRender(index+1)
-    }
+    })
 
     return (
         <div ref={playerContainerRef} id="playerWrapper" onMouseMove={handleMouseMove} tabIndex="1" onClick={(e) => handleFocus(e)} onKeyDown={(e) => handleKeyDown(e)} >
@@ -276,7 +276,7 @@ export default ({
                     onProgress={(e) => handleProcess(e)}
                     volume={volume[1]}
                     onEnded={(e) => handleEnd(e)}
-                    onReady={handleReady}
+                    // onReady={handleReady}
                 />
             </div>
             

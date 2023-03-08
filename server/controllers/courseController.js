@@ -119,7 +119,7 @@ exports.addCourse = async (req, res) => {
     const course = await Coursee.findOne({ _id: id }).exec();
 
     let plus = false;
-
+    console.log(course, user)
     for (let i = 0; i < course.member.length; i++) {
       if (course.member[i].plant == user.plant) {
         // console.log(course.member[i].plant, user.plant)

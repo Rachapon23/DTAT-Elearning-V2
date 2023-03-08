@@ -9,7 +9,7 @@ import { Switch } from 'antd';
 // import Parser from 'html-react-parser';
 import { useNavigate } from 'react-router-dom';
 import { getCourse, removeCourse, enablecourse, } from "../../../../function/teacher/funcCourse";
-import { updateProcess} from "../../../../function/student/funcCourse"
+import { updateProcess } from "../../../../function/student/funcCourse"
 import VideoPlayer from '../../childrenComponent/VideoPlayer/VideoPlayer';
 import { getQuizByCourseID } from '../../../../function/student/funcQuiz';
 import { Card } from 'antd';
@@ -34,7 +34,7 @@ const CoursePageteacher = () => {
     const fetchQuiz = () => {
         getQuizByCourseID(sessionStorage.getItem("token"), id)
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 setDataQuiz(response.data)
             })
             .catch((err) => {
@@ -50,7 +50,7 @@ const CoursePageteacher = () => {
     const fetchCourse = () => {
         getCourse(sessionStorage.getItem("token"), id)
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 setCourse(response.data)
                 setTopic(response.data.topic)
             })
@@ -147,14 +147,14 @@ const CoursePageteacher = () => {
         }
         const currentProcess = (videoProcess / totalProcess) * 100
 
-        // console.log(" ->>>>> ",videoProcess, totalProcess, currentProcess, videoAmount)
-        updateProcess(sessionStorage.getItem("token"), {process: currentProcess}).then((res) => console.log(res))
+        console.log(" ->>>>> ", course)
+        updateProcess(sessionStorage.getItem("token"), {process: currentProcess, course: course._id}).then((res) => console.log(res))
 
     }
 
     const handleVideoProcess = (data, index) => {
         videoEnded.splice(index, 1, data)
-        console.log(videoEnded)
+        // console.log(videoEnded)
     }
 
     const handleRendered = (data) => {
