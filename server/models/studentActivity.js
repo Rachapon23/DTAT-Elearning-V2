@@ -22,7 +22,10 @@ const studentActivitySchema = new mongoose.Schema({
     },
     ans: {
         type: []
-    }
+    },
+    process: {
+        type: Number,
+    },
 }, {timestamps: true});
 
 module.exports = studentActivity = mongoose.model("studentactivity", studentActivitySchema);

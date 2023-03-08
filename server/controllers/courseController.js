@@ -26,7 +26,6 @@ exports.createCourse = async (req, res) => {
       statuscourse: head.statuscourse,
       room: head.room,
       teacher: head.teacher,
-   
       topic: body,
     });
 

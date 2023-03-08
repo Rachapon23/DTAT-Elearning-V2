@@ -131,5 +131,19 @@ exports.getAccessNumber = async (req, res) => {
     catch (err) {
         console.log(err,"fail to get access number");
         res.status(500).json({ error: "fail to get access number" })
+
+    }
+}
+
+exports.updateProcess = async (req, res) => {
+    try {
+        const { process } = req.body;
+        const user_id = req.user
+         await studentActivity.findByIdAndUpdate({user: user_id}, {process: process}).exec()
+        res.send("update process success")
+    }
+    catch(err) {
+        console.log(err)
+        res.status(500).send('Server Error!!! on update process')
     }
 }

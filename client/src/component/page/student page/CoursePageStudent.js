@@ -12,7 +12,10 @@ import { getQuizByCourseID } from "../../../function/student/funcQuiz"
 import Swal from "sweetalert2";
 import { Modal } from 'antd';
 import VideoPlayer from '../childrenComponent/VideoPlayer/VideoPlayer';
+import { Card } from 'antd';
 
+
+const { Meta } = Card;
 const CoursePageStudent = () => {
     // const course_id = useParams();
     const [course, setCourse] = useState("");
@@ -52,6 +55,7 @@ const CoursePageStudent = () => {
                 )
             })
     }
+
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -157,20 +161,34 @@ const CoursePageStudent = () => {
 
                 }
 
-                <div className="card mt-3">
-                    <div className="card-body">
-                        <Link style={{textDecoration: 'none'}} className="card" to={`/student/test/${quiz._id}`} state={{path: pathname}}>
-                            {/* <div className="input-group mb ">
-                                <span className="input-group-text" id="basic-addon1">Quiz</span>
-                                <div className="col-sm-10 ">
-                                    <input type="text" className="form-control-plaintext ps-3" readOnly={true} value={quiz.name} />
+
+                    <div className="card mt-3">
+                        <div className="card-body">
+                            <Card
+                                style={{
+                                    width: "100%",
+                                    borderWidth: "2px",
+                                }}
+                                actions={[
+                                    <Link class="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{path: pathname}}/>,
+                                    <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
+                                ]}
+                            >
+                                <Meta
+                                    title={<h4>Quiz</h4>}
+                                    description={<h5>{quiz.name}</h5>}
+                                />
+                            </Card>
+                            {/* <Link style={{textDecoration: 'none'}} className="card" to={`/student/test/${quiz._id}`} state={{path: pathname}}>
+                                <div className="input-group mb ">
+                                    <span className="input-group-text">Quiz</span>
+                                    <div className="col-sm-10 ">
+                                        <input type="text" className="form-control-plaintext ps-3" readOnly={true} value={quiz.name} />
+                                    </div>
                                 </div>
-                            </div> */}
-                            
-                            <button className="btn">ทำแบบทดสอบ</button>
-                        </Link>
+                            </Link> */}
+                        </div>
                     </div>
-                </div>
 
                 {course.enabled
                     ? <div>
@@ -266,6 +284,7 @@ const CoursePageStudent = () => {
                                                                                                         url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
                                                                                                         disableForward={true}
                                                                                                     />
+                                                                                                    
                                                                                                     //  <div className="container">
                                                                                                     //     {/* <p>{(ttem.name).split('.')[0]}</p> */}
                                                                                                     //     <div className="d-flex justify-content-center">

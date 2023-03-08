@@ -9,9 +9,12 @@ import './videoPlayer.css';
 
 
 export default ({
+    index,
     videoName,
     url,
     disableForward,
+    onEnded,
+    onProcess,
 }) => {
     const [count, setCount] = useState(0);
     const playRef = useRef(null);
@@ -44,10 +47,10 @@ export default ({
             setPused(true);
             setVideoController({duration: playRef.current.getCurrentTime()});
             setVideoController({duration: videoController.duration});
-            console.log("not play")
+            // console.log("not play")
         }
         else {
-            console.log("play")
+            // console.log("play")
             if(ened === true) setEned(false);
             setPlaying(true)
             setPused(false);
@@ -74,6 +77,7 @@ export default ({
     }
 
     const handleProcess = (e) => {
+        console.log(e)
         if(pused) {
             return;
         }
@@ -97,10 +101,18 @@ export default ({
             playerControl.current.style.cursor = "auto";
             setCount(count+1);
         }
+
+        console.log(index, " on process")
+
+        onProcess({
+            isEnded: false,
+            duration: videoController.duration,
+            played: e.played,
+        }, index)
     }
 
     const handleSeek = (value) => {
-        console.log("SEEK")
+        // console.log("SEEK")
         playerSeekBar.current.thumb[1].current.focus()
         playerControl.current.style.opacity = 1;
         playerControl.current.style.cursor = "auto";
@@ -108,7 +120,7 @@ export default ({
         //    setPlaying(false); 
         // }
         setSeeking(true)
-        console.log("value",value[1])
+        // console.log("value",value[1])
 
         if(disableForward) {
             if(value[1] == 100) {
@@ -129,7 +141,7 @@ export default ({
                 setSeeking(false)
             }
             else {
-                console.log("exceed")
+                // console.log("exceed")
                 setExceedLimit(exceedLimit+1);
                 setThumbsDisabled(true);
                 // setPlayed([0, played[1]])
@@ -152,7 +164,7 @@ export default ({
 
     const handleSeekMouseUp = () => {
         
-        console.log("UP")
+        // console.log("UP")
         if(!pused) {
             setPlaying(true); 
         }
@@ -163,7 +175,7 @@ export default ({
 
     const handleEnd = () => {
         // setMaxPlayed(0);
-        console.log("==> ",maxPlayed)
+        // console.log("==> ",maxPlayed)
         setSeeking(false);
         setPlaying(false);
         setEned(true);
@@ -171,7 +183,13 @@ export default ({
         playerSeekBar.current.thumb[1].current.focus()
         playerControl.current.style.opacity = 1;
         playerControl.current.style.cursor = "auto";
+        onEnded({
+            isEnded: true,
+            duration: videoController.duration,
+            played: 1,
+        }, index)
     }
+
 
     const format = (sec) => {
         if(isNaN(sec)) {

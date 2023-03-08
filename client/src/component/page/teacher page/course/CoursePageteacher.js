@@ -8,12 +8,14 @@ import { Switch } from 'antd';
 // import { Link } from "react-router-dom";
 // import Parser from 'html-react-parser';
 import { useNavigate } from 'react-router-dom';
-import { getCourse, removeCourse, enablecourse } from "../../../../function/teacher/funcCourse";
+import { getCourse, removeCourse, enablecourse, } from "../../../../function/teacher/funcCourse";
+import { updateProcess} from "../../../../function/student/funcCourse"
 import VideoPlayer from '../../childrenComponent/VideoPlayer/VideoPlayer';
+import { getQuizByCourseID } from '../../../../function/student/funcQuiz';
+import { Card } from 'antd';
 
 
-
-
+const { Meta } = Card;
 const CoursePageteacher = () => {
     const { id } = useParams();
     const [course, setCourse] = useState("");
@@ -21,7 +23,29 @@ const CoursePageteacher = () => {
     const [dataQuiz, setDataQuiz] = useState([]);
     const navigate = useNavigate();
     const { pathname } = useLocation();
+    const [isEnded, setIsEnded] = useState(false);
+    const [videoEnded, setVideoEnded] = useState([{
+        isEnded: false,
+        duration: 0,
+        played: 0,
+    }]);
+    const [videoAmount, setVideoAmount] = useState(0);
 
+    const fetchQuiz = () => {
+        getQuizByCourseID(sessionStorage.getItem("token"), id)
+            .then((response) => {
+                console.log(response)
+                setDataQuiz(response.data)
+            })
+            .catch((err) => {
+                console.log(err)
+                Swal.fire(
+                    "Alert!",
+                    "Cannot fetch course data",
+                    "error"
+                )
+            })
+    }
 
     const fetchCourse = () => {
         getCourse(sessionStorage.getItem("token"), id)
@@ -42,6 +66,7 @@ const CoursePageteacher = () => {
     // console.log(id)
 
     useEffect(() => {
+        fetchQuiz()
         fetchCourse()
     }, []);
 
@@ -112,16 +137,30 @@ const CoursePageteacher = () => {
             })
     };
 
-    
+    const handleVideoEnded = (data, index) => {
+        videoEnded.splice(index, 1, data)
+        console.log(videoEnded)
+        const totalProcess = videoAmount * 100 
+        let videoProcess = 0
+        for(let i = 0 ; i < videoEnded.length ; i++) {
+            videoProcess += videoEnded[i].played * 100 
+        }
+        const currentProcess = videoProcess / totalProcess
+        console.log(" ->>>>> ",videoProcess, totalProcess, currentProcess, videoAmount)
+        updateProcess(sessionStorage.getItem("token"), currentProcess).then((res) => console.log(res))
 
+    }
+
+    const handleVideoProcess = (data, index) => {
+        videoEnded.splice(index, 1, data)
+        console.log(videoEnded)
+    }
     
 
     return (
         <div>
             <NavTeacher />
-
             <div className="container ">
-                {/* {JSON.stringify(course_id)} */}
                 {course &&
                     <>
                         <div className="d-flex justify-content-end mt-4">
@@ -158,6 +197,42 @@ const CoursePageteacher = () => {
                         }
                     </>
                 }
+                
+                
+                    {
+                        dataQuiz && course ? (
+                            <div className="mt-2">
+                                <div className="card">
+                                    <div className="card-body ">
+                                        <Card
+                                            style={{
+                                                width: "100%",
+                                                borderWidth: "2px",
+                                            }}
+                                            actions={[
+                                                <Link class="bi bi-eye-fill h5" to={`/student/test/${dataQuiz._id}`} state={{path: pathname}}/>,
+                                                <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${dataQuiz._id}`}/>,
+                                            ]}
+                                        >
+                                            <Meta
+                                                title={<h4>Quiz</h4>}
+                                                description={<h5>{dataQuiz.name}</h5>}
+                                            />
+                                        </Card>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                        :
+                        (
+                            <div/>
+                        )
+                                    
+                    }
+                        
+                        
+                
+
                 <div className="border bg-white my-3 ">
                     {topic && topic.map((item, index) => (
                         <div key={index} className="px-5 mt-3">
@@ -256,12 +331,22 @@ const CoursePageteacher = () => {
                                                                                     :
 
                                                                                     <>
-                                                                                        {ttem.filetype === "video/mp4" ?
-                                                                                            <VideoPlayer
-                                                                                                videoName={ttem.name}
-                                                                                                url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
-                                                                                                disableForward={false}
-                                                                                            /> 
+                                                                                        {ttem.filetype === "video/mp4" ? (
+                                                                                            <div>
+                                                                                                <VideoPlayer
+                                                                                                    index={tdex}
+                                                                                                    videoName={ttem.name}
+                                                                                                    url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
+                                                                                                    disableForward={false}
+                                                                                                    onEnded={handleVideoEnded}
+                                                                                                    onProcess={handleVideoProcess}
+                                                                                                /> 
+                                                                                                {setVideoAmount(videoAmount+1)}
+                                                                                            </div>
+                                                                                        
+                                                                                        )
+                                                                                            
+                                                                                            
 
                                                                                             // <div className="container">
                                                                                             //     <p>{(ttem.name).split('.')[0]}</p>
@@ -323,23 +408,7 @@ const CoursePageteacher = () => {
                                     </ul>
                                     </div>
                                 } */}
-
-{
-                                        item.quiz ? (
-                                            <Link to={`/student/test/${item.quiz.name}`}>
-                                                
-                                                <div className="input-group mb-3 ">
-                                                    <span className="input-group-text" id="basic-addon1">Quiz</span>
-                                                    <input type="text" className="form-control d-flex align-self-center" disabled={true} value={item.quiz.name} />
-                                                </div>
-                                            </Link>
-                                        )
-                                        :
-                                        <div />
-                                        
-                                    }
                             </div>
-
 
                             <hr className="mt-4" />
                         </div>
@@ -348,7 +417,6 @@ const CoursePageteacher = () => {
                     ))}
                 </div>
                 <div className="row">
-
                     <div className="col-md-8">
                         <div className="d-grid">
                         <a
