@@ -10,6 +10,7 @@ const Quiz = () => {
     const [nextState, setNextState] = useState([]);
     const [valueQuiz, setValueQuiz] = useState([])
     const navigate = useNavigate()
+    const location = useLocation()
     const [nameQuiz, setNameQuiz] = useState
         ({
             name: "",
@@ -30,6 +31,7 @@ const Quiz = () => {
         }
         ])
     }
+    console.log(location.state.path.split("/"))
     const [error, setError] = useState({
         name: "",
         explanation: "",
@@ -171,7 +173,21 @@ const Quiz = () => {
                         icon: 'success',
                         title: 'Your quiz created successfully'
                     })
-                    navigate('/teacher/list-quiz')
+                    // navigate('/teacher/list-quiz')
+                    // console.log(location.state.path)
+                    // navigate(location.state.path)
+
+                    if(!location.state.path) return
+
+                    const pre_path = location.state.path
+                    console.log( pre_path.split("/"))
+                    if(pre_path.includes("edit-course")) {
+                        navigate(`/teacher/edit-course/${pre_path.split("/")[2]}`)
+                    }
+                    else {
+                        navigate(location.state.path)
+                    }
+                    
                 })
                 .catch(err => {
                     console.log(err)

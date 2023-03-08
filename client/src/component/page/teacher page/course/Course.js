@@ -12,9 +12,11 @@ import { createCalendar } from "../../../../function/teacher/funcCalendar";
 import { useState, useEffect } from "react";
 import "./course.css";
 import Swal from "sweetalert2";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Switch } from "antd";
 import CalendarForcourse from "../calendar/CalendarForcourse";
+import { Card } from 'antd';
+const { Meta } = Card;
 
 const Course = () => {
   const [valuetopic, SetValueTopic] = useState([]);
@@ -25,6 +27,7 @@ const Course = () => {
   const [file, setFile] = useState("");
   const [plant, setPlant] = useState([]);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const [nameCourse, setNameCourse] = useState({
     name: "",
@@ -214,7 +217,6 @@ const Course = () => {
           body: valuetopic,
         })
           .then(async (res) => {
-            setNewCourse(res.data._id)
             const formData = new FormData();
             formData.append("id", res.data._id);
             formData.append("file", file);
@@ -268,8 +270,9 @@ const Course = () => {
               icon: "success",
               title: "Your course created successfully",
             });
-            
-            navigate("/teacher/quiz/" + res.data._id);
+            // await setNewCourse(res.data._id)
+            // console.log("new -> ",newCourse)
+            navigate("/teacher/quiz/" + res.data._id, {state: {path: `teacher/edit-course/${res.data._id}`}});
           
           })
           .catch((err) => {
@@ -278,6 +281,7 @@ const Course = () => {
       }
     });
   };
+
 
   useEffect(() => {
     loadQuiz();
@@ -710,21 +714,40 @@ const Course = () => {
               </div>
             </div>
 
-            <div className="card mt-3">
-                    <div className="card-body">
-                        <div className="card" onClick={handleAddNewQuiz}>
-                            <div className="input-group mb ">
-                                <span className="input-group-text" id="basic-addon1">Quiz</span>
-                                <div className="col-sm-10 ">
-                                    <input type="text" className="form-control-plaintext ps-3" readOnly={true} />
-                                </div>
-                                <button class="col btn btn-outline-success" type="button" onClick={handleAddNewQuiz}>Add Quiz</button>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
+            <div className="mt-2">
+              <div className="card">
+                <div className="card-body ">
+                  <Card
+                    style={{
+                        width: "100%",
+                        borderWidth: "2px",
+                    }}
+                    actions={[
+                        <Link class="bi bi-file-plus h5" onClick={handleAddNewQuiz} state={{path: pathname}}/>,
+                    ]}
+                  >
+                    <Meta
+                        title={<h4>Quiz</h4>}
+                    />
+                  </Card>
                 </div>
+              </div>
+            </div>
+            
+
+            {/* <div className="card mt-3">
+                <div className="card-body">
+                    <div className="card" onClick={handleAddNewQuiz}>
+                        <div className="input-group mb ">
+                            <span className="input-group-text" id="basic-addon1">Quiz</span>
+                            <div className="col-sm-10 ">
+                                <input type="text" className="form-control-plaintext ps-3" readOnly={true} />
+                            </div>
+                            <button class="col btn btn-outline-success" type="button" onClick={handleAddNewQuiz}>Add Quiz</button>
+                        </div>
+                    </div>
+                </div>
+            </div> */}
 
             {valuetopic.map((item, index) => (
               <div key={index} className="card mt-2">

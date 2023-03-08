@@ -10,7 +10,8 @@ import { listRoom } from '../../../../function/teacher/funcMiscellaneous'
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom'
 import { uploadImg, upDateImg, uploadfile } from '../../../../function/teacher/funcMiscellaneous'
-import { Table } from 'antd';
+import { Card } from 'antd';
+const { Meta } = Card;
 
 const EditCourse = () => {
 
@@ -650,29 +651,41 @@ const EditCourse = () => {
                                 <div className="card">
                                     <div className="card-body ">
                                     {
+                                        
                                         dataquiz ? (
-                                            <div className="card">
-                                                <div className="input-group mb ">
-                                                    <span className="input-group-text" id="basic-addon1">Quiz</span>
-                                                    <Link style={{textDecoration: 'none'}} className="col-sm-10" to={`/student/test/${dataquiz._id}`} state={{path: location.pathname}}>
-                                                        <input type="text" className="form-control-plaintext ps-3" readOnly={true} value={dataquiz.name} />
-                                                    </Link>
-                                                    <button class="col btn btn-outline-warning" type="button" onClick={() => navigate(`/teacher/edit-quiz/${dataquiz._id}`)}>Edit Quiz</button>
-                                                </div>
-                                            </div>
+                                            <Card
+                                                style={{
+                                                    width: "100%",
+                                                    borderWidth: "2px",
+                                                }}
+                                                actions={[
+                                                    <Link class="bi bi-eye-fill h5" to={`/student/test/${dataquiz._id}`} state={{path: location.pathname}}/>,
+                                                    <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${dataquiz._id}`}/>,
+                                                ]}
+                                            >
+                                                <Meta
+                                                    title={<h4>Quiz</h4>}
+                                                    description={<h5>{dataquiz.name}</h5>}
+                                                />
+                                            </Card>
                                         )
                                         :
                                         (
-                                            <div className="card" >
-                                                <div className="input-group mb ">
-                                                        <span className="input-group-text" id="basic-addon1">Quiz</span>
-                                                        <Link style={{textDecoration: 'none'}} className="col-sm-10" to={`/teacher/quiz/${course._id}`} state={{path: location.pathname}} >
-                                                            <input type="text" className="form-control-plaintext ps-3" readOnly={true} />
-                                                        </Link>
-                                                    
-                                                    <button class="col btn btn-outline-success" type="button" onClick={() => navigate(`/teacher/quiz/${course._id}`)}>Add Quiz</button>
-                                                </div>
-                                            </div>
+                                            <Card
+                                                style={{
+                                                    width: "100%",
+                                                    borderWidth: "2px",
+                                                }}
+                                                
+                                                actions={[
+                                                    <Link class="bi bi-file-plus h5" to={`/teacher/quiz/${course._id}`} state={{path: location.pathname}}/>,
+                                                ]}
+                                            >
+                                                <Meta
+                                                    title={<h4>Quiz</h4>}
+                                                    description={<h5>{dataquiz.name}</h5>}
+                                                />
+                                            </Card>
                                         )
                                         
                                     }

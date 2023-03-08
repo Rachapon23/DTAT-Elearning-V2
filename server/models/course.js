@@ -31,7 +31,7 @@ const CourseeSchema = new mongoose.Schema(
     user: [{
       type: ObjectId,
       ref:"user"
-  }],
+    }],
     image: {
       type: String,
     },
