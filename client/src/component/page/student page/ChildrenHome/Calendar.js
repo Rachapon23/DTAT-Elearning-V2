@@ -60,7 +60,7 @@ const Calendar = () => {
     const loadData = () => {
         listCalendar(sessionStorage.getItem("token"))
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 setEvents(res.data)
             }).catch(err => {
                 console.log(err)

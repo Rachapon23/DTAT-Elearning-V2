@@ -15,13 +15,13 @@ const QuizeSchema = new mongoose.Schema({
         type: ObjectId,
         ref:"users"
     },
-    attemp: {
-        type: Number,
-        default: 1,
-    },
+    // attemp: {
+    //     type: Number,
+    //     default: 1,
+    // },
     course: {
         type: ObjectId,
-        ref:"course"
+        ref:"coursee"
     }
 }, { timestamps: true });
 

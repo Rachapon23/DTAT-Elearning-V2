@@ -8,6 +8,9 @@ import { useParams } from 'react-router-dom'
 import { sendQuiz, checkAccessNumber, listScore } from '../../../function/student/funcQuiz';
 import { useLocation } from 'react-router-dom';
 import { Table } from "antd";
+import { Button, Modal, Space } from 'antd';
+import { QuestionOutlined } from '@ant-design/icons';
+const { confirm } = Modal;
 
 const Dotest = () => {
     const quizId = useParams();
@@ -17,17 +20,20 @@ const Dotest = () => {
     const { params } = useParams()
     const { state } = useLocation()
     const location = useLocation()
-    console.log("--> ", location)
+    // console.log("--> ", location)
 
     const [startQuiz, setStartQuiz] = useState(false)
     const [endQuiz, setEndQuiz] = useState(false)
     const [quizActive, setQuizActive] = useState(false)
     const [attempNumber, setAttempNumber] = useState(0)
     const [maxAttemp, setMaxAttemp] = useState(0)
-    const [maxScore, setMaxScore] = useState(0)
-
-    const [examinerScores, setExaminerScores] = useState([])
-
+    // const [maxScore, setMaxScore] = useState([])
+    // const [examinerScores, setExaminerScores] = useState([])
+    const [score, setScore] = useState({
+        score: 0,
+        maxScore: 0,
+    })
+    console.log(score)
     useEffect(() => {
         fetchAccessNumber()
         loadData();
@@ -51,14 +57,14 @@ const Dotest = () => {
 
     const fetchAccessNumber = () => {
         checkAccessNumber(sessionStorage.getItem("token"), {
-            examiner_id: sessionStorage.getItem("user_id"),
+            // examiner_id: sessionStorage.getItem("user_id"),
             quiz: quizId.params
         })
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 setQuizActive(res.data.quiz_active)
-                setAttempNumber(res.data.access_number)
-                setMaxAttemp(res.data.maximum_access)
+                // setAttempNumber(res.data.access_number)
+                // setMaxAttemp(res.data.maximum_access)
             })
             .catch(err => {
                 console.log(err)
@@ -67,24 +73,44 @@ const Dotest = () => {
 
     const fetchScore = () => {
         listScore(sessionStorage.getItem("token"), {
-            examiner_id: sessionStorage.getItem("user_id"),
+            // examiner_id: sessionStorage.getItem("user_id"),
             quiz: quizId.params
         })
             .then(res => {
-                // console.log(res)
-                setExaminerScores(res.data)
-                setMaxScore(res.data[0].max_score)
+                console.log(res)
+                // setExaminerScores([res.data])
+                // setMaxScore([res.data.max_score])
+                setScore(
+                    {
+                        score: res.data.score,
+                        maxScore: res.data.max_score,
+                    }
+                )
             })
             .catch(err => {
                 console.log(err)
             })
     }
+    const showConfirm = () => {
+        confirm({
+            title: ' Are you sure to submmit?',
+            icon: < QuestionOutlined />,
+            content: 'Some descriptions',
+            onOk() {
+                console.log('OK');
+                send()
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
 
     const send = () => {
         console.log(value)
         let data = {
-            examiner_id: sessionStorage.getItem("user_id"),
-            examiner_name: sessionStorage.getItem("firstname"),
+            // examiner_id: sessionStorage.getItem("user_id"),
+            // examiner_name: sessionStorage.getItem("firstname"),
             ans: value,
             quiz: quizId.params,
         }
@@ -101,6 +127,7 @@ const Dotest = () => {
                 console.log(err)
             })
     }
+
     const handleChange = (index, ch) => {
         value[index.target.name] = ch
     };
@@ -110,23 +137,28 @@ const Dotest = () => {
         setEndQuiz(false);
     }
     const handleBackToCourse = () => {
-        
+
         navigate(state.path)
     }
 
-    const columns = [
-        {
-            title: 'Attemp',
-            align: 'center',
-            dataIndex: 'key',
-        },
-        {
-            title: `Score (max score is ${maxScore})`,
-            align: 'center',
-            dataIndex: 'score',
-        },
-    ];
-    // console.log(!!dataQuiz)
+    // const columns = [
+    //     // {
+    //     //     title: 'Attemp',
+    //     //     align: 'center',
+    //     //     dataIndex: 'key',
+    //     // },
+    //     {
+    //         title: `score`,
+    //         align: 'center',
+    //         dataIndex: 'score',
+    //     },
+    //     {
+    //         title: "max score",
+    //         align: 'center',
+    //         dataIndex: "maxScore",
+    //     },
+    // ];
+    // console.log(quizActive)
     return (
         <div>
             <NavStudent />
@@ -136,26 +168,30 @@ const Dotest = () => {
                 {
                     !startQuiz ? (
                         <div>
-                            <div className="mt-5 card text-center">
+                            <div className="mt-5 card ">
                                 <div className="bg-success head-form"></div>
                                 <div className="card-header">
                                     {!!dataQuiz ?
-                                        <h3>หัวข้อการทดสอบ : {dataQuiz.name}</h3>
-                                        : <h3 className='text-danger'>this quiz is now not available</h3>
+                                        <h3 className='text-center'>หัวข้อการทดสอบ : {dataQuiz.name}</h3>
+                                        : <h3 className='text-danger text-center'>this quiz is now not available</h3>
 
                                     }
                                 </div>
-                                <div className="card-body">
+                                <div className="card-body p-5">
                                     {!!dataQuiz ?
                                         <div>
-                                            <h5 className="card-title">This quiz have {maxAttemp} attemp</h5>
-                                            <p className="card-text">Your current attemp is {attempNumber}/{maxAttemp} </p>
+                                            {/* <h5 className="card-title">This quiz have {maxAttemp} attemp</h5> */}
+                                            {/* <p className="card-text">Your current attemp is {attempNumber}/{maxAttemp} </p> */}
+                                            {
+                                                    !quizActive &&
+                                                    <p className='text-center mb-5 '>คุณทำควิชนี้ไปแล้ว</p>
+                                                }
                                             {/* {endQuiz ? (<h5 className="card-text"> Your score is {1}/{1}</h5>):(<div/>)} */}
-                                            <div>
-                                                <button className="btn btn-secondary me-3" onClick={handleBackToCourse}>Back to Course</button>
+                                            <div className='d-flex justify-content-center '>
+                                                <button className="btn btn-secondary" onClick={handleBackToCourse}>Back to Course</button>
                                                 {
                                                     quizActive ?
-                                                        <button className="btn btn-primary " onClick={handleStartQuiz}>Start Quiz</button>
+                                                        <button className="btn btn-primary ms-3" onClick={handleStartQuiz}>Start Quiz</button>
                                                         :
                                                         (<div />)
                                                 }
@@ -184,10 +220,25 @@ const Dotest = () => {
                             </div>
 
                             {
-                                examinerScores.length !== 0 ?
+                                !quizActive ?
                                     (
                                         <div className="mt-3 card">
-                                            <Table columns={columns} dataSource={examinerScores} bordered></Table>
+                                            <table className="table text-center">
+                                                <thead>
+                                                    <tr>
+                                                        <td scope="col">score</td>
+                                                        <td scope="col">maxScore</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr >
+                                                        <td>{score.score}</td>
+                                                        <td>{score.maxScore}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
                                         </div>
                                     )
                                     :
@@ -205,7 +256,7 @@ const Dotest = () => {
                                         </div>
                                     </div>
                                     {qusetion.map((item, index) =>
-                                        <div className="mt-3 card">
+                                        <div className="mt-3 card" key={index}>
                                             <div
                                                 key={index} className="card-body mt-3 p-3">
                                                 <p>ข้อที่ {index + 1}</p>
@@ -242,11 +293,12 @@ const Dotest = () => {
                                     )}
 
 
-                                    <div className="d-flex justify-content-end mt-3 mb-5" data-bs-toggle="modal" data-bs-target="#confirmSubmmit">
-                                        <button className="btn btn-success w-25" >ส่ง</button>
+                                    <div className="d-flex justify-content-end mt-3 mb-5">
+                                        <button className="btn btn-success w-25" onClick={showConfirm}>ส่ง</button>
                                     </div>
 
-                                    <div className="modal" id="confirmSubmmit" tabindex="-1" aria-hidden="true">
+
+                                    {/* <div className="modal" id="confirmSubmmit" tabIndex="-1" aria-hidden="true">
                                         <div className="modal-dialog">
                                             <div className="modal-content">
                                                 <div className="modal-header">
@@ -262,7 +314,7 @@ const Dotest = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             )
                         )
