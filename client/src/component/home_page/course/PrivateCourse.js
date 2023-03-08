@@ -42,7 +42,7 @@ const PrivateCourse = ({ course, member }) => {
                 icon: 'success',
                 title: 'Signed in successfully'
               })
-              // navigate('/student/home')
+              navigate('/student/home')
             }).catch(err => {
               if (err.response.data == 'course already exist') {
                 Swal.fire({
