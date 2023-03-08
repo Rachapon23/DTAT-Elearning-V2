@@ -63,3 +63,10 @@ headers:{
     authtoken,
 }
 });
+export const CourseSuccess  = async(authtoken,value) =>
+await axios.post(process.env.REACT_APP_API+'/course-success',value,
+{
+headers:{
+    authtoken,
+}
+});

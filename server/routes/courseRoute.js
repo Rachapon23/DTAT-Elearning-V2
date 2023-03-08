@@ -21,7 +21,9 @@ const {
     updateimg,
     uploadfile,
     enablecourse,
-    
+    CourseSuccess,
+
+
     getRoom,
     getPlant,
     getUserCourse,
@@ -66,12 +68,14 @@ router.get("/list-plant",  getPlant);
 router.get("/get-courses-home",  getCourseHome);
 
 router.get("/get-user-course/:id", getUserCourse);
+router.post("/course-success",checkUser, checkTeacher, CourseSuccess);
 
 
 // student
 router.post("/searchcourse", checkUser, searchCourse);
 router.post("/addchcourse", checkUser, addCourse);
-router.get("/get-my-course/:id", checkUser, getMyCourse);
+router.get("/get-my-course", checkUser, getMyCourse);
+
 router.get("/get-course/:id", getCourse);
 router.get("/list-public-courses", checkUser, publicCourses);
 router.post("/delete-my-course/:id", checkUser, deleteMyCourse);

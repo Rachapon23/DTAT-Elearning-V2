@@ -54,6 +54,13 @@ await axios.post(process.env.REACT_APP_API+'/update-profile',value,
         authtoken,
     }
 });
+export const postAmount  = async(authtoken,value) =>
+await axios.post(process.env.REACT_APP_API+'/amount-teacher',value,
+{
+    headers:{
+        authtoken,
+    }
+});
 
 export const listPlant = async () =>
   await axios.get(process.env.REACT_APP_API + "/list-plant");
