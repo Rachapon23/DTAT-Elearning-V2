@@ -23,3 +23,11 @@ export const listScore  = async(authtoken, data) =>
         authtoken,
     }
 });
+
+export const getQuizByCourseID  = async(authtoken, id) =>
+    await axios.get(process.env.REACT_APP_API+'/quiz/get-course-quiz/'+id,
+    {
+    headers:{
+        authtoken,
+    }
+});

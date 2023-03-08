@@ -26,7 +26,7 @@ const CoursePageteacher = () => {
     const fetchCourse = () => {
         getCourse(sessionStorage.getItem("token"), id)
             .then((response) => {
-                // console.log(response)
+                console.log(response)
                 setCourse(response.data)
                 setTopic(response.data.topic)
             })
@@ -44,6 +44,8 @@ const CoursePageteacher = () => {
     useEffect(() => {
         fetchCourse()
     }, []);
+
+
 
     const nextToCourse = (params) => {
         console.log(params)
@@ -307,7 +309,7 @@ const CoursePageteacher = () => {
                                     </div>
                                 }
 
-                                {item.quiz.length > 0 &&
+                                {/* {item.quiz.length > 0 &&
                                     <div className=""><ul>
                                         {item.quiz.map((ttem, tdex) =>
 
@@ -320,7 +322,22 @@ const CoursePageteacher = () => {
                                         )}
                                     </ul>
                                     </div>
-                                }
+                                } */}
+
+{
+                                        item.quiz ? (
+                                            <Link to={`/student/test/${item.quiz.name}`}>
+                                                
+                                                <div className="input-group mb-3 ">
+                                                    <span className="input-group-text" id="basic-addon1">Quiz</span>
+                                                    <input type="text" className="form-control d-flex align-self-center" disabled={true} value={item.quiz.name} />
+                                                </div>
+                                            </Link>
+                                        )
+                                        :
+                                        <div />
+                                        
+                                    }
                             </div>
 
 

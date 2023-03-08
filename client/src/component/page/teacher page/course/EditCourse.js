@@ -3,8 +3,8 @@ import NavTeacher from '../../../layout/NavTeacher'
 // import { listQuiz, } from "../../../../function/teacher/funcQuiz";
 import { updateCourse } from '../../../../function/teacher/funcCourse';
 import { useState, useEffect } from 'react'
-import { useParams } from "react-router-dom";
-import { listQuiz, } from "../../../../function/teacher/funcQuiz";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { getQuizByCourseID, } from "../../../../function/teacher/funcQuiz";
 import { getCourse } from "../../../../function/teacher/funcCourse";
 import { listRoom } from '../../../../function/teacher/funcMiscellaneous'
 import Swal from "sweetalert2";
@@ -19,10 +19,11 @@ const EditCourse = () => {
     const { id } = useParams();
     const [course, setCourse] = useState();
     const [topic, setTopic] = useState();
-    const [dataquiz, setDataQuiz] = useState([])
+    const [dataquiz, setDataQuiz] = useState()
     const [nextState, setNextState] = useState([]);
     const [room, setRoom] = useState([]);
     const [file, setFile] = useState('');
+    const location = useLocation();
 
     const errorTopic = {
         title: "Please enter title of topic",
@@ -68,9 +69,9 @@ const EditCourse = () => {
     }
 
     const loadQuiz = () => {
-        listQuiz(
+        getQuizByCourseID(
             sessionStorage.getItem("token"),
-            sessionStorage.getItem('user_id')
+            id
         )
             .then(res => {
                 console.log(res.data)
@@ -378,6 +379,119 @@ const EditCourse = () => {
         setFile(e.target.files[0])
     }
 
+    const handleAddNewQuiz = async() => {
+        await updateCourse(sessionStorage.getItem("token"),
+                {
+                    head: course,
+                    body: valuetopic
+                }
+            ).then(async res => {
+                console.log(res)
+                if (!!file) {
+                    const formData = new FormData();
+                    formData.append('id', res.data.data._id)
+                    formData.append('file', file)
+
+                    if (!course.image) {
+                        await uploadImg(sessionStorage.getItem("token"), formData)
+                            .then(res => {
+                                console.log(res)
+                                // navigate('/teacher/get-course/' + id)
+                            }).catch(err => {
+                                console.log(err)
+                            })
+                    } else {
+                        await upDateImg(sessionStorage.getItem("token"), formData)
+                            .then(res => {
+                                console.log(res)
+                                // navigate('/teacher/get-course/' + id)
+                            }).catch(err => {
+                                console.log(err)
+                            })
+                    }
+
+
+                }
+
+
+                if (res.data.upload.length > 0) {
+                    const array = res.data.upload
+                    for (let i = 0; i < array.length; i++) {
+                        // console.log(array[i].topic_number, array[i].file_number,valuetopic[array[i].topic_number].file[array[i].file_number].file )
+                        const formDatafile = new FormData();
+                        formDatafile.append('id', res.data.data._id)
+                        formDatafile.append('topic_number', array[i].topic_number)
+                        formDatafile.append('file_number', array[i].file_number)
+                        formDatafile.append('file', valuetopic[array[i].topic_number].file[array[i].file_number].file)
+                        await uploadfile(sessionStorage.getItem("token"), formDatafile).then(res => {
+                            console.log(res)
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Your course updated'
+                            })
+                            navigate('/teacher/get-course/' + id)
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
+                } 
+                else {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Your course updated'
+                    })
+                    navigate('/teacher/quiz/' + id)
+                }
+            });
+    }
+
+    const columns = [
+        {
+          title: 'No',
+          align: 'center',
+          dataIndex: '_id',
+          render: (_, dataObj) => {
+            return dataquiz.indexOf(dataObj) + 1
+          }
+        },
+        {
+          title: "Quiz Name",
+          align: 'center',
+          dataIndex: 'name',
+        },
+        {
+          title: "Number of Questions",
+          align: 'center',
+          dataIndex: 'noq',
+          render: (_, dataObj) => {
+            return dataObj.question.length
+          }
+        },
+        {
+          title: "Attemp",
+          align: 'center',
+          dataIndex: 'attemp',
+        },
+        // {
+        //   title: "Edit",
+        //   align: 'center',
+        //   dataIndex: 'edit',
+        //   render: (_, item) => (
+        //     <div>
+        //       <i className="bi bi-pencil-square text-warning" onClick={()=>handleEditQuiz(item._id)}></i>
+        //     </div>
+        //   ),
+        // },
+        // {
+        //   title: "Delete",
+        //   align: 'center',
+        //   dataIndex: 'delete',
+        //   render: (_, item) => (
+        //     <i className="bi bi-trash text-danger" onClick={()=>handleRemoveQuiz(item._id)}></i>
+        //   ),
+        // },
+      ];
+
 
     return (
 
@@ -528,6 +642,42 @@ const EditCourse = () => {
                                                 </div>
                                             </div>
                                         }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-2">
+                                <div className="card">
+                                    <div className="card-body ">
+                                    {
+                                        dataquiz ? (
+                                            <div className="card">
+                                                <div className="input-group mb ">
+                                                    <span className="input-group-text" id="basic-addon1">Quiz</span>
+                                                    <Link style={{textDecoration: 'none'}} className="col-sm-10" to={`/student/test/${dataquiz._id}`} state={{path: location.pathname}}>
+                                                        <input type="text" className="form-control-plaintext ps-3" readOnly={true} value={dataquiz.name} />
+                                                    </Link>
+                                                    <button class="col btn btn-outline-warning" type="button" onClick={() => navigate(`/teacher/edit-quiz/${dataquiz._id}`)}>Edit Quiz</button>
+                                                </div>
+                                            </div>
+                                        )
+                                        :
+                                        (
+                                            <div className="card" >
+                                                <div className="input-group mb ">
+                                                        <span className="input-group-text" id="basic-addon1">Quiz</span>
+                                                        <Link style={{textDecoration: 'none'}} className="col-sm-10" to={`/teacher/quiz/${course._id}`} state={{path: location.pathname}} >
+                                                            <input type="text" className="form-control-plaintext ps-3" readOnly={true} />
+                                                        </Link>
+                                                    
+                                                    <button class="col btn btn-outline-success" type="button" onClick={() => navigate(`/teacher/quiz/${course._id}`)}>Add Quiz</button>
+                                                </div>
+                                            </div>
+                                        )
+                                        
+                                    }
+
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -784,27 +934,6 @@ const EditCourse = () => {
                                     </div>
                                 </div>
                             )}
-
-                            <div className="mt-2">
-                                <div className="card">
-                                    <div className="row card-body p-0 ">
-                                    
-                                    {/* <Table dataSource={[1, 2, 3]}/> */}
-                                    {/* <div className="col pt-2 ps-4">Quiz</div> */}
-
-                                    <div className="col d-flex justify-content-end">
-                                        <button
-                                        type="button"
-                                        className="btn"
-                                        // onClick={handleAddNewQuiz}
-                                        >
-                                        <i className="bi bi-file-earmark-plus h5"/>
-                                        </button>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-
 
                             <div className="mt-2">
                                 <div className="card">

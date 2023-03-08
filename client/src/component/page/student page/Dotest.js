@@ -16,6 +16,8 @@ const Dotest = () => {
     const [qusetion, setQusetion] = useState([])
     const { params } = useParams()
     const { state } = useLocation()
+    const location = useLocation()
+    console.log("--> ", location)
 
     const [startQuiz, setStartQuiz] = useState(false)
     const [endQuiz, setEndQuiz] = useState(false)
@@ -108,6 +110,7 @@ const Dotest = () => {
         setEndQuiz(false);
     }
     const handleBackToCourse = () => {
+        
         navigate(state.path)
     }
 

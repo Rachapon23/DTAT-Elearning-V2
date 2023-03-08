@@ -18,9 +18,10 @@ const Course = require("../models/course")
 // }
 exports.getQuiz = async (req, res) => {
     try {
+        console.log(req.params.id)
         const quiz = await Quize.findOne({ _id: req.params.id }).exec()
-        // console.log(req.params)
         res.send(quiz)
+
     } catch (err) {
         console.log(err)
         res.status(500).send('Server Error!!! on list quiz get Quiz')
@@ -124,5 +125,17 @@ exports.listquizby = async (req, res) => {
     } catch (err) {
         console.log(err)
         res.status(500).send('Server Error!!! on list quiz By')
+    }
+}
+
+exports.getQuizByCourseID = async (req, res) => {
+    try {
+        console.log("THIS ID ",req.params.id)
+        const quiz = await Quize.findOne({ course: req.params.id }).exec()
+        res.send(quiz)
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Server Error!!! on list quiz get Quiz')
     }
 }

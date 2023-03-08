@@ -32,7 +32,7 @@ import Calendar from "./component/page/teacher page/calendar/Calendar";
 // //student
 import HomePageStudent from "./component/page/student page/HomePageStudent";
 
-// import Dotest from "./component/page/student page/Dotest";
+import Dotest from "./component/page/student page/Dotest";
 
 // import CoursesPageStudent from "./component/page/student page/CoursesPageStudent";
 import CoursePageStudent from "./component/page/student page/CoursePageStudent";
@@ -91,7 +91,7 @@ function App() {
           <Route path="/student/home" element={<HomePageStudent />} />
           <Route path="/student/get-course/:id" element={<CoursePageStudent />} />
           <Route path="/course-home/:id" element={<CourseHome />} />
-          {/* <Route path="/student/test/:params" element={<Dotest />} /> */}
+          <Route path="/student/test/:params" element={<Dotest />} />
 
           <Route path="/course-home/:id" element={<CourseHome/>} />
         </Route>

@@ -5,9 +5,10 @@ import './student.css'
 import { useNavigate } from 'react-router-dom'
 import './CoursePageStudent.css'
 import {
-    getCourse
-    , deleteMyCourse
+    getCourse, 
+    deleteMyCourse,
 } from "../../../function/student/funcCourse";
+import { getQuizByCourseID } from "../../../function/student/funcQuiz"
 import Swal from "sweetalert2";
 import { Modal } from 'antd';
 import VideoPlayer from '../childrenComponent/VideoPlayer/VideoPlayer';
@@ -16,12 +17,23 @@ const CoursePageStudent = () => {
     // const course_id = useParams();
     const [course, setCourse] = useState("");
     const [topic, setTopic] = useState();
-    const [dataQuiz, setDataQuiz] = useState([])
+    const [quiz, setQuiz] = useState({});
     const [teacher, setTeacher] = useState({})
 
     const navigate = useNavigate()
     const { id } = useParams()
     const { pathname } = useLocation()
+
+    const fetchQuiz = () => {
+        getQuizByCourseID(sessionStorage.getItem("token"), id)
+            .then((res) => {
+                console.log("DATA ->",res.data)
+                setQuiz(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
     const fetchCourse = () => {
         getCourse(sessionStorage.getItem("token"), id)
@@ -82,7 +94,8 @@ const CoursePageStudent = () => {
     }
 
     useEffect(() => {
-        fetchCourse()
+        fetchCourse();
+        fetchQuiz();
     }, []);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -143,6 +156,20 @@ const CoursePageStudent = () => {
 
 
                 }
+
+                <div className="card mt-3">
+                    <div className="card-body">
+                        <Link style={{textDecoration: 'none'}} className="card" to={`/student/test/${quiz._id}`} state={{path: pathname}}>
+                            <div className="input-group mb ">
+                                <span className="input-group-text" id="basic-addon1">Quiz</span>
+                                <div className="col-sm-10 ">
+                                    <input type="text" className="form-control-plaintext ps-3" readOnly={true} value={quiz.name} />
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+
                 {course.enabled
                     ? <div>
                         <div className="border bg-white my-3 ">
@@ -282,30 +309,18 @@ const CoursePageStudent = () => {
 
                                             </div>
                                         }
-                                        {item.quiz.length > 0 &&
-                                            <div className=""><ul>
-                                                {item.quiz.map((ttem, tdex) =>
-
-                                                    <li key={tdex}>
-                                                        <Link className="text-success" to={`/student/test/` + ttem.quiz} state={{ path: pathname }}>
-                                                            <i className="bi bi-clipboard2-check"></i>&nbsp;{ttem.name}
-                                                        </Link>
-                                                    </li>
-
-                                                )}
-                                            </ul>
-                                            </div>
-                                        }
                                     </div>
 
-
+                                    
+                                    
                                     <hr className="mt-5 mb-4 text-secondary" />
                                 </div>
                             ))}
                         </div>
+                       
                         {course.password == ""
                             ? <></>
-                            : <div className="mb-5">
+                            : <div className="mb-5 mt-3">
                                 <button className="btn btn-danger" type="button"
                                     onClick={() => handleRemove(id)}
                                 > Leave course </button>
@@ -332,9 +347,11 @@ const CoursePageStudent = () => {
                         </Modal>
                     </div>
                     :
-                    <div className="border bg-white my-3 p-4">
-                        <p className="text-center text-danger">This course is now not available, plase try again later</p>
-                    </div>
+                    (
+                        <div className="border bg-white my-3 p-4">
+                            <p className="text-center text-danger">This course is now not available, plase try again later</p>
+                        </div>
+                    )
                 }
 
 

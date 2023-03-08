@@ -1,6 +1,6 @@
 import React from "react";
 import NavTeacher from "../../../layout/NavTeacher";
-import { listQuiz, createQuiz } from "../../../../function/teacher/funcQuiz";
+import { listQuiz, createQuiz, getQuizByCourseID } from "../../../../function/teacher/funcQuiz";
 import { createCourse } from "../../../../function/teacher/funcCourse";
 import {
   listRoom,
@@ -19,7 +19,7 @@ import CalendarForcourse from "../calendar/CalendarForcourse";
 const Course = () => {
   const [valuetopic, SetValueTopic] = useState([]);
   const [nextState, setNextState] = useState([]);
-  const [dataquiz, setDataQuiz] = useState([]);
+  const [dataquiz, setDataQuiz] = useState();
   const [newCourse, setNewCourse] = useState("");
   const [room, setRoom] = useState([]);
   const [file, setFile] = useState("");
@@ -156,7 +156,7 @@ const Course = () => {
   };
 
   const loadQuiz = () => {
-    listQuiz(sessionStorage.getItem("token"), sessionStorage.getItem("user_id"))
+    getQuizByCourseID(sessionStorage.getItem("token"), nameCourse.quiz)
       .then((res) => {
         // console.log(res.data)
         setDataQuiz(res.data);
@@ -710,6 +710,22 @@ const Course = () => {
               </div>
             </div>
 
+            <div className="card mt-3">
+                    <div className="card-body">
+                        <div className="card" onClick={handleAddNewQuiz}>
+                            <div className="input-group mb ">
+                                <span className="input-group-text" id="basic-addon1">Quiz</span>
+                                <div className="col-sm-10 ">
+                                    <input type="text" className="form-control-plaintext ps-3" readOnly={true} />
+                                </div>
+                                <button class="col btn btn-outline-success" type="button" onClick={handleAddNewQuiz}>Add Quiz</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+
             {valuetopic.map((item, index) => (
               <div key={index} className="card mt-2">
                 <div className="position-relative">
@@ -1002,7 +1018,7 @@ const Course = () => {
               </div>
             ))}
 
-            <div className="mt-2">
+            {/* <div className="mt-2">
               <div className="card">
                 <div className="row card-body p-0 ">
                   <div className="col pt-2 ps-4">Quiz</div>
@@ -1017,7 +1033,7 @@ const Course = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="mt-2">
               <div className="card">
