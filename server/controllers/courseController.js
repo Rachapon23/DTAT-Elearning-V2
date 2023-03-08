@@ -6,7 +6,8 @@ const Plant = require("../models/plant");
 const Calendar = require("../models/calendar");
 const User = require("../models/userModel");
 const CourseValidation = require("../validation/courseValidation");
-const Examiner = require("../models/examiner")
+// const Examiner = require("../models/examiner")
+const studentActivity = require('../models/studentActivity')
 
 exports.createCourse = async (req, res) => {
   try {
@@ -80,8 +81,12 @@ exports.getUserCourse = async (req, res) => {
   try {
     // console.log(req.params)
     const { id } = req.params;
-    const user = await User.find({ coursee: id }).exec()
-    res.send(user);
+    const data = await studentActivity.find({ coursee: id })
+    .populate("user coursee quiz")
+    .exec()
+    // console.log(data)
+    // res.send({user:data.user,course:data.coursee,quiz:data.quiz,data:data});
+    res.send(data)
   } catch (err) {
     console.log("fail to get courses");
     res.status(500).json({ error: "fail to get getUserCourse" });
@@ -144,6 +149,15 @@ exports.addCourse = async (req, res) => {
     const user_push = user.coursee;
 
 
+    console.log(course)
+    const activity = new studentActivity({
+      user:user_id,
+      coursee:id,
+      quiz:course.quiz
+    })
+    
+    await activity.save() 
+
     // console.log(course.member)
     const newCourse = await Coursee.findOneAndUpdate(
       { _id: id },
@@ -158,7 +172,7 @@ exports.addCourse = async (req, res) => {
 
     //************************ */
 
-    res.send({user:newUser,course:newCourse});
+    res.send({user:newUser,course:newCourse,studentActivity:activity});
     // res.send("{user:newUser,course:newCourse}");
   } catch (err) {
     console.log(err);

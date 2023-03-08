@@ -8,57 +8,8 @@ import { getUserCourse } from "../../../../function/teacher/funcCourse";
 import { Table } from "antd";
 
 const CourseManageUser = () => {
-  const [user, setUser] = useState();
-  const columns = [
-    {
-      title: "No",
-      align: "center",
-      dataIndex: "_id",
-      render: (_, dataObj) => {
-        return user.indexOf(dataObj) + 1;
-      },
-    },
-    {
-      title: `employee`,
-      align: "center",
-      dataIndex: "employee_ID",
-    },
-    {
-      title: `department`,
-      align: "center",
-      dataIndex: "department_ID",
-    },
-    {
-      title: `plant`,
-      align: "center",
-      dataIndex: "plant",
-    },
-    {
-      title: `first name`,
-      align: "center",
-      dataIndex: "firstname",
-    },
-    {
-      title: `last name`,
-      align: "center",
-      dataIndex: "lastname",
-    },
-    {
-      title: `Score`,
-      align: "center",
-      dataIndex: "xxxxx",
-    },
-    {
-      title: `manage`,
-      align: "center",
-      render: () => {
-        return "xx";
-      },
-    },
-  ];
-
+  const [data, setData] = useState([]);
   const { id } = useParams();
-  const [course, setCourse] = useState();
 
   //   const navigate = useNavigate();
 
@@ -66,8 +17,9 @@ const CourseManageUser = () => {
     getUserCourse(sessionStorage.getItem("token"), id)
       .then((response) => {
         console.log(response.data);
-        setUser(response.data);
-        // setUser(response.data.user);
+        setData(response.data);
+
+
       })
       .catch((err) => {
         console.log(err);
@@ -82,20 +34,41 @@ const CourseManageUser = () => {
     <div>
       <NavTeacher />
       <div className="container ">
-        {user && (
+        {!!data && (
           <>
             <div className="mt-3">
               <div className="card">
                 <div className="card-body">
-                  <Table
-                    columns={columns}
-                    dataSource={user}
-                    pagination={{
-                      defaultPageSize: 20,
-                      showSizeChanger: true,
-                      pageSizeOptions: ["10", "20", "30"],
-                    }}
-                  />
+                  <table className="table text-center">
+                    <thead>
+                      <tr>
+                        <td scope="col"></td>
+                        <td scope="col">employee</td>
+                        <td scope="col">department</td>
+                        <td scope="col">name</td>
+                        <td scope="col">score</td>
+                        <td scope="col">manage</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.map((item, index) =>
+                        <tr key={index}>
+                          <td scope="row">{index+1}</td>
+                          <td>{item.user.employee_ID}</td>
+                          <td>{item.user.department_ID}</td>
+                          <td>{item.user.firstname} {item.user.lastname}</td>
+                          {!!item.score
+                          ? <td>{item.score}/{item.max_score}</td>
+                          : <td>-</td>
+                          }
+<td>
+  <select name="" id="" className="form-select"></select>
+</td>
+                        </tr>
+                      )}
+
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
