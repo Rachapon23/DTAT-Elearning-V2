@@ -355,3 +355,21 @@ exports.returnRoute = async (req, res) => {
     res.status(500).send("Error your access denied")
   }
 }
+exports.ChangeAmount = async (req, res) => {
+  try {
+    // console.log(req.user)
+    // console.log(req.body)
+
+    const user = await User.findOneAndUpdate({_id:req.user.user_id}
+      ,{
+        amountstudent:parseInt(req.body.amount)
+      }
+      )
+      console.log(user)
+    res.send(user)
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send("Error your ChangeAmount")
+  }
+}

@@ -4,7 +4,7 @@ import NavTeacher from "../../../layout/NavTeacher";
 import "./course.css";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserCourse } from "../../../../function/teacher/funcCourse";
+import { getUserCourse,CourseSuccess } from "../../../../function/teacher/funcCourse";
 import { Table } from "antd";
 
 const CourseManageUser = () => {
@@ -30,6 +30,26 @@ const CourseManageUser = () => {
     fetchCourse();
   }, []);
 
+  const successCourse = (e, user,activity) => {
+    console.log(e.target.value, user)
+    CourseSuccess(sessionStorage.getItem("token"), 
+    {
+      result:e.target.value,
+      user:user,
+      activity:activity,
+      course:id
+    }
+    )
+      .then((response) => {
+        console.log(response.data);
+        fetchCourse()
+      })
+      .catch((err) => {
+        console.log(err);
+
+      });
+  }
+
   return (
     <div>
       <NavTeacher />
@@ -45,6 +65,7 @@ const CourseManageUser = () => {
                         <td scope="col"></td>
                         <td scope="col">employee</td>
                         <td scope="col">department</td>
+                        <td scope="col">plant</td>
                         <td scope="col">name</td>
                         <td scope="col">score</td>
                         <td scope="col">manage</td>
@@ -53,17 +74,22 @@ const CourseManageUser = () => {
                     <tbody>
                       {data.map((item, index) =>
                         <tr key={index}>
-                          <td scope="row">{index+1}</td>
+                          <td scope="row">{index + 1}</td>
                           <td>{item.user.employee_ID}</td>
                           <td>{item.user.department_ID}</td>
+                          <td>{item.user.plant}</td>
                           <td>{item.user.firstname} {item.user.lastname}</td>
-                          {!!item.score
-                          ? <td>{item.score}/{item.max_score}</td>
-                          : <td>-</td>
+                          {!!item.max_score
+                            ? <td>{item.score}/{item.max_score}</td>
+                            : <td>-</td>
                           }
-<td>
-  <select name="" id="" className="form-select"></select>
-</td>
+                          <td>
+                            <select name="result" defaultValue={null} id="" className="form-select"  onChange={(e) => successCourse(e, item.user._id,item._id)}>
+                              <option value={null}></option>
+                              <option value="pass">pass</option>
+                              <option value="notpass">not pass</option>
+                            </select>
+                          </td>
                         </tr>
                       )}
 

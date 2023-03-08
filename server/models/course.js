@@ -32,6 +32,7 @@ const CourseeSchema = new mongoose.Schema(
       type: ObjectId,
       ref:"user"
     }],
+
     image: {
       type: String,
     },

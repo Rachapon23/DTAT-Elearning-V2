@@ -57,7 +57,7 @@ exports.updateQuiz = async (req, res) => {
                 name: head.name,
                 explanation: head.explanation,
                 question: body,
-                attemp: head.attemp,
+                // attemp: head.attemp,
             },
 
 
@@ -75,17 +75,17 @@ exports.updateQuiz = async (req, res) => {
 exports.createQuiz = async (req, res) => {
     try {
 
-        const validated_result = await QuizValidation.createQuizValidate(req);
-        if(!validated_result.valid) return res.status(400).send(validated_result);
+        // const validated_result = await QuizValidation.createQuizValidate(req);
+        // if(!validated_result.valid) return res.status(400).send(validated_result);
 
-        const {head,body} = validated_result.data.body
+        const {head,body} = req.body
         // console.log(head,body)
 
         const quiz = new Quize({
             name:head.name,
             explanation:head.explanation,
             question:body,
-            attemp: head.attemp,
+            // attemp: head.attemp,
             teacher:head.teacher,
             course: head.course,
         })

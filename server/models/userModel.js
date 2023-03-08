@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {ObjectId} = mongoose.Schema
+const { ObjectId } = mongoose.Schema
 
 const UserSchema = new mongoose.Schema({
 
@@ -8,8 +8,8 @@ const UserSchema = new mongoose.Schema({
         require: true,
         unique: true,
     },
-    password:{
-        type:String,
+    password: {
+        type: String,
         require: true,
     },
     department_ID: {
@@ -39,15 +39,28 @@ const UserSchema = new mongoose.Schema({
     },
     coursee: [{
         type: ObjectId,
-        ref:"coursee"
+        ref: "coursee",
+        // unique: true,
     }],
+    history: [{
+        type: ObjectId,
+        ref: "history",
+    }],
+    targetstudent: {
+        type: Number,
+        default: 0,
+    },
+    amountstudent: {
+        type: Number,
+        default: 0,
+    },
     plant: {
         type: String,
     },
-    enabled:{
-        type:Boolean,
+    enabled: {
+        type: Boolean,
         default: true,
     },
-}, {timestamps: true});
+}, { timestamps: true });
 
-module.exports = User = mongoose.model("users",UserSchema);
+module.exports = User = mongoose.model("users", UserSchema);

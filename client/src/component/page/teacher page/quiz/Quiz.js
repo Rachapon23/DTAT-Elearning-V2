@@ -16,7 +16,7 @@ const Quiz = () => {
             name: "",
             explanation: "",
             course: course_id,
-            attemp: 1,
+            // attemp: 1,
             teacher: sessionStorage.getItem('user_id')
         })
     const handleAddQuiz = () => {
@@ -35,7 +35,7 @@ const Quiz = () => {
     const [error, setError] = useState({
         name: "",
         explanation: "",
-        attemp: "",
+        // attemp: "",
         title: "",
         q1: "",
         q2: "",
@@ -213,7 +213,7 @@ const Quiz = () => {
                             <div className="card-body p-5">
 
                                 <div className="row">
-                                    <div className="col-8">
+                                    <div className="col-12">
                                         <label className="form-label">Quiz Name</label>
                                         <input 
                                             type="text" 
@@ -229,7 +229,7 @@ const Quiz = () => {
                                         </div>
                                     </div>
 
-                                    <div className="col-4">
+                                    {/* <div className="col-4">
                                         <label className="form-label"> Attemp </label>
                                         <input 
                                             type="number" 
@@ -245,7 +245,7 @@ const Quiz = () => {
                                         <div className="invalid-feedback">
                                             {nameQuiz.attemp < 1 ? "Attemp number must greater than 0":error.attemp}
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
 
                                 <div className="row">

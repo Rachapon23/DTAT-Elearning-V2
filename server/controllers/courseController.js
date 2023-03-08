@@ -5,6 +5,7 @@ const Layout = require("../models/layout");
 const Plant = require("../models/plant");
 const Calendar = require("../models/calendar");
 const User = require("../models/userModel");
+const History = require('../models/history')
 const CourseValidation = require("../validation/courseValidation");
 // const Examiner = require("../models/examiner")
 const studentActivity = require('../models/studentActivity')
@@ -31,7 +32,7 @@ exports.createCourse = async (req, res) => {
     await course.save();
     res.send(course);
 
-    // console.log(req.body);
+    // console.log(course);
     // res.send("OK corse Private");
   } catch (err) {
     console.log("fail to create the course : ", err);
@@ -81,8 +82,8 @@ exports.getUserCourse = async (req, res) => {
     // console.log(req.params)
     const { id } = req.params;
     const data = await studentActivity.find({ coursee: id })
-    .populate("user coursee quiz")
-    .exec()
+      .populate("user coursee quiz")
+      .exec()
     // console.log(data)
     // res.send({user:data.user,course:data.coursee,quiz:data.quiz,data:data});
     res.send(data)
@@ -124,15 +125,15 @@ exports.addCourse = async (req, res) => {
       if (course.member[i].plant == user.plant) {
         // console.log(course.member[i].plant, user.plant)
         plus = true
-        if(course.member[i].amount <= course.member[i].registerd){
+        if (course.member[i].amount <= course.member[i].registerd) {
           return res.status(400).send(`amount ${course.member[i].plant} is max`)
-        }else{
+        } else {
           course.member[i].registerd = course.member[i].registerd + 1
         }
-     
+
       }
     }
-    if(!plus){
+    if (!plus) {
       return res.status(400).send(`plant not math`)
     }
 
@@ -150,17 +151,17 @@ exports.addCourse = async (req, res) => {
 
     console.log(course)
     const activity = new studentActivity({
-      user:user_id,
-      coursee:id,
-      quiz:course.quiz
+      user: user_id,
+      coursee: id,
+      quiz: course.quiz
     })
-    
-    await activity.save() 
+
+    await activity.save()
 
     // console.log(course.member)
     const newCourse = await Coursee.findOneAndUpdate(
       { _id: id },
-      { user: course_push ,member: course.member }
+      { user: course_push, member: course.member }
       // {member: course.member}
     ).exec();
 
@@ -171,7 +172,7 @@ exports.addCourse = async (req, res) => {
 
     //************************ */
 
-    res.send({user:newUser,course:newCourse,studentActivity:activity});
+    res.send({ user: newUser, course: newCourse, studentActivity: activity });
     // res.send("{user:newUser,course:newCourse}");
   } catch (err) {
     console.log(err);
@@ -181,10 +182,10 @@ exports.addCourse = async (req, res) => {
 
 exports.getMyCourse = async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await User.findOne({ _id: id })
-      .populate("coursee")
-      .select("coursee")
+    // const { id } = req.params;
+    const user = await User.findOne({ _id: req.user.user_id })
+      .populate("coursee history")
+      // .select("coursee")
       .exec();
     res.send(user);
   } catch (err) {
@@ -192,6 +193,7 @@ exports.getMyCourse = async (req, res) => {
     res.status(500).send("Server Error!!! on getMyCourse");
   }
 };
+
 
 exports.deleteMyCourse = async (req, res) => {
   try {
@@ -550,10 +552,10 @@ exports.enablecourse = async (req, res) => {
 
 exports.getCourseHome = async (req, res) => {
   try {
-    const close = await Coursee.find({ statuscourse: true})
+    const close = await Coursee.find({ statuscourse: true })
       .populate("teacher", "-password")
       .exec();
-    const open = await Coursee.find({ statuscourse: false})
+    const open = await Coursee.find({ statuscourse: false })
       .populate("teacher", "-password")
       .exec();
 
@@ -561,5 +563,71 @@ exports.getCourseHome = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error!!! on getCourseHome");
+  }
+};
+exports.CourseSuccess = async (req, res) => {
+  try {
+    const { course, user, activity } = req.body
+
+    const Course = await Coursee.findOne({ _id: course }).exec()
+    const Userr = await User.findOne({ _id: user }).exec()
+    const teacher = await User.findOne({ _id: req.user.user_id }).exec()
+    const Activity = await studentActivity.findOne({ _id: activity }).exec()
+
+    const history = new History({
+      result: req.body.result,
+      score: Activity.score,
+      maxscore: Activity.max_score,
+      course: Course.name
+    })
+
+    await history.save()
+
+    for (let i = 0; i < Course.user.length; i++) {
+      if (Course.user[i] == user) {
+        // console.log(Course.user[i] , user)
+        Course.user.splice(i, 1);
+      }
+    }
+    for (let i = 0; i < Course.member.length; i++) {
+      if (Course.member[i].plant == Userr.plant) {
+        // console.log(Course.user[i] , user)
+        Course.member[i].registerd = Course.member[i].registerd - 1
+      }
+    }
+
+    for (let i = 0; i < Userr.coursee.length; i++) {
+      if (Userr.coursee[i] == course) {
+        // console.log(Course.user[i] , user)
+        Userr.coursee.splice(i, 1);
+      }
+    }
+
+    const activity_delete = await studentActivity.findOneAndDelete(
+      { _id: Activity }
+    ).exec()
+
+    const update_course = await Coursee.findOneAndUpdate(
+      { _id: course },
+      {
+        user: Course.user,
+        member: Course.member
+      }
+    ).exec()
+
+    const update_user = await User.findOneAndUpdate(
+      { _id: user },
+      { history: history, coursee: Userr.coursee }
+    ).exec()
+
+    const update_teacher = await User.findOneAndUpdate(
+      { _id: req.user.user_id },
+      { targetstudent: teacher.targetstudent + 1 }
+    )
+    // console.log(Course)
+    res.send("success");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error!!! on CourseSuccess");
   }
 };

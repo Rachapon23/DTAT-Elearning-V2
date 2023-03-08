@@ -17,7 +17,7 @@ const PublicCourse = () => {
 
     const loadData = () => {
         listHome(sessionStorage.getItem("token")).then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             setCoursedata(res.data.home[0].coursee)
             setReGisCoursedata(res.data.regis[0].coursee)
         }).catch(err => {

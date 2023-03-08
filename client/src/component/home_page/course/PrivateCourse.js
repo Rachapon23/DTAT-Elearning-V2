@@ -52,7 +52,7 @@ const PrivateCourse = ({ course, member }) => {
                   confirmButtonColor: '#0d6efd',
                   confirmButtonText: 'try again'
                 })
-              }else if(err.response.data == 'amount A is max'){
+              }else if(err.response.data.substring(0,6) == 'amount'){
                 Swal.fire({
                   icon: 'error',
                   title: 'Oops...',
@@ -124,7 +124,7 @@ const PrivateCourse = ({ course, member }) => {
                         <p>ลงชื่อแล้ว : {item.registerd} คน</p>
                         <Progress
                         
-                          percent={((item.registerd)/(parseInt(item.amount)))*100}
+                          percent={parseInt(((item.registerd)/(parseInt(item.amount)))*100)}
                           strokeColor={{
                             "0%": "#108ee9",
                             "100%": "#87d068",

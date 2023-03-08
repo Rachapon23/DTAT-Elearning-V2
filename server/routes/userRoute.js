@@ -18,7 +18,8 @@ const {
     getMyaccount,
     uploadProfile,
     updateProfile,
-    returnRoute
+    returnRoute,
+    ChangeAmount
 } = require('../controllers/userController')
 
 /* Multer  */
@@ -50,6 +51,7 @@ router.post('/current-teacher',checkUser,checkTeacher,currentUser)
 
 router.post('/current-admin',checkUser,checkAdmin,currentUser)
 router.post('/get_teacher_by_course_id', checkUser, getTeacherByCourseId)
+router.post('/amount-teacher', checkUser, ChangeAmount)
 
 
 router.get('/check-role',checkUser,checkRole)
