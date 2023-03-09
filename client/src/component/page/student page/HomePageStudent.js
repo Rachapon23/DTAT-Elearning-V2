@@ -5,7 +5,7 @@ import Search from "./ChildrenHome/Search";
 import PublicCourse from "./ChildrenHome/PublicCourse";
 import Calendar from "./ChildrenHome/Calendar";
 import { Table } from "antd";
-import { getMycourse} from "../../../function/student/funcCourse";
+import { getMycourse, getProcess} from "../../../function/student/funcCourse";
 import { useState, useEffect } from "react";
 
 const HomePageStudent = () => {
@@ -92,6 +92,7 @@ const HomePageStudent = () => {
                             item={item}
                             key={index}
                             loadMycourse={loadMycourse}
+                            courseID={item._id}
                           />
                         ))}
                     </div>

@@ -4,7 +4,7 @@ import NavTeacher from '../../../layout/NavTeacher'
 import { updateCourse, updateCourseVideoAmount } from '../../../../function/teacher/funcCourse';
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useParams } from "react-router-dom";
-import { getQuizByCourseID } from "../../../../function/teacher/funcQuiz";
+import { getQuizByCourseID, removeQuiz } from "../../../../function/teacher/funcQuiz";
 import { getCourse } from "../../../../function/teacher/funcCourse";
 import { listRoom } from '../../../../function/teacher/funcMiscellaneous'
 import Swal from "sweetalert2";
@@ -57,6 +57,39 @@ const EditCourse = () => {
     //     password: "",
     //     teacher: sessionStorage.getItem('user_id')
     // })
+
+    const submitRemoveQuiz = (id) =>{
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          //   cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Yes, delete it!'
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            removeQuiz(sessionStorage.getItem("token"), id)
+            .then(res => {
+                console.log(res)
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Your Quiz has been deleted successfully'
+              })
+                loadQuiz()
+              }).catch(err => {
+                console.log(err)
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Something went wrong!',
+                  footer: '<a href="">Why do I have this issue?</a>'
+                })
+              })
+            }
+        })
+    }
 
     const fetchCourse = () => {
         getCourse(sessionStorage.getItem("token"), id)
@@ -249,7 +282,7 @@ const EditCourse = () => {
 
     const handdleSubmit = async (e) => {
         e.preventDefault();
-
+        
         let valid = true;
 
 
@@ -335,15 +368,16 @@ const EditCourse = () => {
                 body: valuetopic
             }
         ).then(async res => {
-
+            
             console.log("res : ", res.data)
+            
             const values = {
                 id: course._id,
                 color: course.calendar[0].color,
                 start: course.calendar[0].start,
                 end: course.calendar[0].end
             }
-
+            
             await updateEvent(sessionStorage.getItem("token"), values)
                 .then(res => {
                     console.log(res)
@@ -354,6 +388,7 @@ const EditCourse = () => {
                 }).catch(err => {
                     console.log(err)
                 })
+                
 
 
 
@@ -457,6 +492,7 @@ const EditCourse = () => {
                 icon: 'success',
                 title: 'Your course updated'
             })
+            
             navigate('/teacher/get-course/' + id)
             // }
 
@@ -853,6 +889,7 @@ const EditCourse = () => {
                                                     actions={[
                                                         <Link className="bi bi-eye-fill h5" to={`/student/test/${dataquiz._id}`} state={{ path: location.pathname }} />,
                                                         <Link className="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${dataquiz._id}`} />,
+                                                        <Link className="bi bi bi-trash-fill h5" onClick={() => submitRemoveQuiz(dataquiz._id)} />,
                                                     ]}
                                                 >
                                                     <Meta

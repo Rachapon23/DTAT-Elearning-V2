@@ -105,11 +105,11 @@ exports.listQuiz = async (req, res) => {
         const user = await User.findOne({_id: user_id}).exec();
 
         if(user.role === "admin") {
-            const quizzs = await Quize.find({}).exec();
+            const quizzs = await Quize.find({}).populate("course", "name").exec();
             return res.send(quizzs);
         }
         else {
-            const quizzs = await Quize.find({teacher:user_id}).exec();
+            const quizzs = await Quize.find({teacher:user_id}).populate("course", "name").exec();
             return res.send(quizzs);
         }
     } catch (err) {
@@ -132,6 +132,7 @@ exports.getQuizByCourseID = async (req, res) => {
     try {
         console.log("THIS ID ",req.params.id)
         const quiz = await Quize.findOne({ course: req.params.id }).exec()
+        console.log("quiz: ",quiz)
         res.send(quiz)
 
     } catch (err) {

@@ -88,6 +88,14 @@ const Listquiz = () => {
       }
     },
     {
+      title: "Course",
+      align: 'center',
+      dataIndex: 'course',
+      render: (_, dataObj) => {
+        return dataObj.course.name
+      }
+    },
+    {
       title: "Quiz Name",
       align: 'center',
       dataIndex: 'name',
@@ -97,13 +105,9 @@ const Listquiz = () => {
       align: 'center',
       dataIndex: 'noq',
       render: (_, dataObj) => {
+        // console.log(dataObj)
         return dataObj.question.length
       }
-    },
-    {
-      title: "Attemp",
-      align: 'center',
-      dataIndex: 'attemp',
     },
     {
       title: "Edit",

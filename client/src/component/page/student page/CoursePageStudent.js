@@ -31,8 +31,8 @@ const CoursePageStudent = () => {
     }]);
     const [videoAmount, setVideoAmount] = useState(0);
     const [studentProcess, setStudentProcess] = useState();
-    const [tempVideoProcess, setTempVideoProcess] = useState([])
-    const [tempIndex, setTempIndex] = useState(0)
+    const [totalProcess, setTotalProcess] = useState(0)
+    const [videoProcess, setVideoProcess] = useState([]);
 
     const navigate = useNavigate()
     const { id } = useParams()
@@ -49,42 +49,73 @@ const CoursePageStudent = () => {
             console.log(err);
             Swal.fire("Alert!", "Cannot fetch course data", "error");
           });
-      };
-
-    const calulateProcess = (data) => {
-        let complete = 0
-        if(!data) {
-            return total_process
-        }
-        for(let i in studentProcess.process) {
-            if(i.played === 1) complete++;
-        }
-        console.log("bar ", (complete * 100), course.video_amount, parseInt((complete * 100) /  course.video_amount))
-        const total_process = parseInt((complete * 100) /  course.video_amount);
-        return total_process
-    }
+    };
 
     const fetchQuiz = () => {
         getQuizByCourseID(sessionStorage.getItem("token"), id)
             .then((res) => {
-                // console.log("DATA PC ->",res.data)
-                setStudentProcess(res.data)
+                console.log("DATA Q ->",res.data)
+                setQuiz(res.data)
+                // setStudentProcess(res.data)
             })
             .catch((err) => {
                 console.log(err)
             })
     }
 
-    const fetchCourse = async () => {
+    useEffect(() => {
+        if(studentProcess) {
+            let complete = 0;
+            console.log("process after course: ",studentProcess)
+            for(let i = 0; i < studentProcess.process.length; i++) {
+                console.log("in loop: ",studentProcess.process[i])
+                if(studentProcess.process[i] === 1) {
+                    complete++;
+                }
+                
+            }
+            
+            console.log("rec: ",studentProcess.process)
+            for(let i = 0 ; i < 3; i++) {
+                console.log(studentProcess.process[i])
+            }
+            setTotalProcess(parseInt((complete * 100) /  course.video_amount));
+        }
+    }, [studentProcess])
+
+    useEffect(() => {
+        console.log("totalProcess:", totalProcess)
+        if(totalProcess !== 100) {
+            updateProcess(sessionStorage.getItem("token"), {course: course._id, completed: false})
+                .then((res) => {
+                    console.log(res)
+                    fetchProcess();
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+        else if(totalProcess === 100) {
+            updateProcess(sessionStorage.getItem("token"), {course: course._id, completed: true})
+                .then((res) => {
+                    console.log(res)
+                    fetchProcess();
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+        
+    }, [totalProcess, course])
+
+    const fetchCourse = () => {
         getCourse(sessionStorage.getItem("token"), id)
-            .then((response) => {
+            .then(async (response) => {
                 console.log(response)
                 setCourse(response.data)
                 setTopic(response.data.topic)
                 setTeacher(response.data.teacher)
                 fetchProcess();
-                
-                
             })
             .catch((err) => {
                 console.log(err)
@@ -186,26 +217,27 @@ const CoursePageStudent = () => {
         setIsModalOpen(false);
     };
 
+    
     const handleVideoEnded = (data, index) => {
         videoEnded.splice(index, 1, data)
-        console.log(videoEnded)
+        console.log("on end before update: ", videoProcess)
+        
         // const totalProcess = videoAmount * 100 
-        let videoProcess = [];
+        
         let complete = 0;
         for(let i = 0 ; i < videoEnded.length ; i++) {
-            // videoProcess += videoEnded[i].played * 100
-            videoProcess.push(videoEnded[i].played) 
-            if(videoEnded[i].played === 1) complete++;
+            videoProcess.splice(index, 1, videoEnded[index].played) 
+            if(videoEnded[index].played === 1) complete++;
         }
+        console.log("on end updated: ", videoProcess)
 
-        
         const total_process = parseInt((complete * 100) /  course.video_amount);
 
         let completed = false
         if(total_process === 100) {
             completed = true
         }
-        console.log(" ->>>>> ", total_process, complete * 100, course.video_amount)
+        console.log("is complete ->>>>> ", studentProcess.completed, complete)
         if(!studentProcess.completed) {
             updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess, completed: completed})
                 .then((res) => {
@@ -222,7 +254,7 @@ const CoursePageStudent = () => {
         videoEnded.splice(index, 1, data)
     }
 
-    const handleRendered = (data) => {
+    const handleRendered = (index, data) => {
         setVideoAmount(data)
     }
 
@@ -261,14 +293,14 @@ const CoursePageStudent = () => {
                                         <h3 className="card-title mb-3 fw-bold">{course.name}</h3>
                                         <p className="card-text fs-6">Detail : {course.description}</p>
                                         {course.status !== "public" ?
-                                            <div className="">
+                                            <div className="container">
                                                 {/* <p className="text-muted "> Course ID : {course.course_number}&nbsp;&nbsp;</p> */}
                                                 <p className="row text-muted ">Teacher : {course.teacher.firstname}</p>
                                                 {
                                                     studentProcess &&
                                                     <div className="row">
                                                         <Progress
-                                                            percent={calulateProcess(studentProcess)}
+                                                            percent={totalProcess}
                                                             strokeColor={{
                                                                 "0%": "#108ee9",
                                                                 "100%": "#87d068",
@@ -292,7 +324,7 @@ const CoursePageStudent = () => {
 
 
                     {
-                        studentProcess && (
+                        quiz && studentProcess && (
                             studentProcess.completed ? (
                                 <div className="card mt-3">
                                     <div className="card-body">
@@ -410,7 +442,7 @@ const CoursePageStudent = () => {
                                                                                             :
 
                                                                                             <>
-                                                                                                {ttem.filetype == "video/mp4" ?
+                                                                                                {studentProcess && ttem.filetype == "video/mp4" ?
                                                                                                     <VideoPlayer
                                                                                                         index={tdex}
                                                                                                         videoName={ttem.name}
@@ -419,6 +451,7 @@ const CoursePageStudent = () => {
                                                                                                         onEnded={handleVideoEnded}
                                                                                                         onProcess={handleVideoProcess}
                                                                                                         onRender={handleRendered}
+                                                                                                        isComplete={studentProcess.process[tdex]}
                                                                                                     />
                                                                                                     
                                                                                                     //  <div className="container">

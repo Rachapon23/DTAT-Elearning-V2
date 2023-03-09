@@ -12,6 +12,7 @@ import { getCourse, removeCourse, enablecourse, } from "../../../../function/tea
 import { updateProcess } from "../../../../function/student/funcCourse"
 import VideoPlayer from '../../childrenComponent/VideoPlayer/VideoPlayer';
 import { getQuizByCourseID } from '../../../../function/student/funcQuiz';
+import { removeQuiz } from "../../../../function/teacher/funcQuiz";
 import { Card } from 'antd';
 
 
@@ -24,13 +25,12 @@ const CoursePageteacher = () => {
     const [dataQuiz, setDataQuiz] = useState([]);
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const [isEnded, setIsEnded] = useState(false);
-    const [videoEnded, setVideoEnded] = useState([{
-        isEnded: false,
-        duration: 0,
-        played: 0,
-    }]);
-    const [videoAmount, setVideoAmount] = useState(0);
+    // const [videoEnded, setVideoEnded] = useState([{
+    //     isEnded: false,
+    //     duration: 0,
+    //     played: 0,
+    // }]);
+    // const [videoAmount, setVideoAmount] = useState(0);
 
     const fetchQuiz = () => {
         getQuizByCourseID(sessionStorage.getItem("token"), id)
@@ -122,6 +122,39 @@ const CoursePageteacher = () => {
 
     }
 
+    const submitRemoveQuiz = (id) =>{
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          //   cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Yes, delete it!'
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            removeQuiz(sessionStorage.getItem("token"), id)
+            .then(res => {
+                console.log(res)
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Your Quiz has been deleted successfully'
+              })
+                fetchQuiz()
+              }).catch(err => {
+                console.log(err)
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Something went wrong!',
+                  footer: '<a href="">Why do I have this issue?</a>'
+                })
+              })
+            }
+        })
+    }
+
     const onChangeEnable = (checked) => {
         console.log(`switch to ${checked}`);
         enablecourse(sessionStorage.getItem("token"),
@@ -139,28 +172,28 @@ const CoursePageteacher = () => {
     };
 
     const handleVideoEnded = (data, index) => {
-        videoEnded.splice(index, 1, data)
-        console.log(videoEnded)
-        // const totalProcess = videoAmount * 100 
-        let videoProcess = [];
-        for(let i = 0 ; i < videoEnded.length ; i++) {
-            // videoProcess += videoEnded[i].played * 100
-            videoProcess.push(videoEnded[i].played) 
-        }
-        // const currentProcess = (videoProcess / totalProcess) * 100
-
-        // console.log(" ->>>>> ", course)
-        updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess}).then((res) => console.log(res))
+        // videoEnded.splice(index, 1, data)
+        // console.log(videoEnded)
+        // // const totalProcess = videoAmount * 100 
+        // let videoProcess = [];
+        // for(let i = 0 ; i < videoEnded.length ; i++) {
+        //     // videoProcess += videoEnded[i].played * 100
+        //     videoProcess.push(videoEnded[i].played) 
+        // }
+        
+        // // const currentProcess = (videoProcess / totalProcess) * 100
+        // updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess}).then((res) => console.log(res))
 
     }
 
     const handleVideoProcess = (data, index) => {
-        videoEnded.splice(index, 1, data)
-        // console.log(videoEnded)
+        // videoEnded.splice(index, 1, data)
+        
+        
     }
 
     const handleRendered = (data) => {
-        setVideoAmount(data)
+        // setVideoAmount(data)
     }
 
     useEffect(() => {
@@ -229,8 +262,9 @@ const CoursePageteacher = () => {
                                                 borderWidth: "2px",
                                             }}
                                             actions={[
-                                                <Link class="bi bi-eye-fill h5" to={`/student/test/${dataQuiz._id}`} state={{path: pathname}}/>,
+                                                // <Link class="bi bi-eye-fill h5" to={`/student/test/${dataQuiz._id}`} state={{path: pathname}}/>,
                                                 <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${dataQuiz._id}`}/>,
+                                                <Link className="bi bi bi-trash-fill h5" onClick={() => submitRemoveQuiz(dataQuiz._id)} />
                                             ]}
                                         >
                                             <Meta
@@ -357,9 +391,6 @@ const CoursePageteacher = () => {
                                                                                                     videoName={ttem.name}
                                                                                                     url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
                                                                                                     disableForward={false}
-                                                                                                    onEnded={handleVideoEnded}
-                                                                                                    onProcess={handleVideoProcess}
-                                                                                                    onRender={handleRendered}
                                                                                                 />
                                                                                             </div>
                                                                                         
