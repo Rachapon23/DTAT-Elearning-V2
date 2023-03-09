@@ -7,13 +7,14 @@ import './CoursePageStudent.css'
 import {
     getCourse, 
     deleteMyCourse,
-    updateProcess
+    updateProcess,
+    getProcess,
 } from "../../../function/student/funcCourse";
 import { getQuizByCourseID } from "../../../function/student/funcQuiz"
 import Swal from "sweetalert2";
 import { Modal } from 'antd';
 import VideoPlayer from '../childrenComponent/VideoPlayer/VideoPlayer';
-import { Card } from 'antd';
+import { Card, Progress } from 'antd';
 
 
 const { Meta } = Card;
@@ -29,29 +30,60 @@ const CoursePageStudent = () => {
         played: 0,
     }]);
     const [videoAmount, setVideoAmount] = useState(0);
+    const [studentProcess, setStudentProcess] = useState();
+    const [tempVideoProcess, setTempVideoProcess] = useState([])
+    const [tempIndex, setTempIndex] = useState(0)
 
     const navigate = useNavigate()
     const { id } = useParams()
     const { pathname } = useLocation()
 
+    const fetchProcess = ()  => {
+        getProcess(sessionStorage.getItem("token"), {course: id})
+          .then((response) => {
+            console.log("process -> ",response.data);
+            setStudentProcess(response.data);
+            
+          })
+          .catch((err) => {
+            console.log(err);
+            Swal.fire("Alert!", "Cannot fetch course data", "error");
+          });
+      };
+
+    const calulateProcess = (data) => {
+        let complete = 0
+        if(!data) {
+            return total_process
+        }
+        for(let i in studentProcess.process) {
+            complete++;
+        }
+        const total_process = (complete * 100) /  course.video_amount;
+        return total_process
+    }
+
     const fetchQuiz = () => {
         getQuizByCourseID(sessionStorage.getItem("token"), id)
             .then((res) => {
-                console.log("DATA ->",res.data)
-                setQuiz(res.data)
+                // console.log("DATA PC ->",res.data)
+                setStudentProcess(res.data)
             })
             .catch((err) => {
                 console.log(err)
             })
     }
 
-    const fetchCourse = () => {
+    const fetchCourse = async () => {
         getCourse(sessionStorage.getItem("token"), id)
             .then((response) => {
                 console.log(response)
                 setCourse(response.data)
                 setTopic(response.data.topic)
                 setTeacher(response.data.teacher)
+                fetchProcess();
+                
+                
             })
             .catch((err) => {
                 console.log(err)
@@ -105,9 +137,42 @@ const CoursePageStudent = () => {
     // }
 
     useEffect(() => {
+        window.addEventListener("beforeunload", alertUser);
+        return () => {
+          window.removeEventListener("beforeunload", alertUser);
+        };
+      }, []);
+
+
+    useEffect(() => {
         fetchCourse();
         fetchQuiz();
     }, []);
+
+    
+
+    const alertUser = (e) => {
+        e.preventDefault();
+        // let videoProcess = [];
+        // for(let i = 0 ; i < videoEnded.length ; i++) {
+        //     // videoProcess += videoEnded[i].played * 100
+        //     videoProcess.push(videoEnded[i].played) 
+        // }
+        // const total_process = (studentProcess.process.length * 100) /  course.video_amount;
+        // let completed = false
+        // if(total_process === 100) {
+        //     completed = true
+        // }
+        
+        // updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess, completed: completed})
+        // .then((res) => {
+        //     console.log(res)
+        //     fetchProcess();
+        // })
+        // .catch((err) => {
+        //     console.log(err)
+        // })
+    };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
@@ -129,16 +194,32 @@ const CoursePageStudent = () => {
             // videoProcess += videoEnded[i].played * 100
             videoProcess.push(videoEnded[i].played) 
         }
-        // const currentProcess = (videoProcess / totalProcess) * 100
 
-        // console.log(" ->>>>> ", course)
-        updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess}).then((res) => console.log(res))
+        let complete = 0;
+        for(let i in studentProcess.process) {
+            complete++;
+        }
+        const total_process = parseInt((complete * 100) /  course.video_amount);
 
+        let completed = false
+        if(total_process === 100) {
+            completed = true
+        }
+        console.log(" ->>>>> ", total_process)
+        if(!studentProcess.completed) {
+            updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess, completed: completed})
+                .then((res) => {
+                    console.log(res)
+                    fetchProcess();
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
     }
 
     const handleVideoProcess = (data, index) => {
         videoEnded.splice(index, 1, data)
-        // console.log(videoEnded)
     }
 
     const handleRendered = (data) => {
@@ -164,9 +245,12 @@ const CoursePageStudent = () => {
                                                 {/* <p className="text-muted "> Course ID : {course.course_number}&nbsp;&nbsp;</p> */}
                                                 <p className="text-muted "> Teacher :&nbsp;</p>
                                                 <a onClick={showModal} className="text-info teacher-link">{course.teacher.firstname}</a>
+                                                
                                             </div>
+                                            
                                             : <div></div>
                                         }
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -177,11 +261,24 @@ const CoursePageStudent = () => {
                                         <h3 className="card-title mb-3 fw-bold">{course.name}</h3>
                                         <p className="card-text fs-6">Detail : {course.description}</p>
                                         {course.status !== "public" ?
-                                            <div className="d-flex">
+                                            <div className="">
                                                 {/* <p className="text-muted "> Course ID : {course.course_number}&nbsp;&nbsp;</p> */}
-                                                <p className="text-muted ">Teacher : {course.teacher.firstname}</p>
+                                                <p className="row text-muted ">Teacher : {course.teacher.firstname}</p>
+                                                {
+                                                    studentProcess &&
+                                                    <div className="row">
+                                                        <Progress
+                                                            percent={calulateProcess(studentProcess)}
+                                                            strokeColor={{
+                                                                "0%": "#108ee9",
+                                                                "100%": "#87d068",
+                                                            }}
+                                                        />
+                                                    </div>
+                                                        
+                                                }
                                             </div>
-
+                                            
                                             : <div></div>
                                         }
                                     </div>
@@ -194,33 +291,36 @@ const CoursePageStudent = () => {
                 }
 
 
-                    <div className="card mt-3">
-                        <div className="card-body">
-                            <Card
-                                style={{
-                                    width: "100%",
-                                    borderWidth: "2px",
-                                }}
-                                actions={[
-                                    <Link class="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{path: pathname}}/>,
-                                    // <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
-                                ]}
-                            >
-                                <Meta
-                                    title={<h4>Quiz</h4>}
-                                    description={<h5>{quiz.name}</h5>}
-                                />
-                            </Card>
-                            {/* <Link style={{textDecoration: 'none'}} className="card" to={`/student/test/${quiz._id}`} state={{path: pathname}}>
-                                <div className="input-group mb ">
-                                    <span className="input-group-text">Quiz</span>
-                                    <div className="col-sm-10 ">
-                                        <input type="text" className="form-control-plaintext ps-3" readOnly={true} value={quiz.name} />
+                    {
+                        studentProcess && (
+                            studentProcess.completed ? (
+                                <div className="card mt-3">
+                                    <div className="card-body">
+                                        <Card
+                                            style={{
+                                                width: "100%",
+                                                borderWidth: "2px",
+                                            }}
+                                            actions={[
+                                                <Link class="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{path: pathname}}/>,
+                                                // <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
+                                            ]}
+                                        >
+                                            <Meta
+                                                title={<h4>Quiz</h4>}
+                                                description={<h5>{quiz.name}</h5>}
+                                            />
+                                        </Card>
                                     </div>
                                 </div>
-                            </Link> */}
-                        </div>
-                    </div>
+                            )
+                            :
+                            (
+                                <div/>
+                            )
+                        ) 
+                        
+                    }
 
                 {course.enabled
                     ? <div>
@@ -312,6 +412,7 @@ const CoursePageStudent = () => {
                                                                                             <>
                                                                                                 {ttem.filetype == "video/mp4" ?
                                                                                                     <VideoPlayer
+                                                                                                        index={tdex}
                                                                                                         videoName={ttem.name}
                                                                                                         url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
                                                                                                         disableForward={true}

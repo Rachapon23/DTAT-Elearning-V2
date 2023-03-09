@@ -189,6 +189,7 @@ export default ({
             duration: videoController.duration,
             played: 1,
         }, index)
+        console.log(index)
     }
 
 
