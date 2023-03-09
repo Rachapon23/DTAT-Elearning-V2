@@ -57,9 +57,10 @@ const CoursePageStudent = () => {
             return total_process
         }
         for(let i in studentProcess.process) {
-            complete++;
+            if(i.played === 1) complete++;
         }
-        const total_process = (complete * 100) /  course.video_amount;
+        console.log("bar ", (complete * 100), course.video_amount, parseInt((complete * 100) /  course.video_amount))
+        const total_process = parseInt((complete * 100) /  course.video_amount);
         return total_process
     }
 
@@ -190,22 +191,21 @@ const CoursePageStudent = () => {
         console.log(videoEnded)
         // const totalProcess = videoAmount * 100 
         let videoProcess = [];
+        let complete = 0;
         for(let i = 0 ; i < videoEnded.length ; i++) {
             // videoProcess += videoEnded[i].played * 100
             videoProcess.push(videoEnded[i].played) 
+            if(videoEnded[i].played === 1) complete++;
         }
 
-        let complete = 0;
-        for(let i in studentProcess.process) {
-            complete++;
-        }
+        
         const total_process = parseInt((complete * 100) /  course.video_amount);
 
         let completed = false
         if(total_process === 100) {
             completed = true
         }
-        console.log(" ->>>>> ", total_process)
+        console.log(" ->>>>> ", total_process, complete * 100, course.video_amount)
         if(!studentProcess.completed) {
             updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess, completed: completed})
                 .then((res) => {
