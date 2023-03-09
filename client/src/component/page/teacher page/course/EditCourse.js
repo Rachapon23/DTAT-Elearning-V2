@@ -334,7 +334,7 @@ const EditCourse = () => {
             }
         ).then(async res => {
 
-            console.log("res : ",res.data)
+            console.log("res : ", res.data)
             const values = {
                 id: course._id,
                 color: course.calendar[0].color,
@@ -342,7 +342,7 @@ const EditCourse = () => {
                 end: course.calendar[0].end
             }
 
-            await  updateEvent(sessionStorage.getItem("token"), values)
+            await updateEvent(sessionStorage.getItem("token"), values)
                 .then(res => {
                     console.log(res)
                     //   Toast.fire({
