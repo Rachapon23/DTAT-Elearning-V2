@@ -7,6 +7,7 @@ import './CoursePageStudent.css'
 import {
     getCourse, 
     deleteMyCourse,
+    updateProcess
 } from "../../../function/student/funcCourse";
 import { getQuizByCourseID } from "../../../function/student/funcQuiz"
 import Swal from "sweetalert2";
@@ -22,6 +23,12 @@ const CoursePageStudent = () => {
     const [topic, setTopic] = useState();
     const [quiz, setQuiz] = useState({});
     const [teacher, setTeacher] = useState({})
+    const [videoEnded, setVideoEnded] = useState([{
+        isEnded: false,
+        duration: 0,
+        played: 0,
+    }]);
+    const [videoAmount, setVideoAmount] = useState(0);
 
     const navigate = useNavigate()
     const { id } = useParams()
@@ -112,6 +119,31 @@ const CoursePageStudent = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+
+    const handleVideoEnded = (data, index) => {
+        videoEnded.splice(index, 1, data)
+        console.log(videoEnded)
+        // const totalProcess = videoAmount * 100 
+        let videoProcess = [];
+        for(let i = 0 ; i < videoEnded.length ; i++) {
+            // videoProcess += videoEnded[i].played * 100
+            videoProcess.push(videoEnded[i].played) 
+        }
+        // const currentProcess = (videoProcess / totalProcess) * 100
+
+        // console.log(" ->>>>> ", course)
+        updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess}).then((res) => console.log(res))
+
+    }
+
+    const handleVideoProcess = (data, index) => {
+        videoEnded.splice(index, 1, data)
+        // console.log(videoEnded)
+    }
+
+    const handleRendered = (data) => {
+        setVideoAmount(data)
+    }
 
 
     return (
@@ -283,6 +315,9 @@ const CoursePageStudent = () => {
                                                                                                         videoName={ttem.name}
                                                                                                         url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
                                                                                                         disableForward={true}
+                                                                                                        onEnded={handleVideoEnded}
+                                                                                                        onProcess={handleVideoProcess}
+                                                                                                        onRender={handleRendered}
                                                                                                     />
                                                                                                     
                                                                                                     //  <div className="container">
