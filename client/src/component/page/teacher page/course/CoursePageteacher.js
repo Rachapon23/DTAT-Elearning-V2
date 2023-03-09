@@ -9,7 +9,7 @@ import { Switch } from 'antd';
 // import Parser from 'html-react-parser';
 import { useNavigate } from 'react-router-dom';
 import { getCourse, removeCourse, enablecourse, } from "../../../../function/teacher/funcCourse";
-import { updateProcess} from "../../../../function/student/funcCourse"
+import { updateProcess } from "../../../../function/student/funcCourse"
 import VideoPlayer from '../../childrenComponent/VideoPlayer/VideoPlayer';
 import { getQuizByCourseID } from '../../../../function/student/funcQuiz';
 import { Card } from 'antd';
@@ -35,7 +35,7 @@ const CoursePageteacher = () => {
     const fetchQuiz = () => {
         getQuizByCourseID(sessionStorage.getItem("token"), id)
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 setDataQuiz(response.data)
             })
             .catch((err) => {
@@ -51,7 +51,7 @@ const CoursePageteacher = () => {
     const fetchCourse = () => {
         getCourse(sessionStorage.getItem("token"), id)
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 setCourse(response.data)
                 setTopic(response.data.topic)
             })
@@ -141,21 +141,39 @@ const CoursePageteacher = () => {
     const handleVideoEnded = (data, index) => {
         videoEnded.splice(index, 1, data)
         console.log(videoEnded)
-        const totalProcess = videoAmount * 100 
-        let videoProcess = 0
+        // const totalProcess = videoAmount * 100 
+        let videoProcess = [];
         for(let i = 0 ; i < videoEnded.length ; i++) {
-            videoProcess += videoEnded[i].played * 100 
+            // videoProcess += videoEnded[i].played * 100
+            videoProcess.push(videoEnded[i].played) 
         }
-        const currentProcess = videoProcess / totalProcess
-        console.log(" ->>>>> ",videoProcess, totalProcess, currentProcess, videoAmount)
-        updateProcess(sessionStorage.getItem("token"), currentProcess).then((res) => console.log(res))
+        // const currentProcess = (videoProcess / totalProcess) * 100
+
+        // console.log(" ->>>>> ", course)
+        updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess}).then((res) => console.log(res))
 
     }
 
     const handleVideoProcess = (data, index) => {
         videoEnded.splice(index, 1, data)
-        console.log(videoEnded)
+        // console.log(videoEnded)
     }
+
+    const handleRendered = (data) => {
+        setVideoAmount(data)
+    }
+
+    useEffect(() => {
+        window.addEventListener("beforeunload", alertUser);
+        return () => {
+          window.removeEventListener("beforeunload", alertUser);
+        };
+      }, []);
+
+    const alertUser = (e) => {
+        e.preventDefault();
+        console.log("ALEART")
+    };
     
 
     return (
@@ -341,8 +359,8 @@ const CoursePageteacher = () => {
                                                                                                     disableForward={false}
                                                                                                     onEnded={handleVideoEnded}
                                                                                                     onProcess={handleVideoProcess}
-                                                                                                /> 
-                                                                                                {setVideoAmount(videoAmount+1)}
+                                                                                                    onRender={handleRendered}
+                                                                                                />
                                                                                             </div>
                                                                                         
                                                                                         )

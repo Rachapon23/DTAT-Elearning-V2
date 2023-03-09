@@ -27,7 +27,9 @@ const {
     getRoom,
     getPlant,
     getUserCourse,
-    getCourseHome
+    getCourseHome,
+    updateCourseData,
+    updateCourseVideoAmount
 
 } = require("../controllers/courseController");
 
@@ -53,6 +55,7 @@ const {checkUser,checkAdmin,checkTeacher} = require('../middleware/middleward')
 router.post("/upload-img",upload, checkUser, checkTeacher, uploadimg);
 router.post("/update-img",upload, checkUser, checkTeacher, updateimg);
 router.post("/upload-file",upload, checkUser ,checkTeacher, uploadfile);
+router.put("/update-video-amount", checkUser, checkTeacher, updateCourseVideoAmount);
 
 
 router.post("/create-course", checkUser, checkTeacher, createCourse);
@@ -79,6 +82,7 @@ router.get("/get-my-course", checkUser, getMyCourse);
 router.get("/get-course/:id", getCourse);
 router.get("/list-public-courses", checkUser, publicCourses);
 router.post("/delete-my-course/:id", checkUser, deleteMyCourse);
+
 
 
 module.exports = router

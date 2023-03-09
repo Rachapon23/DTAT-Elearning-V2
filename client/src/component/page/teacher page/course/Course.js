@@ -1,7 +1,7 @@
 import React from "react";
 import NavTeacher from "../../../layout/NavTeacher";
 import { listQuiz, createQuiz, getQuizByCourseID } from "../../../../function/teacher/funcQuiz";
-import { createCourse } from "../../../../function/teacher/funcCourse";
+import { createCourse, updateCourseVideoAmount } from "../../../../function/teacher/funcCourse";
 import {
   listRoom,
   uploadImg,
@@ -436,7 +436,7 @@ setLoading(true)
       body: valuetopic,
     })
       .then(async (res) => {
-        setNewCourse(res.data._id)
+        // setNewCourse(res.data._id)
         const formData = new FormData();
         formData.append("id", res.data._id);
         formData.append("file", file);
@@ -468,6 +468,8 @@ setLoading(true)
               console.log(err);
             });
         }
+
+        let video_amount = 0;
         for (let i = 0; i < valuetopic.length; i++) {
           for (let j = 0; j < valuetopic[i].file.length; j++) {
             // console.log(valuetopic[i].file[j].name)
@@ -476,6 +478,7 @@ setLoading(true)
             formDatafile.append("topic_number", i);
             formDatafile.append("file_number", j);
             formDatafile.append("file", valuetopic[i].file[j].file);
+            if(valuetopic[i].file[j].file.type === "video/mp4") video_amount++;
             await uploadfile(sessionStorage.getItem("token"), formDatafile)
               .then((res) => {
                 console.log(res);
@@ -485,6 +488,15 @@ setLoading(true)
               });
           }
         }
+
+        await updateCourseVideoAmount(sessionStorage.getItem("token"), {id: res.data._id, data: {video_amount: video_amount}})
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
 
         Toast.fire({
           icon: "success",

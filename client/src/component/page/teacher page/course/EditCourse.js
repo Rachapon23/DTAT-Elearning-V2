@@ -1,10 +1,10 @@
 import React from 'react'
 import NavTeacher from '../../../layout/NavTeacher'
 // import { listQuiz, } from "../../../../function/teacher/funcQuiz";
-import { updateCourse } from '../../../../function/teacher/funcCourse';
+import { updateCourse, updateCourseVideoAmount } from '../../../../function/teacher/funcCourse';
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useParams } from "react-router-dom";
-import { getQuizByCourseID, } from "../../../../function/teacher/funcQuiz";
+import { getQuizByCourseID } from "../../../../function/teacher/funcQuiz";
 import { getCourse } from "../../../../function/teacher/funcCourse";
 import { listRoom } from '../../../../function/teacher/funcMiscellaneous'
 import Swal from "sweetalert2";
@@ -29,6 +29,7 @@ const EditCourse = () => {
     const [nextState, setNextState] = useState([]);
     const [room, setRoom] = useState([]);
     const [file, setFile] = useState('');
+    const [videoAmount, setVideoAmount] = useState(0); 
     const location = useLocation();
     const [plant, setPlant] = useState([]);
 
@@ -203,6 +204,7 @@ const EditCourse = () => {
     }
     const handleRemovefile = (e, index, tdex) => {
         e.preventDefault();
+        console.log(valuetopic[index].file)
         valuetopic[index].file.splice(tdex, 1)
         setNextState([...nextState])
     }
@@ -326,7 +328,7 @@ const EditCourse = () => {
         // }
 
         // if(valid) {
-
+        // console.log(valuetopic[0].file)
         await updateCourse(sessionStorage.getItem("token"),
             {
                 head: course,
@@ -354,6 +356,7 @@ const EditCourse = () => {
                 })
 
 
+
             // if (!!file) {
             //     const formData = new FormData();
             //     formData.append('id', res.data.data._id)
@@ -377,8 +380,56 @@ const EditCourse = () => {
             //             })
             //     }
 
-
-            // }
+                let video_amount = 0;
+                let recv_video_amount = res.data.video_amount
+                // console.log("change dec ->",course.video_amount, res.data.video_amount, course.video_amount - res.data.video_amount)
+                
+                if (res.data.upload.length > 0) {
+                    const array = res.data.upload
+                    for (let i = 0; i < array.length; i++) {
+                        // console.log(array[i].topic_number, array[i].file_number,valuetopic[array[i].topic_number].file[array[i].file_number].file )
+                        const formDatafile = new FormData();
+                        formDatafile.append('id', res.data.data._id)
+                        formDatafile.append('topic_number', array[i].topic_number)
+                        formDatafile.append('file_number', array[i].file_number)
+                        formDatafile.append('file', valuetopic[array[i].topic_number].file[array[i].file_number].file)
+                        if(valuetopic[array[i].topic_number].file[array[i].file_number].filetype === "video/mp4") video_amount++;
+                        
+                        await uploadfile(sessionStorage.getItem("token"), formDatafile).then(res => {
+                            console.log(res)
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Your course updated'
+                            })
+                            navigate('/teacher/get-course/' + id)
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
+                    
+                    await updateCourseVideoAmount(sessionStorage.getItem("token"), {id: res.data.data._id, data: {video_amount: video_amount}})
+                        .then((res) => {
+                            console.log(res);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                } 
+                else {
+                    console.log("-->>> ",course.video_amount, recv_video_amount, recv_video_amount - course.video_amount)
+                    await updateCourseVideoAmount(sessionStorage.getItem("token"), {id: res.data.data._id, data: {video_amount: recv_video_amount * -1}})
+                        .then((res) => {
+                            console.log(res);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Your course updated'
+                    })
+                    navigate('/teacher/get-course/' + id)
+                }
 
 
             // if (res.data.upload.length > 0) {
@@ -998,6 +1049,8 @@ const EditCourse = () => {
                                                                             ttem.file = e.target.files[0]
                                                                             ttem.name = e.target.files[0].name
                                                                             ttem.filetype = e.target.files[0].type
+                                                                            
+                                                                            
                                                                             SetValueTopic([...valuetopic])
                                                                         }}
 

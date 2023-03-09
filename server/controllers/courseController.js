@@ -27,6 +27,7 @@ exports.createCourse = async (req, res) => {
       room: head.room,
       teacher: head.teacher,
       topic: body,
+      video_amount: 0,
     });
 
     await course.save();
@@ -81,6 +82,7 @@ exports.getUserCourse = async (req, res) => {
   try {
     // console.log(req.params)
     const { id } = req.params;
+    console.log(id)
     const data = await studentActivity.find({ coursee: id })
       .populate("user coursee quiz")
       .exec()
@@ -120,7 +122,7 @@ exports.addCourse = async (req, res) => {
     const course = await Coursee.findOne({ _id: id }).exec();
 
     let plus = false;
-
+    console.log(course, user)
     for (let i = 0; i < course.member.length; i++) {
       if (course.member[i].plant == user.plant) {
         // console.log(course.member[i].plant, user.plant)
@@ -268,11 +270,13 @@ exports.updateCourse = async (req, res) => {
       }
     }
 
+
+    let video_amount = 0;
     for (let i = 0; i < topic_after.length; i++) {
       for (let j = 0; j < topic_after[i].file.length; j++) {
         // console.log("the last", topic_after[i].file[j])
         if (topic_after[i].file[j].filename !== "") {
-          // console.log("delete : ",topic_after[i].file[j].filename)
+          if(topic_after[i].file[j].filetype === "video/mp4") video_amount++;
           await fs.unlink(
             "./public/uploads/" + topic_after[i].file[j].filename,
             (err) => {
@@ -325,6 +329,7 @@ exports.updateCourse = async (req, res) => {
       respond = {
         data: course,
         upload: upload,
+        video_amount: video_amount,
       };
     } else {
       //true not have
@@ -359,6 +364,7 @@ exports.updateCourse = async (req, res) => {
         respond = {
           data: course,
           upload: upload,
+          video_amount: video_amount,
         };
       } else {
         console.log(head.image, "do not delete img");
@@ -381,6 +387,7 @@ exports.updateCourse = async (req, res) => {
         respond = {
           data: course,
           upload: upload,
+          video_amount: video_amount,
         };
       }
     }
@@ -571,6 +578,21 @@ exports.getCourseHome = async (req, res) => {
     res.status(500).send("Server Error!!! on getCourseHome");
   }
 };
+
+exports.updateCourseVideoAmount = async (req, res) => {
+  try {
+    const { id } = req.body
+    const { data } = req.body
+    console.log("-->>> ", req.body)
+    await Coursee.findOneAndUpdate({ _id: id}, {$inc: data})
+    
+    res.send("update course data success");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error!!! on update course data");
+  }
+};
+
 exports.CourseSuccess = async (req, res) => {
   try {
     const { course, user, activity } = req.body

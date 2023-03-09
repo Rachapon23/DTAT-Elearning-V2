@@ -56,10 +56,8 @@ headers:{
 }
 });
 
-export const updateProcess  = async(authtoken, process) => 
-await axios.post(process.env.REACT_APP_API+'/student-activity/update-process',{process: process},
-{
-headers:{
-    authtoken,
-}
-});
+
+export const updateProcess = async(authtoken, data) => 
+await axios.put(process.env.REACT_APP_API+'/student-activity/update-process', data,{headers:{authtoken}});
+
+

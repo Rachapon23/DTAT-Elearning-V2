@@ -16,7 +16,7 @@ const CourseManageUser = () => {
   const fetchCourse = () => {
     getUserCourse(sessionStorage.getItem("token"), id)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setData(response.data);
 
 
@@ -30,6 +30,12 @@ const CourseManageUser = () => {
     fetchCourse();
   }, []);
 
+  const calulateProcess = (data) => {
+    console.log("->>> ", data.user.employee_ID, data.process, data.coursee.video_amount)
+    const total_process = (data.process.length * 100) /  data.coursee.video_amount;
+    return total_process
+
+  }
   const successCourse = (e, user,activity) => {
     console.log(e.target.value, user)
     CourseSuccess(sessionStorage.getItem("token"), 
@@ -67,6 +73,7 @@ const CourseManageUser = () => {
                         <td scope="col">department</td>
                         <td scope="col">plant</td>
                         <td scope="col">name</td>
+                        <td scope="col">process</td>
                         <td scope="col">score</td>
                         <td scope="col">manage</td>
                       </tr>
@@ -79,9 +86,12 @@ const CourseManageUser = () => {
                           <td>{item.user.department_ID}</td>
                           <td>{item.user.plant}</td>
                           <td>{item.user.firstname} {item.user.lastname}</td>
-                          {!!item.max_score
-                            ? <td>{item.score}/{item.max_score}</td>
-                            : <td>-</td>
+                          <td>
+                            {calulateProcess(item)}
+                          </td>
+                          {!!item.score
+                          ? <td>{item.score}/{item.max_score}</td>
+                          : <td>-</td>
                           }
                           <td>
                             <select name="result" defaultValue={null} id="" className="form-select"  onChange={(e) => successCourse(e, item.user._id,item._id)}>

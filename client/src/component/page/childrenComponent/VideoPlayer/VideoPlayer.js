@@ -15,6 +15,7 @@ export default ({
     disableForward,
     onEnded,
     onProcess,
+    onRender,
 }) => {
     const [count, setCount] = useState(0);
     const playRef = useRef(null);
@@ -77,7 +78,7 @@ export default ({
     }
 
     const handleProcess = (e) => {
-        console.log(e)
+        // console.log(e)
         if(pused) {
             return;
         }
@@ -102,7 +103,7 @@ export default ({
             setCount(count+1);
         }
 
-        console.log(index, " on process")
+        // console.log(index, " on process")
 
         onProcess({
             isEnded: false,
@@ -258,6 +259,10 @@ export default ({
         setThumbsDisabled(false);
     }
 
+    useEffect(() => {
+        onRender(index+1)
+    })
+
     return (
         <div ref={playerContainerRef} id="playerWrapper" onMouseMove={handleMouseMove} tabIndex="1" onClick={(e) => handleFocus(e)} onKeyDown={(e) => handleKeyDown(e)} >
             <div className="d-flex justify-content-center" >
@@ -271,6 +276,7 @@ export default ({
                     onProgress={(e) => handleProcess(e)}
                     volume={volume[1]}
                     onEnded={(e) => handleEnd(e)}
+                    // onReady={handleReady}
                 />
             </div>
             
