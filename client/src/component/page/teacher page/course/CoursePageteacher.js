@@ -229,8 +229,8 @@ const CoursePageteacher = () => {
                                                 borderWidth: "2px",
                                             }}
                                             actions={[
-                                                <Link class="bi bi-eye-fill h5" to={`/student/test/${dataQuiz._id}`} state={{path: pathname}}/>,
-                                                <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${dataQuiz._id}`}/>,
+                                                <Link className="bi bi-eye-fill h5" to={`/student/test/${dataQuiz._id}`} state={{path: pathname}}/>,
+                                                <Link className="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${dataQuiz._id}`}/>,
                                             ]}
                                         >
                                             <Meta
@@ -351,7 +351,8 @@ const CoursePageteacher = () => {
 
                                                                                     <>
                                                                                         {ttem.filetype === "video/mp4" ? (
-                                                                                            <div>
+                                                                                            <div className="d-flex justify-content-center">
+                                                                                            <div className='w-75'>
                                                                                                 <VideoPlayer
                                                                                                     index={tdex}
                                                                                                     videoName={ttem.name}
@@ -360,8 +361,9 @@ const CoursePageteacher = () => {
                                                                                                     onEnded={handleVideoEnded}
                                                                                                     onProcess={handleVideoProcess}
                                                                                                     onRender={handleRendered}
-                                                                                                />
+                                                                                                    />
                                                                                             </div>
+                                                                                                    </div>
                                                                                         
                                                                                         )
                                                                                             
