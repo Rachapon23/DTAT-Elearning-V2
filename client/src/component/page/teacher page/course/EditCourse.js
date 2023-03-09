@@ -334,28 +334,27 @@ const EditCourse = () => {
                 head: course,
                 body: valuetopic
             }
-            ).then(async res => {
-                console.log("res : ",res.data)
-                const values = {
-                    id: course._id,
-                    color: course.calendar[0].color,
-                    start: course.calendar[0].start,
-                    end: course.calendar[0].end
-                }
-                
-  
-                    
+        ).then(async res => {
 
-                await  updateEvent(sessionStorage.getItem("token"), values)
-                    .then(res => {
-                        console.log(res)
-                        //   Toast.fire({
-                        //       icon: 'success',
-                        //       title: 'Your time table updated'
-                        //   })
-                    }).catch(err => {
-                        console.log(err)
-                    })
+            console.log("res : ", res.data)
+            const values = {
+                id: course._id,
+                color: course.calendar[0].color,
+                start: course.calendar[0].start,
+                end: course.calendar[0].end
+            }
+
+            await updateEvent(sessionStorage.getItem("token"), values)
+                .then(res => {
+                    console.log(res)
+                    //   Toast.fire({
+                    //       icon: 'success',
+                    //       title: 'Your time table updated'
+                    //   })
+                }).catch(err => {
+                    console.log(err)
+                })
+
 
 
             // if (!!file) {

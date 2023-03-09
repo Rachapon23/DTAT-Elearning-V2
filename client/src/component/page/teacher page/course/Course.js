@@ -16,9 +16,14 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Switch } from "antd";
 import CalendarForcourse from "../calendar/CalendarForcourse";
 import { Card } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
+
+
 const { Meta } = Card;
 
 const Course = () => {
+  const[loading,setLoading] = useState(false)
   const [valuetopic, SetValueTopic] = useState([]);
   const [nextState, setNextState] = useState([]);
   const [dataquiz, setDataQuiz] = useState();
@@ -28,7 +33,7 @@ const Course = () => {
   const [plant, setPlant] = useState([]);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   const [nameCourse, setNameCourse] = useState({
     name: "",
     description: "",
@@ -122,7 +127,7 @@ const Course = () => {
     nameCourse.member.push({
       plant: "",
       amount: 0,
-      registerd:0,
+      registerd: 0,
     });
     setNextState([...nextState]);
   };
@@ -210,7 +215,7 @@ const Course = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sure",
-    }).then(async(result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         await createCourse(sessionStorage.getItem("token"), {
           head: nameCourse,
@@ -229,7 +234,7 @@ const Course = () => {
                   console.log(err);
                 });
             }
-    
+
             for (let i = 0; i < res.data.calendar.length; i++) {
               await createCalendar(sessionStorage.getItem("token"), {
                 values: {
@@ -265,15 +270,15 @@ const Course = () => {
                   });
               }
             }
-    
+
             Toast.fire({
               icon: "success",
               title: "Your course created successfully",
             });
             // await setNewCourse(res.data._id)
             // console.log("new -> ",newCourse)
-            navigate("/teacher/quiz/" + res.data._id, {state: {path: `teacher/edit-course/${res.data._id}`}});
-          
+            navigate("/teacher/quiz/" + res.data._id, { state: { path: `teacher/edit-course/${res.data._id}` } });
+
           })
           .catch((err) => {
             console.log(err);
@@ -422,7 +427,8 @@ const Course = () => {
 
 
   const handdleSubmit = async (e) => {
-    if(e) {
+setLoading(true)
+    if (e) {
       e.preventDefault()
     }
     await createCourse(sessionStorage.getItem("token"), {
@@ -496,12 +502,14 @@ const Course = () => {
           icon: "success",
           title: "Your course created successfully",
         });
-        
-        if(e) {
+
+        if (e) {
+          setLoading(false)
           navigate("/teacher/get-course/" + res.data._id);
         }
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err);
       });
   };
@@ -708,21 +716,21 @@ const Course = () => {
                 <div className="card-body ">
                   <Card
                     style={{
-                        width: "100%",
-                        borderWidth: "2px",
+                      width: "100%",
+                      borderWidth: "2px",
                     }}
                     actions={[
-                        <Link class="bi bi-file-plus h5" onClick={handleAddNewQuiz} state={{path: pathname}}/>,
+                      <Link class="bi bi-file-plus h5" onClick={handleAddNewQuiz} state={{ path: pathname }} />,
                     ]}
                   >
                     <Meta
-                        title={<h4>Quiz</h4>}
+                      title={<h4>Quiz</h4>}
                     />
                   </Card>
                 </div>
               </div>
             </div>
-            
+
 
             {/* <div className="card mt-3">
                 <div className="card-body">
@@ -1065,10 +1073,16 @@ const Course = () => {
             </div>
 
             <div className="d-grid my-3">
-              <button type="submit" className="btn btn-primary">
-                {" "}
-                Save{" "}
-              </button>
+              {loading
+                ? <button className="btn" type="button">
+                  <Spin indicator={antIcon} />
+                </button>
+                : <button type="submit" className="btn btn-primary">
+                  {" "}
+                  Save{" "}
+                </button>
+              }
+
             </div>
           </form>
         </div>
