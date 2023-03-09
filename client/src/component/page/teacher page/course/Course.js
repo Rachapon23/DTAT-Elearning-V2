@@ -522,29 +522,6 @@ const Course = () => {
                 />
                 <div className="invalid-feedback">{error.name}</div>
 
-                {/* <div className="row mt-3">
-                                    <div className="col-md-6">
-                                        <label className="form-label">Course ID</label>
-                                        <input 
-                                            type="text" 
-                                            className={
-                                                error.course_number && error.course_number.length !== 0 ? "form-control is-invalid" : "form-control"
-                                            } 
-                                            name='course_number' 
-                                            id='course_number'
-                                            onChange={handAddName} 
-                                        />
-                                        <div className="invalid-feedback">
-                                            {error.course_number}
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label className="form-label">Password</label>
-                                        <input type="text" className="form-control" name='password'
-                                            onChange={handAddName} />
-                                    </div>
-                                </div> */}
-
                 <label className="form-label  mt-3">Description</label>
                 <textarea
                   type="text"

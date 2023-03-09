@@ -2,7 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const {checkUser, checkTeacher, checkAdmin} = require('../middleware/middleward')
-const { updateProcess } = require('../controllers/studentActivity')
+const { updateProcess,sendQuizStudent,listScore ,getAccessNumber} = require('../controllers/studentActivity')
 
 router.post('/quiz/send-quiz', checkUser, sendQuizStudent)
 router.post("/quiz/list-score", checkUser, listScore)

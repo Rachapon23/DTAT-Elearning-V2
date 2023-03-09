@@ -33,131 +33,131 @@ const Calendar = () => {
         coursee: ""
     })
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
+    // const showModal = () => {
+    //     setIsModalOpen(true);
+    // };
 
-    const handleOk = () => {
-        // console.log({ values })
-        if (!!!values.title) {
-            document.getElementById("selector").focus({ focusVisible: true });
-        }
-        else {
-            createCalendar(sessionStorage.getItem("token"), { values })
-                .then(res => {
-                    console.log(res)
-                    setValues({
-                        title: "",
-                        start: '',
-                        end: '',
-                        color: '#0288D1',
-                        coursee: ""
-                    })
-                    setJson("")
-                    loadData()
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Your time table created successfully'
-                    })
+    // const handleOk = () => {
+    //     // console.log({ values })
+    //     if (!!!values.title) {
+    //         document.getElementById("selector").focus({ focusVisible: true });
+    //     }
+    //     else {
+    //         createCalendar(sessionStorage.getItem("token"), { values })
+    //             .then(res => {
+    //                 console.log(res)
+    //                 setValues({
+    //                     title: "",
+    //                     start: '',
+    //                     end: '',
+    //                     color: '#0288D1',
+    //                     coursee: ""
+    //                 })
+    //                 setJson("")
+    //                 loadData()
+    //                 Toast.fire({
+    //                     icon: 'success',
+    //                     title: 'Your time table created successfully'
+    //                 })
 
-                }).catch(err => {
-                    console.log(err)
-                })
-            setIsModalOpen(false);
-        }
+    //             }).catch(err => {
+    //                 console.log(err)
+    //             })
+    //         setIsModalOpen(false);
+    //     }
 
-    };
+    // };
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+    // const handleCancel = () => {
+    //     setIsModalOpen(false);
+    // };
 
-    const onChangeValues = (e) => {
-        // console.log(e)
-        setValues({ ...values, [e.target.name]: e.target.value })
-    }
-    const onChangeColor = (e) => {
-        setValues({ ...values, color: e.hex })
-        setColor(e)
-    }
+    // const onChangeValues = (e) => {
+    //     // console.log(e)
+    //     setValues({ ...values, [e.target.name]: e.target.value })
+    // }
+    // const onChangeColor = (e) => {
+    //     setValues({ ...values, color: e.hex })
+    //     setColor(e)
+    // }
 
-    const handleSelect = (info) => {
-        // console.log(values)
-        showModal();
-        setValues({
-            ...values,
-            start: info.startStr,
-            end: info.endStr
-        })
-    }
-    // console.log()
+    // const handleSelect = (info) => {
+    //     // console.log(values)
+    //     showModal();
+    //     setValues({
+    //         ...values,
+    //         start: info.startStr,
+    //         end: info.endStr
+    //     })
+    // }
+    // // console.log()
 
-    const handleChange = (info) => {
-        const values = {
-            id: info.event._def.extendedProps._id,
-            start: info.event.startStr,
-            end: info.event.endStr
-        }
-        updateEvent(sessionStorage.getItem("token"), values)
-            .then(res => {
-                console.log(res)
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Your time table updated'
-                })
-            }).catch(err => {
-                console.log(err)
-            })
-    }
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
+    // const handleChange = (info) => {
+    //     const values = {
+    //         id: info.event._def.extendedProps._id,
+    //         start: info.event.startStr,
+    //         end: info.event.endStr
+    //     }
+    //     updateEvent(sessionStorage.getItem("token"), values)
+    //         .then(res => {
+    //             console.log(res)
+    //             Toast.fire({
+    //                 icon: 'success',
+    //                 title: 'Your time table updated'
+    //             })
+    //         }).catch(err => {
+    //             console.log(err)
+    //         })
+    // }
+    // const Toast = Swal.mixin({
+    //     toast: true,
+    //     position: 'top-end',
+    //     showConfirmButton: false,
+    //     timer: 3000,
+    //     timerProgressBar: true,
+    //     didOpen: (toast) => {
+    //         toast.addEventListener('mouseenter', Swal.stopTimer)
+    //         toast.addEventListener('mouseleave', Swal.resumeTimer)
+    //     }
+    // })
     
-    const handleClick = (info) => {
-        const id = info.event._def.extendedProps._id
-        // console.log(info.event._def.extendedProps.coursee.teacher)
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            // cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                removeEvent(sessionStorage.getItem("token"), id)
-                    .then(res => {
-                        console.log(res)
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Your time table has been deleted successfully'
-                        })
-                        loadData()
-                    }).catch(err => {
-                        if (err.response.data == "you have no rights") {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'You cannot delete other time table',
-                            })
-                        } else {
-                            console.log(err)
-                        }
+    // const handleClick = (info) => {
+    //     const id = info.event._def.extendedProps._id
+    //     // console.log(info.event._def.extendedProps.coursee.teacher)
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: "You won't be able to revert this!",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#d33',
+    //         // cancelButtonColor: '#3085d6',
+    //         confirmButtonText: 'Yes, delete it!'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             removeEvent(sessionStorage.getItem("token"), id)
+    //                 .then(res => {
+    //                     console.log(res)
+    //                     Toast.fire({
+    //                         icon: 'success',
+    //                         title: 'Your time table has been deleted successfully'
+    //                     })
+    //                     loadData()
+    //                 }).catch(err => {
+    //                     if (err.response.data == "you have no rights") {
+    //                         Swal.fire({
+    //                             icon: 'error',
+    //                             title: 'Error',
+    //                             text: 'You cannot delete other time table',
+    //                         })
+    //                     } else {
+    //                         console.log(err)
+    //                     }
 
 
-                    })
-            }
-        })
-    }
+    //                 })
+    //         }
+    //     })
+    // }
     useEffect(() => {
         loadData()
     }, [])
@@ -170,28 +170,28 @@ const Calendar = () => {
                 console.log(err)
             })
     }
-    const fetchMyCourse = () => {
-        getmyCourseTeacher(sessionStorage.getItem("token"),
-            sessionStorage.getItem("user_id"))
-            .then((response) => {
-                // console.log(response)
-                setCourses(response.data)
-            })
-            .catch((err) => {
-                console.log(err)
+    // const fetchMyCourse = () => {
+    //     getmyCourseTeacher(sessionStorage.getItem("token"),
+    //         sessionStorage.getItem("user_id"))
+    //         .then((response) => {
+    //             // console.log(response)
+    //             setCourses(response.data)
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
 
-            })
-    }
-    useEffect(() => {
-        fetchMyCourse()
-    }, [])
+    //         })
+    // }
+    // useEffect(() => {
+    //     fetchMyCourse()
+    // }, [])
 
-    const handleSelector = (e) => {
-        const course = (JSON.parse(e.target.value))
-        setValues({ ...values, title: course.name, coursee: course._id })
-        setJson(e.target.value)
+    // const handleSelector = (e) => {
+    //     const course = (JSON.parse(e.target.value))
+    //     setValues({ ...values, title: course.name, coursee: course._id })
+    //     setJson(e.target.value)
 
-    }
+    // }
     return (
         <div>
             <NavTeacher />
@@ -211,18 +211,18 @@ const Calendar = () => {
                                     height={700}
                                     themeSystem='bootstrap5'
                                     events={events}
-                                    selectable={true}
-                                    select={handleSelect}
-                                    eventClick={handleClick}
-                                    editable={true}
-                                    eventChange={handleChange}
+                                    // selectable={true}
+                                    // select={handleSelect}
+                                    // eventClick={handleClick}
+                                    // editable={true}
+                                    // eventChange={handleChange}
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Modal title="Create time table" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            {/* <Modal title="Create time table" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <div className="mb-5 mt-4">
                     <div className="form-group mb-3">
                         <label className='form-label'> Select Course </label>
@@ -242,7 +242,7 @@ const Calendar = () => {
                         </div>
                     </div>
                 </div>
-            </Modal>
+            </Modal> */}
 
         </div>
     )
