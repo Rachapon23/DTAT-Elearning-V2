@@ -30,6 +30,13 @@ const CourseManageUser = () => {
     fetchCourse();
   }, []);
 
+  const calulateProcess = (process) => {
+    console.log(process)
+    // for(i in process) {
+
+    // }
+  }
+
   return (
     <div>
       <NavTeacher />
@@ -46,6 +53,7 @@ const CourseManageUser = () => {
                         <td scope="col">employee</td>
                         <td scope="col">department</td>
                         <td scope="col">name</td>
+                        <td scope="col">process</td>
                         <td scope="col">score</td>
                         <td scope="col">manage</td>
                       </tr>
@@ -57,6 +65,9 @@ const CourseManageUser = () => {
                           <td>{item.user.employee_ID}</td>
                           <td>{item.user.department_ID}</td>
                           <td>{item.user.firstname} {item.user.lastname}</td>
+                          <td>
+                            {calulateProcess(item)}
+                          </td>
                           {!!item.score
                           ? <td>{item.score}/{item.max_score}</td>
                           : <td>-</td>

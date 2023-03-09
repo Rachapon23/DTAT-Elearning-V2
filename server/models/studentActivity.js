@@ -8,7 +8,7 @@ const studentActivitySchema = new mongoose.Schema({
     },
     coursee:{
         type: ObjectId,
-        ref: "coursee",
+        ref:"coursee"
     },
     score: {
         type: Number,
@@ -24,7 +24,7 @@ const studentActivitySchema = new mongoose.Schema({
         type: []
     },
     process: {
-        type: Number,
+        type: [],
     },
 }, {timestamps: true});
 

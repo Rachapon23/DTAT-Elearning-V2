@@ -140,15 +140,16 @@ const CoursePageteacher = () => {
     const handleVideoEnded = (data, index) => {
         videoEnded.splice(index, 1, data)
         console.log(videoEnded)
-        const totalProcess = videoAmount * 100 
-        let videoProcess = 0
+        // const totalProcess = videoAmount * 100 
+        let videoProcess = [];
         for(let i = 0 ; i < videoEnded.length ; i++) {
-            videoProcess += videoEnded[i].played * 100 
+            // videoProcess += videoEnded[i].played * 100
+            videoProcess.push(videoEnded[i].played) 
         }
-        const currentProcess = (videoProcess / totalProcess) * 100
+        // const currentProcess = (videoProcess / totalProcess) * 100
 
-        console.log(" ->>>>> ", course)
-        updateProcess(sessionStorage.getItem("token"), {process: currentProcess, course: course._id}).then((res) => console.log(res))
+        // console.log(" ->>>>> ", course)
+        updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess}).then((res) => console.log(res))
 
     }
 
@@ -160,6 +161,18 @@ const CoursePageteacher = () => {
     const handleRendered = (data) => {
         setVideoAmount(data)
     }
+
+    useEffect(() => {
+        window.addEventListener("beforeunload", alertUser);
+        return () => {
+          window.removeEventListener("beforeunload", alertUser);
+        };
+      }, []);
+
+    const alertUser = (e) => {
+        e.preventDefault();
+        console.log("ALEART")
+    };
     
 
     return (

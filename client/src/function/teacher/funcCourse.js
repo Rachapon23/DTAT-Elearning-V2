@@ -63,3 +63,6 @@ headers:{
     authtoken,
 }
 });
+
+export const updateCourseVideoAmount = async(authtoken, data) =>
+await axios.put(process.env.REACT_APP_API+'/update-video-amount', data,{headers:{authtoken}});

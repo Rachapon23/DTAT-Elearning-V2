@@ -40,6 +40,9 @@ const CourseeSchema = new mongoose.Schema(
       default: false,
     },
     topic: [],
+    video_amount: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
