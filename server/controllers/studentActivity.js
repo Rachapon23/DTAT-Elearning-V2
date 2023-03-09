@@ -138,8 +138,8 @@ exports.updateProcess = async (req, res) => {
     try {
         const { course, process } = req.body;
         const { user_id } = req.user
-        console.log(process, user_id)
-         await StudentActivity.findOneAndUpdate({user: user_id, coursee: course}, {process: process}).exec()
+        console.log("process -> ",process, user_id)
+         await studentActivity.findOneAndUpdate({user: user_id, coursee: course}, {process: process}).exec()
         res.send("update process success")
     }
     catch(err) {

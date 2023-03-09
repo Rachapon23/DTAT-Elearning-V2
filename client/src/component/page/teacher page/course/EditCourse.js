@@ -328,21 +328,12 @@ const EditCourse = () => {
         // }
 
         // if(valid) {
-
+        // console.log(valuetopic[0].file)
         await updateCourse(sessionStorage.getItem("token"),
             {
                 head: course,
                 body: valuetopic
             }
-        ).then(async res => {
-
-        if(valid) {
-        // console.log(valuetopic[0].file)
-            await updateCourse(sessionStorage.getItem("token"),
-                {
-                    head: course,
-                    body: valuetopic
-                }
             ).then(async res => {
                 console.log("res : ",res.data)
                 const values = {
@@ -355,16 +346,16 @@ const EditCourse = () => {
   
                     
 
-            await  updateEvent(sessionStorage.getItem("token"), values)
-                .then(res => {
-                    console.log(res)
-                    //   Toast.fire({
-                    //       icon: 'success',
-                    //       title: 'Your time table updated'
-                    //   })
-                }).catch(err => {
-                    console.log(err)
-                })
+                await  updateEvent(sessionStorage.getItem("token"), values)
+                    .then(res => {
+                        console.log(res)
+                        //   Toast.fire({
+                        //       icon: 'success',
+                        //       title: 'Your time table updated'
+                        //   })
+                    }).catch(err => {
+                        console.log(err)
+                    })
 
 
             // if (!!file) {
