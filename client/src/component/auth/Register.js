@@ -204,6 +204,7 @@ const Register = () => {
                           <select name="plant" id="" 
                           onChange={handleChange}
                           className="form-select">
+                            <option value={null}></option>
                           {plant.map((ptem, pdex) => (
                                     <option key={pdex} value={ptem.plantname}>
                                       {ptem.plantname}

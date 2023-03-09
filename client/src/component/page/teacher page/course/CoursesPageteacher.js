@@ -5,7 +5,7 @@ import './course.css'
 import NavTeacher from "../../../layout/NavTeacher";
 import { getmyCourseTeacher } from '../../../../function/teacher/funcCourse';
 import { useNavigate } from 'react-router-dom'
-
+import { Empty } from 'antd';
 const CoursesPageteacher = () => {
     const [courses, setCourses] = useState([]);
     const [filter, setFilter] = useState("all");
@@ -46,7 +46,7 @@ const CoursesPageteacher = () => {
 
     const createCourse = () => {
         navigate('/teacher/course')
-      }
+    }
 
     return (
         <div>
@@ -64,31 +64,41 @@ const CoursesPageteacher = () => {
                 </div>
 
                 <div className='row'>
+                    {courses.length > 0
+                        ? <>
+                            {
+                                courses.map((course, index) => (
+                                    <div className="col-md-6 p-2" key={index}>
+                                        <div className="card back-public-2 shadow-sm back-public-black-2" onClick={() => nextToCourse(course._id)}>
+                                            {course.image
+                                                ? <img src={`${process.env.REACT_APP_IMG}/${course.image}`} className="card-img-top w-100" />
+                                                : <img src="/book-main-img-3.png" className="card-img-top w-100" />
+                                            }
+                                            <div className="card-body ">
+                                                <div className="d-flex justify-content-between">
+                                                    <p className="card-title mb-0">{course.name}</p>
+                                                    <div className="d-flex">
+                                                        <p className="card-title mb-0">Status :</p>
+                                                        {course.enabled
+                                                            ? <p className="card-title text-success ms-2"> Enable </p>
+                                                            : <p className="card-title text-danger ms-2"> Disable </p>
+                                                        }
+                                                    </div>
 
-                    {
-                        courses.map((course, index) => (
-                            <div className="col-md-6 p-2" key={index}>
-                                <div className="card back-public-2 shadow-sm back-public-black-2" onClick={() => nextToCourse(course._id)}>
-                                    {course.image
-                                        ? <img src={`${process.env.REACT_APP_IMG}/${course.image}`} className="card-img-top w-100" />
-                                        : <img src="/book-main-img-3.png" className="card-img-top w-100" />
-                                    }
-                                    <div className="card-body ">
-                                        <div className="d-flex justify-content-between">
-                                            <p className="card-title mb-0">{course.name}</p>
-                                            <div className="d-flex">
-                                                <p className="card-title mb-0">Status :</p>
-                                                {course.enabled
-                                                    ? <p className="card-title text-success ms-2"> Enable </p>
-                                                    : <p className="card-title text-danger ms-2"> Disable </p>
-                                                }
+                                                </div>
                                             </div>
-
                                         </div>
-                                    </div>
-                                </div>
-                            </div>))
-                    } </div>
+                                    </div>))
+                            }
+                        </>
+                        :
+                        <div className='mt-5'>
+
+                            <Empty />
+                        </div>
+                    }
+
+                </div>
             </div>
         </div>
     )
