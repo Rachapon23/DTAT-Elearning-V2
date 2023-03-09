@@ -5,7 +5,7 @@ import './student.css'
 import { useNavigate } from 'react-router-dom'
 import './CoursePageStudent.css'
 import {
-    getCourse, 
+    getCourse,
     deleteMyCourse,
     updateProcess
 } from "../../../function/student/funcCourse";
@@ -37,7 +37,7 @@ const CoursePageStudent = () => {
     const fetchQuiz = () => {
         getQuizByCourseID(sessionStorage.getItem("token"), id)
             .then((res) => {
-                console.log("DATA ->",res.data)
+                console.log("DATA ->", res.data)
                 setQuiz(res.data)
             })
             .catch((err) => {
@@ -125,14 +125,14 @@ const CoursePageStudent = () => {
         console.log(videoEnded)
         // const totalProcess = videoAmount * 100 
         let videoProcess = [];
-        for(let i = 0 ; i < videoEnded.length ; i++) {
+        for (let i = 0; i < videoEnded.length; i++) {
             // videoProcess += videoEnded[i].played * 100
-            videoProcess.push(videoEnded[i].played) 
+            videoProcess.push(videoEnded[i].played)
         }
         // const currentProcess = (videoProcess / totalProcess) * 100
 
         // console.log(" ->>>>> ", course)
-        updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess}).then((res) => console.log(res))
+        updateProcess(sessionStorage.getItem("token"), { course: course._id, process: videoProcess }).then((res) => console.log(res))
 
     }
 
@@ -194,24 +194,24 @@ const CoursePageStudent = () => {
                 }
 
 
-                    <div className="card mt-3">
-                        <div className="card-body">
-                            <Card
-                                style={{
-                                    width: "100%",
-                                    borderWidth: "2px",
-                                }}
-                                actions={[
-                                    <Link class="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{path: pathname}}/>,
-                                    // <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
-                                ]}
-                            >
-                                <Meta
-                                    title={<h4>Quiz</h4>}
-                                    description={<h5>{quiz.name}</h5>}
-                                />
-                            </Card>
-                            {/* <Link style={{textDecoration: 'none'}} className="card" to={`/student/test/${quiz._id}`} state={{path: pathname}}>
+                <div className="card mt-3">
+                    <div className="card-body">
+                        <Card
+                            style={{
+                                width: "100%",
+                                borderWidth: "2px",
+                            }}
+                            actions={[
+                                <Link className="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{ path: pathname }} />,
+                                // <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
+                            ]}
+                        >
+                            <Meta
+                                title={<h4>Quiz</h4>}
+                                description={<h5>{quiz.name}</h5>}
+                            />
+                        </Card>
+                        {/* <Link style={{textDecoration: 'none'}} className="card" to={`/student/test/${quiz._id}`} state={{path: pathname}}>
                                 <div className="input-group mb ">
                                     <span className="input-group-text">Quiz</span>
                                     <div className="col-sm-10 ">
@@ -219,8 +219,8 @@ const CoursePageStudent = () => {
                                     </div>
                                 </div>
                             </Link> */}
-                        </div>
                     </div>
+                </div>
 
                 {course.enabled
                     ? <div>
@@ -311,15 +311,19 @@ const CoursePageStudent = () => {
 
                                                                                             <>
                                                                                                 {ttem.filetype == "video/mp4" ?
-                                                                                                    <VideoPlayer
-                                                                                                        videoName={ttem.name}
-                                                                                                        url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
-                                                                                                        disableForward={true}
-                                                                                                        onEnded={handleVideoEnded}
-                                                                                                        onProcess={handleVideoProcess}
-                                                                                                        onRender={handleRendered}
-                                                                                                    />
-                                                                                                    
+                                                                                                    <div className="d-flex justify-content-center">
+                                                                                                        <div className='w-75'>
+                                                                                                            <VideoPlayer
+                                                                                                                videoName={ttem.name}
+                                                                                                                url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
+                                                                                                                disableForward={true}
+                                                                                                                onEnded={handleVideoEnded}
+                                                                                                                onProcess={handleVideoProcess}
+                                                                                                                onRender={handleRendered}
+                                                                                                            />
+                                                                                                        </div>
+                                                                                                    </div>
+
                                                                                                     //  <div className="container">
                                                                                                     //     {/* <p>{(ttem.name).split('.')[0]}</p> */}
                                                                                                     //     <div className="d-flex justify-content-center">
@@ -335,18 +339,21 @@ const CoursePageStudent = () => {
                                                                                                     // </div>
                                                                                                     :
                                                                                                     <>
-                                                                                                        {ttem.filetype === "application/vnd.openxmlformats-officedocument.presentationml.presentation"? 
-                                                                                                        <div>
-                                                                                                            <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-warning">
-                                                                                                                <i className="bi bi-filetype-ppt"></i> {ttem.name}</a>
-                                                                                                        </div>
-                                                                                                        :
-                                                                                                        <>
-    
-                                                                                                            <p>Cannot read file</p>
-                                                                                                        </>
-                                                                                                    }
-                                                                                                </>
+                                                                                                        {ttem.filetype === "application/vnd.openxmlformats-officedocument.presentationml.presentation" ?
+                                                                                                            <div>
+                                                                                                                <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-warning">
+                                                                                                                    <i className="bi bi-filetype-ppt"></i> {ttem.name}</a>
+                                                                                                            </div>
+                                                                                                            :
+                                                                                                            <>
+
+                                                                                                                <div>
+                                                                                                                    <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-success">
+                                                                                                                    <i className="bi bi-file-arrow-down"></i>  {ttem.name}</a>
+                                                                                                                </div>
+                                                                                                            </>
+                                                                                                        }
+                                                                                                    </>
                                                                                                 }
                                                                                             </>
                                                                                         }
@@ -367,13 +374,13 @@ const CoursePageStudent = () => {
                                         }
                                     </div>
 
-                                    
-                                    
+
+
                                     <hr className="mt-5 mb-4 text-secondary" />
                                 </div>
                             ))}
                         </div>
-                       
+
                         {/* {course.password == ""
                             ? <></>
                             : <div className="mb-5 mt-3">
