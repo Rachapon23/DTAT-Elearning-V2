@@ -17,13 +17,14 @@ headers:{
 }
 });
 
-export const getMycourse  = async(authtoken,id) =>
-await axios.get(process.env.REACT_APP_API+'/get-my-course/'+id,
+export const getMycourse  = async(authtoken) =>
+await axios.get(process.env.REACT_APP_API+'/get-my-course/',
 {
 headers:{
     authtoken,
 }
 });
+
 
 export const getCourse  = async(authtoken,id) =>
 await axios.get(process.env.REACT_APP_API+'/get-course/'+id);

@@ -1,13 +1,15 @@
 import React from 'react'
 import NavTeacher from '../../layout/NavTeacher'
 import { useState, useEffect } from 'react'
-import { getMyaccount, uploadProfile, updateProfile } from '../../../function/teacher/funcMiscellaneous'
+import { getMyaccount, uploadProfile, updateProfile, postAmount} from '../../../function/teacher/funcMiscellaneous'
 import { getmyCourseTeacher } from '../../../function/teacher/funcCourse';
 import { listQuiz } from "../../../function/teacher/funcQuiz";
+import { Progress } from "antd";
 import './teacher.css'
 const HomePageTeacher = () => {
   // const [nextState, setNextState] = useState([]);
   const [edit, setEdit] = useState(false);
+  const [edit2, setEdit2] = useState(true);
   const [data, setData] = useState([]);
   const [courses, setCourses] = useState([]);
   const [file, setFile] = useState();
@@ -18,6 +20,8 @@ const HomePageTeacher = () => {
       tel: ""
     }
   );
+
+  const [amount, setAmount] = useState(0)
 
   const loadData = () => {
     getMyaccount(sessionStorage.getItem("token"))
@@ -36,7 +40,7 @@ const HomePageTeacher = () => {
   const fetchMyCourse = () => {
     getmyCourseTeacher(sessionStorage.getItem("token"))
       .then((response) => {
-        console.log("course : ", response.data)
+        // console.log("course : ", response.data)
         setCourses(response.data)
       })
       .catch((err) => {
@@ -48,7 +52,7 @@ const HomePageTeacher = () => {
       sessionStorage.getItem("token")
     )
       .then(res => {
-        console.log("quiz : ", res.data)
+        // console.log("quiz : ", res.data)
         setDataQuiz(res.data)
       })
       .catch(err => {
@@ -114,6 +118,22 @@ const HomePageTeacher = () => {
     }
 
 
+  }
+
+  const changeTarget = () =>{
+    postAmount(sessionStorage.getItem("token"),
+    {
+      amount:amount
+    }
+    )
+    .then(res => {
+      console.log(res.data)
+      loadData()
+      setEdit2(true)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   return (
@@ -254,7 +274,49 @@ const HomePageTeacher = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-6"></div>
+              <div className="col-md-6">
+
+                <div className="card">
+                  <div className="card-body p-5">
+                    <div>
+                      <div className='d-flex justify-content-center mb-3 position-relative'>
+                        <span className="position-absolute top-0 start-100 translate-middle p-2"
+                          onClick={() => setEdit2(!edit2)}
+                        >
+                          <i className="bi bi-pencil-square text-secondary edit-icon"></i>
+                        </span>
+                        <div className="row">
+                          {edit2
+                            ?
+                            <p>เป้าหมายประจำปี : {data.amountstudent} คน</p>
+                            :
+                            <div className="form-froup  mb-4">
+                              <label className="form-label">กำหนดเป้าหมาย</label>
+                              <div className="input-group">
+                                <input type="number" className="form-control"
+                                  onChange={(e) => setAmount(e.target.value)}
+                                />
+                                <button className="btn btn-info text-white" onClick={changeTarget}>อัพเดต</button>
+                              </div>
+                            </div>
+                          }
+                          <hr />
+                          <p>จำนวนตอนนี้ : {data.targetstudent} คน</p>
+                          <hr />
+                          <Progress
+                            percent={parseInt((data.targetstudent / data.amountstudent) * 100)}
+                            strokeColor={{
+                              "0%": "#108ee9",
+                              "100%": "#87d068",
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>

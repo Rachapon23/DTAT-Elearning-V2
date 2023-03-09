@@ -67,35 +67,35 @@ const CoursePageStudent = () => {
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     })
-    const handleRemove = (id) => {
-        // console.log(id)
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            // cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                deleteMyCourse(sessionStorage.getItem("token"),
-                    sessionStorage.getItem("user_id"), id).then(res => {
-                        console.log(res)
-                        //   loadMycourse()
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Your file has been deleted successfully'
-                        })
+    // const handleRemove = (id) => {
+    //     // console.log(id)
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: "You won't be able to revert this!",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#d33',
+    //         // cancelButtonColor: '#3085d6',
+    //         confirmButtonText: 'Yes, delete it!'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             deleteMyCourse(sessionStorage.getItem("token"),
+    //                 sessionStorage.getItem("user_id"), id).then(res => {
+    //                     console.log(res)
+    //                     //   loadMycourse()
+    //                     Toast.fire({
+    //                         icon: 'success',
+    //                         title: 'Your file has been deleted successfully'
+    //                     })
 
-                        navigate('/student/home')
-                    }).catch(err => {
-                        console.log(err)
-                    })
+    //                     navigate('/student/home')
+    //                 }).catch(err => {
+    //                     console.log(err)
+    //                 })
 
-            }
-        })
-    }
+    //         }
+    //     })
+    // }
 
     useEffect(() => {
         fetchCourse();
@@ -117,7 +117,7 @@ const CoursePageStudent = () => {
     return (
         <div>
             <NavStudent />
-            <div className="container ">
+            <div className="container">
                 {course &&
                     <>
                         {course.image
@@ -160,6 +160,7 @@ const CoursePageStudent = () => {
 
 
                 }
+
 
                     <div className="card mt-3">
                         <div className="card-body">
@@ -338,14 +339,14 @@ const CoursePageStudent = () => {
                             ))}
                         </div>
                        
-                        {course.password == ""
+                        {/* {course.password == ""
                             ? <></>
                             : <div className="mb-5 mt-3">
                                 <button className="btn btn-danger" type="button"
                                     onClick={() => handleRemove(id)}
                                 > Leave course </button>
                             </div>
-                        }
+                        } */}
                         <Modal title={`Teacher : ${teacher.firstname} ${teacher.lastname}`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={[]}>
                             <div className="row p-2">
                                 <div className="col-md-6 mt-2">

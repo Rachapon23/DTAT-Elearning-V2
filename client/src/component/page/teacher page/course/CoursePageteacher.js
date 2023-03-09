@@ -19,7 +19,8 @@ const { Meta } = Card;
 const CoursePageteacher = () => {
     const { id } = useParams();
     const [course, setCourse] = useState("");
-    const [topic, setTopic] = useState();
+    const [topic, setTopic] = useState([]);
+
     const [dataQuiz, setDataQuiz] = useState([]);
     const navigate = useNavigate();
     const { pathname } = useLocation();

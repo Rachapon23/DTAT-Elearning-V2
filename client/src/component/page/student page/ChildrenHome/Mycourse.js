@@ -10,7 +10,7 @@ const Mycourse = ({ item, loadMycourse }) => {
   const navigate = useNavigate()
 
   const nextToCourse = (params) => {
-    console.log(params)
+    // console.log(params)
     if (item.enabled) {
       navigate('/student/get-course/' + params)
     } else {
