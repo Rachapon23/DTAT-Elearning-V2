@@ -171,7 +171,7 @@ const CoursePageStudent = () => {
                                 }}
                                 actions={[
                                     <Link class="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{path: pathname}}/>,
-                                    <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
+                                    // <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
                                 ]}
                             >
                                 <Meta
