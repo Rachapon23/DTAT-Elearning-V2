@@ -26,6 +26,9 @@ const studentActivitySchema = new mongoose.Schema({
     process: {
         type: [],
     },
+    completed: {
+        type: Boolean,
+    }
 }, {timestamps: true});
 
 module.exports = studentActivity = mongoose.model("studentactivity", studentActivitySchema);

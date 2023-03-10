@@ -13,9 +13,10 @@ export default ({
     videoName,
     url,
     disableForward,
-    onEnded,
-    onProcess,
-    onRender,
+    isComplete,
+    onEnded=null,
+    onProcess=null,
+    onRender=null,
 }) => {
     const [count, setCount] = useState(0);
     const playRef = useRef(null);
@@ -105,11 +106,13 @@ export default ({
 
         // console.log(index, " on process")
 
-        onProcess({
-            isEnded: false,
-            duration: videoController.duration,
-            played: e.played,
-        }, index)
+        if(onProcess) {
+            onProcess({
+                isEnded: false,
+                duration: videoController.duration,
+                played: e.played,
+            }, index)
+        }
     }
 
     const handleSeek = (value) => {
@@ -184,11 +187,14 @@ export default ({
         playerSeekBar.current.thumb[1].current.focus()
         playerControl.current.style.opacity = 1;
         playerControl.current.style.cursor = "auto";
-        onEnded({
-            isEnded: true,
-            duration: videoController.duration,
-            played: 1,
-        }, index)
+        if(onEnded) {
+            onEnded({
+                isEnded: true,
+                duration: videoController.duration,
+                played: 1,
+            }, index)
+        }
+        console.log(index)
     }
 
 
@@ -260,7 +266,9 @@ export default ({
     }
 
     useEffect(() => {
-        onRender(index+1)
+        if(onRender) {
+            onRender(index,index+1)
+        }
     })
 
     return (
@@ -282,9 +290,12 @@ export default ({
             
             <div ref={playerControl} id="controlWarpper" className='container-fluid' >
                 <div className="row d-flex justify-content-between pt-2">
-                    <div >
+                    <div className="col">
                         <h2 style={{color: "white"}}>{videoName}</h2>
+                        {/* <h1>{JSON.stringify(isComplete)} / {JSON.stringify(index)}</h1> */}
                     </div>
+                    {isComplete && <i className="col pt-1 bi bi-patch-check-fill d-flex justify-content-end" style={{fontSize: "2rem", color: "white"}}/>}
+                    
                 </div>
 
                 <div id="controlIcons" className="col d-flex justify-content-center align-self-center align-self-stretch" onClick={handlePlayVideo}>

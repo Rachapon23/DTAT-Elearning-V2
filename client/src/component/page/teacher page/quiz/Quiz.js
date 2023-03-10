@@ -180,11 +180,14 @@ const Quiz = () => {
                     if(!location.state.path) return
 
                     const pre_path = location.state.path
-                    console.log( pre_path.split("/"))
+                    const part = pre_path.split("/")
+                    console.log( "pre: ",pre_path.split("/"))
                     if(pre_path.includes("edit-course")) {
-                        navigate(`/teacher/edit-course/${pre_path.split("/")[2]}`)
+                        console.log("from edit")
+                        navigate(`/teacher/get-course/${part[part.length - 1]}`)
                     }
                     else {
+                        console.log("SDSDSD")
                         navigate(location.state.path)
                     }
                     
@@ -199,6 +202,8 @@ const Quiz = () => {
         valueQuiz.splice(index, 1)
         setNextState([...nextState])
     }
+
+    console.log("want to know your location: ",location)
 
     return (
         <div>

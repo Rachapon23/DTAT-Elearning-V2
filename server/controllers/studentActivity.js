@@ -136,10 +136,18 @@ exports.getAccessNumber = async (req, res) => {
 
 exports.updateProcess = async (req, res) => {
     try {
-        const { course, process } = req.body;
+        const { course, process, completed } = req.body;
         const { user_id } = req.user
-        console.log("process -> ",process, user_id)
-         await studentActivity.findOneAndUpdate({user: user_id, coursee: course}, {process: process}).exec()
+        console.log("process -> ",process, user_id, course)
+        console.log("process data: ",process)
+        if(!process) {
+            console.log("HI ITS ME")
+            const data = await studentActivity.findOneAndUpdate({user: user_id, coursee: course}, {completed: completed}).exec()
+            console.log("after update",data)
+        }
+        else {
+            await studentActivity.findOneAndUpdate({user: user_id, coursee: course}, {process: process, completed: completed}).exec()
+        }
         res.send("update process success")
     }
     catch(err) {
@@ -148,15 +156,16 @@ exports.updateProcess = async (req, res) => {
     }
 }
 
-exports.updateProcessToAll = async (req, res) => {
+exports.getProcess= async (req, res) => {
     try {
-        const { course, process } = req.body;
-        
-        await StudentActivity.updateMany({coursee: course}, {'$set': {'process' : process}}).exec()
-        res.send("update process to all student success")
+        const { course } = req.body;
+        const { user_id } = req.user
+        // console.log("process -> ",process, user_id)
+        const student_activity = await studentActivity.findOne({user: user_id, coursee: course}).exec()
+        res.send(student_activity)
     }
     catch(err) {
         console.log(err)
-        res.status(500).send('Server Error!!! on update process to all student')
+        res.status(500).send('Server Error!!! on update process')
     }
 }
