@@ -643,16 +643,17 @@ exports.CourseSuccess = async (req, res) => {
       }
     ).exec()
 
-    const update_user = await User.findOneAndUpdate(
+    Userr.history.push(history._id)
+     const update_user = await User.findOneAndUpdate(
       { _id: user },
-      { history: history, coursee: Userr.coursee }
+      { history: Userr.history, coursee: Userr.coursee }
     ).exec()
 
     const update_teacher = await User.findOneAndUpdate(
       { _id: req.user.user_id },
       { targetstudent: teacher.targetstudent + 1 }
     )
-    // console.log(Course)
+
     res.send("success");
   } catch (err) {
     console.log(err);
