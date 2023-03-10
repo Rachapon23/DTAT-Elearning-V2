@@ -98,7 +98,7 @@ useEffect(() => {
         }
         <div className="card-body ">
           <h5 className="card-title">{item.name}</h5>
-          <p style={{ fontSize: '14px' }} className="card-text text-muted mb-0">Course ID : {item.course_number}</p>
+          {/* <p style={{ fontSize: '14px' }} className="card-text text-muted mb-0">Course ID : {item.course_number}</p> */}
           {item.description.length < 45
             ? <p style={{ fontSize: '14px' }} className="card-text text-muted">Detail : {(item.description)}</p>
             : <p style={{ fontSize: '14px' }} className="card-text text-muted">Detail : {(item.description.substring(0, 45))}...</p>
