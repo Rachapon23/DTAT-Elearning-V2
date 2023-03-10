@@ -418,7 +418,7 @@ export default ({
                         onClick={handleToggleScreen}
                     >
                         <a >
-                            <i  class="bi bi-fullscreen" style={{fontSize: "2rem", color: "white"}} />
+                            <i  className="bi bi-fullscreen" style={{fontSize: "2rem", color: "white"}} />
                         </a>
                     </div>
                 </div>

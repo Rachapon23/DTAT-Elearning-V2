@@ -5,7 +5,7 @@ import './student.css'
 import { useNavigate } from 'react-router-dom'
 import './CoursePageStudent.css'
 import {
-    getCourse, 
+    getCourse,
     deleteMyCourse,
     updateProcess,
     getProcess,
@@ -54,7 +54,6 @@ const CoursePageStudent = () => {
     const fetchQuiz = () => {
         getQuizByCourseID(sessionStorage.getItem("token"), id)
             .then((res) => {
-                console.log("DATA Q ->",res.data)
                 setQuiz(res.data)
                 // setStudentProcess(res.data)
             })
@@ -322,7 +321,6 @@ const CoursePageStudent = () => {
 
                 }
 
-
                     {
                         quiz && studentProcess && (
                             studentProcess.completed ? (
@@ -351,7 +349,6 @@ const CoursePageStudent = () => {
                                 <div/>
                             )
                         ) 
-                        
                     }
 
                 {course.enabled
@@ -442,6 +439,7 @@ const CoursePageStudent = () => {
                                                                                             :
 
                                                                                             <>
+
                                                                                                 {studentProcess && ttem.filetype == "video/mp4" ?
                                                                                                     <VideoPlayer
                                                                                                         index={tdex}
@@ -469,18 +467,21 @@ const CoursePageStudent = () => {
                                                                                                     // </div>
                                                                                                     :
                                                                                                     <>
-                                                                                                        {ttem.filetype === "application/vnd.openxmlformats-officedocument.presentationml.presentation"? 
-                                                                                                        <div>
-                                                                                                            <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-warning">
-                                                                                                                <i className="bi bi-filetype-ppt"></i> {ttem.name}</a>
-                                                                                                        </div>
-                                                                                                        :
-                                                                                                        <>
-    
-                                                                                                            <p>Cannot read file</p>
-                                                                                                        </>
-                                                                                                    }
-                                                                                                </>
+                                                                                                        {ttem.filetype === "application/vnd.openxmlformats-officedocument.presentationml.presentation" ?
+                                                                                                            <div>
+                                                                                                                <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-warning">
+                                                                                                                    <i className="bi bi-filetype-ppt"></i> {ttem.name}</a>
+                                                                                                            </div>
+                                                                                                            :
+                                                                                                            <>
+
+                                                                                                                <div>
+                                                                                                                    <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-success">
+                                                                                                                    <i className="bi bi-file-arrow-down"></i>  {ttem.name}</a>
+                                                                                                                </div>
+                                                                                                            </>
+                                                                                                        }
+                                                                                                    </>
                                                                                                 }
                                                                                             </>
                                                                                         }
@@ -501,13 +502,13 @@ const CoursePageStudent = () => {
                                         }
                                     </div>
 
-                                    
-                                    
+
+
                                     <hr className="mt-5 mb-4 text-secondary" />
                                 </div>
                             ))}
                         </div>
-                       
+
                         {/* {course.password == ""
                             ? <></>
                             : <div className="mb-5 mt-3">

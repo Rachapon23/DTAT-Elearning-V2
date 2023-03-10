@@ -220,7 +220,7 @@ const Editquiz = () => {
                             <div className="card-body p-5">
                                 
                                 <div className="row">
-                                    <div className="col-8">
+                                    <div className="col-12">
                                         <label className="form-label"> Quiz Name</label>
                                         <input 
                                             type="text" 
@@ -236,23 +236,7 @@ const Editquiz = () => {
                                             {error.name}
                                         </div>
                                     </div>
-                                    <div className="col-4">
-                                        <label className="form-label"> Attemp </label>
-                                        <input 
-                                            type="number" 
-                                            min="1" 
-                                            value={nameQuiz.attemp} 
-                                            className={
-                                                nameQuiz.attemp < 1 || error.attemp && error.attemp.length !== 0 ? "form-control is-invalid" : "form-control"
-                                            } 
-                                            id="attemp" 
-                                            name='attemp' 
-                                            onChange={handAddName} 
-                                        />
-                                        <div className="invalid-feedback">
-                                            {nameQuiz.attemp < 1 ? "Attemp number must greater than 0":error.attemp}
-                                        </div>
-                                    </div>
+                                 
                                     
                                 </div>
 

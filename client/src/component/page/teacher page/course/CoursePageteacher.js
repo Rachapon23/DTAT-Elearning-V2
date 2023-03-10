@@ -51,7 +51,7 @@ const CoursePageteacher = () => {
     const fetchCourse = () => {
         getCourse(sessionStorage.getItem("token"), id)
             .then((response) => {
-                // console.log(response)
+                console.log(response)
                 setCourse(response.data)
                 setTopic(response.data.topic)
             })
@@ -183,7 +183,6 @@ const CoursePageteacher = () => {
         
         // // const currentProcess = (videoProcess / totalProcess) * 100
         // updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess}).then((res) => console.log(res))
-
     }
 
     const handleVideoProcess = (data, index) => {
@@ -199,15 +198,15 @@ const CoursePageteacher = () => {
     useEffect(() => {
         window.addEventListener("beforeunload", alertUser);
         return () => {
-          window.removeEventListener("beforeunload", alertUser);
+            window.removeEventListener("beforeunload", alertUser);
         };
-      }, []);
+    }, []);
 
     const alertUser = (e) => {
         e.preventDefault();
         console.log("ALEART")
     };
-    
+
 
     return (
         <div>
@@ -249,7 +248,7 @@ const CoursePageteacher = () => {
                         }
                     </>
                 }
-                
+
                 
                     {
                         dataQuiz && course ? (
@@ -278,13 +277,13 @@ const CoursePageteacher = () => {
                         )
                         :
                         (
-                            <div/>
+                            <div />
                         )
-                                    
-                    }
-                        
-                        
-                
+
+                }
+
+
+
 
                 <div className="border bg-white my-3 ">
                     {topic && topic.map((item, index) => (
@@ -309,30 +308,30 @@ const CoursePageteacher = () => {
                                     <div className=""><ul>
                                         {item.link.map((ttem, tdex) =>
                                             ttem.url.includes("youtube.com") ?
-                                            (
-                                                <div className="d-flex justify-content-center">
-                                                    <iframe 
-                                                        width="560" 
-                                                        height="315" 
-                                                        src={ttem.url.replace("watch?v=","embed/")} 
-                                                        title="YouTube video player" 
-                                                        frameborder="0" 
-                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                                        allowfullscreen
-                                                    />
-                                                </div>
-                                            )
-                                            :
-                                            (
-                                                <li key={tdex}>
-                                                    <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
-                                                </li>
-                                            )
+                                                (
+                                                    <div className="d-flex justify-content-center">
+                                                        <iframe
+                                                            width="560"
+                                                            height="315"
+                                                            src={ttem.url.replace("watch?v=", "embed/")}
+                                                            title="YouTube video player"
+                                                            frameborder="0"
+                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                            allowfullscreen
+                                                        />
+                                                    </div>
+                                                )
+                                                :
+                                                (
+                                                    <li key={tdex}>
+                                                        <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
+                                                    </li>
+                                                )
                                         )}
                                     </ul>
                                     </div>
                                 }
-                                
+
                                 {item.file &&
                                     <div className="">
                                         {item.file.map((ttem, tdex) =>
@@ -385,6 +384,7 @@ const CoursePageteacher = () => {
 
                                                                                     <>
                                                                                         {ttem.filetype === "video/mp4" ? (
+
                                                                                             <div>
                                                                                                 <VideoPlayer
                                                                                                     index={tdex}
@@ -393,10 +393,7 @@ const CoursePageteacher = () => {
                                                                                                     disableForward={false}
                                                                                                 />
                                                                                             </div>
-                                                                                        
                                                                                         )
-                                                                                            
-                                                                                            
 
                                                                                             // <div className="container">
                                                                                             //     <p>{(ttem.name).split('.')[0]}</p>
@@ -420,8 +417,10 @@ const CoursePageteacher = () => {
                                                                                                     </div>
                                                                                                     :
                                                                                                     <>
-
-                                                                                                        <p>Cannot read file</p>
+                                                                                                        <div>
+                                                                                                            <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-success">
+                                                                                                            <i className="bi bi-file-arrow-down"></i> {ttem.name}</a>
+                                                                                                        </div>
                                                                                                     </>
                                                                                                 }
                                                                                             </>
@@ -466,19 +465,21 @@ const CoursePageteacher = () => {
 
                     ))}
                 </div>
-                <div className="row">
-                    <div className="col-md-8">
-                        <div className="d-grid">
+                {course.statuscourse
+                
+                ?<div className="row">
+                <div className="col-md-8">
+                    <div className="d-grid">
                         <a
                             href={`/teacher/get-course/manageuser/` + course._id}
                             className="btn btn-primary"
                         >
                             manage member
                         </a>
-                        </div>
                     </div>
-                    <div className="col-md-4">
-                        <div className="d-flex justify-content-end mb-4">
+                </div>
+                <div className="col-md-4">
+                    <div className="d-flex justify-content-end mb-4">
                         <button
                             onClick={() => nextToCourse(course._id)}
                             className="btn btn-warning w-25"
@@ -491,9 +492,29 @@ const CoursePageteacher = () => {
                         >
                             Delete
                         </button>
-                        </div>
                     </div>
                 </div>
+            </div>
+            
+            :
+                <div className="d-flex justify-content-between mb-4">
+                    <button
+                        onClick={() => nextToCourse(course._id)}
+                        className="btn btn-warning w-25"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        onClick={() => remove(course._id)}
+                        className="btn btn-danger w-25 ms-3"
+                    >
+                        Delete
+                    </button>
+                </div>
+    
+            
+            }
+                
 
             </div>
         </div>
