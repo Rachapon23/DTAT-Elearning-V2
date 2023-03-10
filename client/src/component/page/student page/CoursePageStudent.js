@@ -33,6 +33,7 @@ const CoursePageStudent = () => {
     const [studentProcess, setStudentProcess] = useState();
     const [totalProcess, setTotalProcess] = useState(0)
     const [videoProcess, setVideoProcess] = useState([]);
+    const [hasVideo, setHasVideo] = useState(false);
 
     const navigate = useNavigate()
     const { id } = useParams()
@@ -63,22 +64,29 @@ const CoursePageStudent = () => {
     }
 
     useEffect(() => {
-        if(studentProcess) {
-            let complete = 0;
-            console.log("process after course: ",studentProcess)
-            for(let i = 0; i < studentProcess.process.length; i++) {
-                console.log("in loop: ",studentProcess.process[i])
-                if(studentProcess.process[i] === 1) {
-                    complete++;
+        if(course.video_amount === 0) {
+            setHasVideo(false)
+            return
+        }
+        if(course.video_amount > 0) {
+            setHasVideo(true)
+            if(studentProcess) {
+                let complete = 0;
+                console.log("process after course: ",studentProcess)
+                for(let i = 0; i < studentProcess.process.length; i++) {
+                    console.log("in loop: ",studentProcess.process[i])
+                    if(studentProcess.process[i] === 1) {
+                        complete++;
+                    }
+                    
                 }
                 
+                console.log("rec: ",studentProcess.process)
+                for(let i = 0 ; i < 3; i++) {
+                    console.log(studentProcess.process[i])
+                }
+                setTotalProcess(parseInt((complete * 100) /  course.video_amount));
             }
-            
-            console.log("rec: ",studentProcess.process)
-            for(let i = 0 ; i < 3; i++) {
-                console.log(studentProcess.process[i])
-            }
-            setTotalProcess(parseInt((complete * 100) /  course.video_amount));
         }
     }, [studentProcess])
 
@@ -346,8 +354,33 @@ const CoursePageStudent = () => {
                             )
                             :
                             (
-                                <div/>
+                                !hasVideo ? (
+                                    <div className="card mt-3">
+                                        <div className="card-body">
+                                            <Card
+                                                style={{
+                                                    width: "100%",
+                                                    borderWidth: "2px",
+                                                }}
+                                                actions={[
+                                                    <Link class="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{path: pathname}}/>,
+                                                    // <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
+                                                ]}
+                                            >
+                                                <Meta
+                                                    title={<h4>Quiz</h4>}
+                                                    description={<h5>{quiz.name}</h5>}
+                                                />
+                                            </Card>
+                                        </div>
+                                    </div>
+                                )
+                                :
+                                (
+                                    <div/>
+                                )
                             )
+
                         ) 
                     }
 

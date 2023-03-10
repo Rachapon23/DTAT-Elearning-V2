@@ -18,6 +18,7 @@ const Mycourse = ({ item, loadMycourse, courseID }) => {
   const [totalProcess, setTotalProcess] = useState(0)
   const [course, setCourse] = useState("");
   const [id, setID] = useState(courseID);
+  const [hasVideo, setHasVideo] = useState(false);
 
   const nextToCourse = (params) => {
     // console.log(params)
@@ -69,22 +70,30 @@ useEffect(() => {
 }, []);
 
   useEffect(() => {
-    if(studentProcess) {
+    if(course.video_amount === 0) {
+      setHasVideo(false)
+      return
+    }
+    
+    if(course.video_amount > 0) {
+      setHasVideo(true)
+      if(studentProcess) {
         let complete = 0;
-        console.log("process after course: ",studentProcess)
+        // console.log("process after course: ",studentProcess)
         for(let i = 0; i < studentProcess.process.length; i++) {
-            console.log("in loop: ",studentProcess.process[i])
+            // console.log("in loop: ",studentProcess.process[i])
             if(studentProcess.process[i] === 1) {
                 complete++;
             }
             
         }
         
-        console.log("rec: ",studentProcess.process)
+        console.log("rec: ",course.video_amount)
         for(let i = 0 ; i < 3; i++) {
             console.log(studentProcess.process[i])
         }
         setTotalProcess(parseInt((complete * 100) /  course.video_amount));
+      }
     }
   }, [studentProcess])
 
@@ -103,13 +112,16 @@ useEffect(() => {
             ? <p style={{ fontSize: '14px' }} className="card-text text-muted">Detail : {(item.description)}</p>
             : <p style={{ fontSize: '14px' }} className="card-text text-muted">Detail : {(item.description.substring(0, 45))}...</p>
           }
-          <Progress
-              percent={totalProcess}
-              strokeColor={{
-                  "0%": "#108ee9",
-                  "100%": "#87d068",
-              }}
-          />
+          {
+            hasVideo &&
+              <Progress
+                percent={totalProcess}
+                strokeColor={{
+                    "0%": "#108ee9",
+                    "100%": "#87d068",
+                }}
+              />
+          }
         </div>
       </div>
     </div>
