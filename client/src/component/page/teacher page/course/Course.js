@@ -425,61 +425,101 @@ const Course = () => {
   //     }
   // }
 
-
-  const handdleSubmit = async (e) => {
-setLoading(true)
+const handdleSubmit = async (e) => {
+    
     if (e) {
       e.preventDefault()
     }
-    await createCourse(sessionStorage.getItem("token"), {
-      head: nameCourse,
-      body: valuetopic,
-    })
-      .then(async (res) => {
-        // setNewCourse(res.data._id)
-        const formData = new FormData();
-        formData.append("id", res.data._id);
-        formData.append("file", file);
-        if (file != "") {
-          await uploadImg(sessionStorage.getItem("token"), formData)
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
+    let valid = true;
+    console.log(nameCourse)
 
-        for (let i = 0; i < res.data.calendar.length; i++) {
-          await createCalendar(sessionStorage.getItem("token"), {
-            values: {
-              title: res.data.name,
-              coursee: res.data._id,
-              start: res.data.calendar[i].start,
-              end: res.data.calendar[i].end,
-              color: res.data.calendar[i].color,
-              teacher: res.data.teacher,
-            },
-          })
-            .then((res) => {
-              console.log(res.data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
+    if (!!!nameCourse.name) {
+        setError({name: "Please enter name of course"})
+        valid = false;
+        document.getElementById("nameCourse").focus({ focusVisible: true });
+    }
+    else if (!!!nameCourse.description) {
+        setError({description: "Please enter description of course"})
+        valid = false;
+        document.getElementById("description").focus({ focusVisible: true });
+    }
+    else if (!!!nameCourse.room) {
+        valid = false;
+        document.getElementById("room").focus({ focusVisible: true });
+    }
+    else if (nameCourse.calendar.length === 0 && nameCourse.statuscourse) {
+      // setError({room: "Please select room"})
+      valid = false;
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Please select teach time on calendar",
+        // showCancelButton: true,
+        // confirmButtonColor: "#3085d6",
+        // cancelButtonColor: "#d33",
+        // confirmButtonText: "Sure",
+      })
+      console.log("calendar")
+  }
+    else if (valuetopic.length > 0) {
+      for (let i = 0; i < valuetopic.length; i++) {
+          if (!!!valuetopic[i].title) {
+              // setErrorTopic({title: "Please enter title of topic"})
+              document.getElementById(`title${i}`).classList.add("is-invalid");
+              valid = false;
+              document.getElementById(`title${i}`).focus({ focusVisible: true });
+          }
+          else if (valuetopic[i].link.length > 0) {
+              for (let j = 0; j < valuetopic[i].link.length; j++) {
+                  if (!!!valuetopic[i].link[j].name) {
+                      // setErrorTopic({link_name: "Please enter name of link"})
+                      document.getElementById(`linkname${i}${j}`).classList.add("is-invalid");
+                      valid = false;
+                      document.getElementById(`linkname${i}${j}`).focus({ focusVisible: true });
+                  } else if (!!!valuetopic[i].link[j].url) {
+                      // setErrorTopic({link_url: "Please enter URL of link"})
+                      document.getElementById(`linkurl${i}${j}`).classList.add("is-invalid");
+                      valid = false;
+                      document.getElementById(`linkurl${i}${j}`).focus({ focusVisible: true });
+                  }
+              }
+          }
+          if (valuetopic[i].text.length > 0) {
+              for (let j = 0; j < valuetopic[i].text.length; j++) {
+                  if (!!!valuetopic[i].text[j].content) {
+                      // setErrorTopic({text: "Please enter sub-content of topic"})
+                      document.getElementById(`text${i}${j}`).classList.add("is-invalid");
+                      valid = false;
+                      document.getElementById(`text${i}${j}`).focus({ focusVisible: true });
+                  }
+              }
+          }
+          if (valuetopic[i].quiz.length > 0) {
+              for (let j = 0; j < valuetopic[i].quiz.length; j++) {
+                  if (!!!valuetopic[i].quiz[j].quiz) {
+                      // setErrorTopic({quiz: "Please select quiz of topic"})
+                      document.getElementById(`quiz${i}${j}`).classList.add("is-invalid");
+                      valid = false;
+                      document.getElementById(`quiz${i}${j}`).focus({ focusVisible: true });
+                  }
+              }
+          }
+      }
+    }
 
-        let video_amount = 0;
-        for (let i = 0; i < valuetopic.length; i++) {
-          for (let j = 0; j < valuetopic[i].file.length; j++) {
-            // console.log(valuetopic[i].file[j].name)
-            const formDatafile = new FormData();
-            formDatafile.append("id", res.data._id);
-            formDatafile.append("topic_number", i);
-            formDatafile.append("file_number", j);
-            formDatafile.append("file", valuetopic[i].file[j].file);
-            if(valuetopic[i].file[j].file.type === "video/mp4") video_amount++;
-            await uploadfile(sessionStorage.getItem("token"), formDatafile)
+    if(valid) {
+      setLoading(true)
+      await createCourse(sessionStorage.getItem("token"), {
+        head: nameCourse,
+        body: valuetopic,
+      })
+        .then(async (res) => {
+          // setNewCourse(res.data._id)
+          const formData = new FormData();
+          formData.append("id", res.data._id);
+          formData.append("file", file);
+          if (file != "") {
+            await uploadImg(sessionStorage.getItem("token"), formData)
               .then((res) => {
                 console.log(res);
               })
@@ -487,31 +527,70 @@ setLoading(true)
                 console.log(err);
               });
           }
-        }
-
-        await updateCourseVideoAmount(sessionStorage.getItem("token"), {id: res.data._id, data: {video_amount: video_amount}})
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
+  
+          for (let i = 0; i < res.data.calendar.length; i++) {
+            await createCalendar(sessionStorage.getItem("token"), {
+              values: {
+                title: res.data.name,
+                coursee: res.data._id,
+                start: res.data.calendar[i].start,
+                end: res.data.calendar[i].end,
+                color: res.data.calendar[i].color,
+                teacher: res.data.teacher,
+              },
+            })
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+  
+          let video_amount = 0;
+          for (let i = 0; i < valuetopic.length; i++) {
+            for (let j = 0; j < valuetopic[i].file.length; j++) {
+              // console.log(valuetopic[i].file[j].name)
+              const formDatafile = new FormData();
+              formDatafile.append("id", res.data._id);
+              formDatafile.append("topic_number", i);
+              formDatafile.append("file_number", j);
+              formDatafile.append("file", valuetopic[i].file[j].file);
+              if(valuetopic[i].file[j].file.type === "video/mp4") video_amount++;
+              await uploadfile(sessionStorage.getItem("token"), formDatafile)
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }
+          }
+  
+          await updateCourseVideoAmount(sessionStorage.getItem("token"), {id: res.data._id, data: {video_amount: video_amount}})
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+  
+  
+          Toast.fire({
+            icon: "success",
+            title: "Your course created successfully",
           });
-
-
-        Toast.fire({
-          icon: "success",
-          title: "Your course created successfully",
-        });
-
-        if (e) {
+  
+          if (e) {
+            setLoading(false)
+            navigate("/teacher/get-course/" + res.data._id);
+          }
+        })
+        .catch((err) => {
           setLoading(false)
-          navigate("/teacher/get-course/" + res.data._id);
-        }
-      })
-      .catch((err) => {
-        setLoading(false)
-        console.log(err);
-      });
+          console.log(err);
+        });
+    }
   };
 
   const handleImg = (e) => {
@@ -666,7 +745,7 @@ setLoading(true)
                       </div>
                     </>
 
-                    <div className="mt-5">
+                    <div id="calendar" className="mt-5">
                       <p>calendar</p>
                       <CalendarForcourse
                         nameCourse={nameCourse}

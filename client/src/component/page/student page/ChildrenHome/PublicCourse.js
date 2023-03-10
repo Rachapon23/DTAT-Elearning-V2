@@ -96,7 +96,7 @@ const PublicCourse = () => {
                                       }}
                                     >
                                         <div className="card-body ">
-                                            <p className="card-title">shoe more +</p>
+                                            <p className="card-title">show more +</p>
                                         </div>
                                     </div>
                                 </div>
@@ -133,7 +133,7 @@ const PublicCourse = () => {
                                       }}
                                     >
                                         <div className="card-body ">
-                                            <p className="card-title">shoe more +</p>
+                                            <p className="card-title">show more +</p>
                                         </div>
                                     </div>
                                 </div>

@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 // //rote
 import PrivateUser from "./route/PrivateUser";
-// import PrivateTeacher from "./route/PrivateTeacher";
-// import Privateadmin from "./route/Privateadmin";
-// import Notfound from "./component/page/Notfound";
+import PrivateTeacher from "./route/PrivateTeacher";
+import Privateadmin from "./route/Privateadmin";
+import Notfound from "./component/page/Notfound";
 // //auth
 import Login from "./component/auth/Login";
 import Register from "./component/auth/Register";
@@ -53,7 +53,7 @@ function App() {
 
       <Routes>
         {/* auth */}
-        {/* <Route path="*" element={<Notfound/>} /> */}
+        <Route path="*" element={<Notfound/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route element={<ResetPasswordRoute />}>
@@ -62,16 +62,16 @@ function App() {
 
 
         {/* admin */}
-        {/* <Route element={<Privateadmin />}> */}
+        <Route element={<Privateadmin />}>
           <Route path="/admin/home" element={<HomePageadmin />} />
           <Route path="/admin/managehome" element={<ManageHome />} />
           <Route path="/admin/list-users" element={<AlluserFromadmin />} />
           <Route path="/admin/list-students" element={<StudentFormAdmin />} />
           <Route path="/admin/list-teachers" element={<TeacherFromAdmin />} />
-        {/* </Route> */}
+        </Route>
  
         {/* teacher */}
-        {/* <Route element={<PrivateTeacher />}> */}
+        <Route element={<PrivateTeacher />}>
           <Route path="/teacher/home" element={<HomePageTeacher />} />
 
           <Route path="/teacher/quiz/:id" element={<Quiz />} />
@@ -83,7 +83,8 @@ function App() {
           <Route path="/teacher/list-courses" element={<CoursesPageteacher />} />
           <Route path="/teacher/get-course/:id" element={<CoursePageteacher />} />
           <Route path="/teacher/calendar-teacher" element={<Calendar />} /> 
-        {/* </Route> */}
+          <Route path="/teacher/get-course/manageuser/:id" element={<CourseManageUser/>} />
+        </Route>
 
         {/* student */}
 
@@ -92,20 +93,14 @@ function App() {
           <Route path="/student/get-course/:id" element={<CoursePageStudent />} />
           <Route path="/course-home/:id" element={<CourseHome />} />
           <Route path="/student/test/:params" element={<Dotest />} />
-
           <Route path="/course-home/:id" element={<CourseHome/>} />
         </Route>
-
-
 
 
         <Route path="/" element={<Home/>} />
         <Route path="/private-course" element={<HomeCourseClose/>} />
         <Route path="/public-course" element={<HomeCourseOpen/>} />
-        <Route path="/teacher/get-course/manageuser/:id" element={<CourseManageUser/>} />
-
         
-
       </Routes>
     </div>
   );
