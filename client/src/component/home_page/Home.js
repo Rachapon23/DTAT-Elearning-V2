@@ -62,7 +62,7 @@ navigate('/course-home/'+id)
                     </div>
                     <div className="body-content mt-5">
                         <div className="container">
-                            <label className="form-label">interesting course</label>
+                            <label className="form-label">Interesting Course</label>
                             <div className="row">
                                 {coursedata.map((course, index) =>
                                     <div className="col-md-4 p-2 course-home" key={index}>
@@ -88,7 +88,7 @@ navigate('/course-home/'+id)
                                       }}
                                     >
                                         <div className="card-body ">
-                                            <p className="card-title">shoe more +</p>
+                                            <p className="card-title">show more +</p>
                                         </div>
                                     </div>
                                 </div>
@@ -97,7 +97,7 @@ navigate('/course-home/'+id)
                     </div>
                     <div className="body-content-2 mt-5 ">
                         <div className="container">
-                            <label className="form-label">open for registration</label>
+                            <label className="form-label">Open for Registration</label>
                             <div className="row ">
                                 {reGisCoursedata.map((course, index) =>
                                     <div className="col-md-4 p-2 course-home" key={index}>
@@ -123,7 +123,7 @@ navigate('/course-home/'+id)
                                       }}
                                     >
                                         <div className="card-body ">
-                                            <p className="card-title">shoe more +</p>
+                                            <p className="card-title">show more +</p>
                                         </div>
                                     </div>
                                 </div>

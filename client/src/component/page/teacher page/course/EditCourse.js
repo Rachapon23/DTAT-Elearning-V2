@@ -284,9 +284,8 @@ const EditCourse = () => {
 
     const handdleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true)
+        
         let valid = true;
-
 
         if (!!!course.name) {
             setError({ name: "Please enter name of course" })
@@ -294,14 +293,17 @@ const EditCourse = () => {
             document.getElementById("name_course").focus({ focusVisible: true });
             setLoading(false)
         }
-    
         else if (!!!course.description) {
             setError({ description: "Please enter name of course id" })
             valid = false;
             document.getElementById("description").focus({ focusVisible: true });
             setLoading(false)
         }
-
+        else if (!!!course.room) {
+            setError({room: "Please select room"})
+            valid = false;
+            document.getElementById("room").focus({ focusVisible: true });
+        }
         else if (valuetopic.length > 0) {
             // console.log("for")
             for (let i = 0; i < valuetopic.length; i++) {
@@ -311,13 +313,6 @@ const EditCourse = () => {
                     document.getElementById(`title${i}`).classList.add("is-invalid");
                     valid = false;
                     document.getElementById(`title${i}`).focus({ focusVisible: true });
-                    setLoading(false)
-                }
-                else if (!!!valuetopic[i].description) {
-                    // setErrorTopic({description: "Please enter description of topic"})
-                    document.getElementById(`description${i}`).classList.add("is-invalid");
-                    valid = false;
-                    document.getElementById(`description${i}`).focus({ focusVisible: true });
                     setLoading(false)
                 }
                 else if (valuetopic[i].link.length > 0) {
@@ -363,7 +358,7 @@ const EditCourse = () => {
         }
 
         if (valid) {
-            // console.log(valuetopic[0].file)
+            setLoading(true)
             await updateCourse(sessionStorage.getItem("token"),
                 {
                     head: course,

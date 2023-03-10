@@ -34,15 +34,15 @@ const Register = () => {
   useEffect(() => {
     loadPlant();
   }, []);
-  // const [error, setError] = useState({
-  //   employee_ID: "",
-  //   department_ID: "",
-  //   password: "",
-  //   repassword: "",
-  //   email: "",
-  //   firstname: "",
-  //   lastname: "",
-  // });
+  const [error, setError] = useState({
+    employee_ID: "",
+    department_ID: "",
+    password: "",
+    repassword: "",
+    email: "",
+    firstname: "",
+    lastname: "",
+  });
 
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -52,14 +52,63 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(value); 
-    if(value.password !== value.repassword ){
 
+    let valid = true;
+
+    if (!!!value.employee_ID) {
+      console.log("employee_ID")
+        setError({ employee_ID: "Please enter name of course" })
+        valid = false;
+        document.getElementById("employee_ID").focus({ focusVisible: true });
+    }
+    else if (!!!value.department_ID) {
+        console.log("department_ID")
+        setError({ department_ID: "Please enter name of course id" })
+        valid = false;
+        document.getElementById("department_ID").focus({ focusVisible: true });
+    }
+    else if (!!!value.password) {
+        setError({password: "Please select room"})
+        valid = false;
+        document.getElementById("password").focus({ focusVisible: true });
+    }
+    else if (!!!value.repassword) {
+      setError({repassword: "Please select room"})
+      valid = false;
+      document.getElementById("repassword").focus({ focusVisible: true });
+    }
+    else if(value.password !== value.repassword ){
+      valid = false;
       Swal.fire(
         'Error',
         'Password not match',
         'error'
       )
-    } else {
+    }
+    else if (!!!value.email) {
+      setError({email: "Please select room"})
+      valid = false;
+      document.getElementById("email").focus({ focusVisible: true });
+    }
+    else if (!!!value.plant) {
+      setError({plant: "Please select room"})
+      valid = false;
+      document.getElementById("plant").focus({ focusVisible: true });
+    }
+    else if (!!!value.firstname) {
+      setError({firstname: "Please select room"})
+      valid = false;
+      document.getElementById("firstname").focus({ focusVisible: true });
+    }
+    else if (!!!value.lastname) {
+      setError({lastname: "Please select room"})
+      valid = false;
+      document.getElementById("lastname").focus({ focusVisible: true });
+    }
+   
+
+    if(valid) {
+       
       register(value)
       .then((res) => {
         console.log(res);
@@ -71,31 +120,9 @@ const Register = () => {
         navigate("/");
       })
       .catch((err) => {
-        // const err_obj = err.response.data
         console.log(err)
-        // try {
-          
-        //   if(err_obj.field === "employee_ID") setError({employee_ID: err_obj.data});
-        //   else if(err_obj.field === "department_ID") setError({department_ID: err_obj.data});
-        //   else if(err_obj.field === "password") setError({password: err_obj.data});
-        //   else if(err_obj.field === "repassword") setError({repassword: err_obj.data});
-        //   else if(err_obj.field === "email") setError({email: err_obj.data});
-        //   else if(err_obj.field === "firstname") setError({firstname: err_obj.data});
-        //   else if(err_obj.field === "lastname") setError({lastname: err_obj.data});
-        //   else Swal.fire(
-        //     'error',
-        //     err_obj,
-        //     'error'
-        //   )
-        // }
-        // catch(err) {
-        //   Swal.fire(
-        //     'error',
-        //     "Unexpected error please contact admin",
-        //     'error'
-        //   )
-        // }
       });
+      
     }
   };
   return (
@@ -119,32 +146,33 @@ const Register = () => {
                     <div className="row">
                       <div className="form-group col-md-6 mt-3">
                         <label className="form-label"> Employee ID</label>
+                        {JSON.stringify(error.employee_ID && error.employee_ID.length !== 0)}
                         <input
-                          // className={
-                          //   error.employee_ID && error.employee_ID.length !== 0 ? "form-control is-invalid" : "form-control"
-                          // }
-                          className="form-control"
+                          className={
+                            error.employee_ID && error.employee_ID.length !== 0 ? "form-control is-invalid" : "form-control"
+                          }
                           type="text"
+                          id="employee_ID"
                           name="employee_ID"
                           onChange={handleChange}
                         />
                         <div className="invalid-feedback">
-                          {/* {error.employee_ID} */}
+                          {error.employee_ID}
                         </div>
                       </div>
                       <div className="form-group col-md-6  mt-3">
                         <label className="form-label"> Department ID </label>
                         <input
-                          // className={
-                          //   error.department_ID && error.department_ID.length !== 0 ? "form-control is-invalid" : "form-control"
-                          // }
-                          className="form-control"
+                          className={
+                            error.department_ID && error.department_ID.length !== 0 ? "form-control is-invalid" : "form-control"
+                          }
                           type="text"
+                          id="department_ID"
                           name="department_ID"
                           onChange={handleChange}
                         />
                         <div className="invalid-feedback">
-                          {/* {error.department_ID} */}
+                          {error.department_ID}
                         </div>
                       </div>
                     </div>
@@ -152,31 +180,31 @@ const Register = () => {
                       <div className="form-group col-md-6  mt-3">
                         <label className="form-label"> Password </label>
                         <input
-                          // className={
-                          //   error.password && error.password.length !== 0 ? "form-control is-invalid" : "form-control"
-                          // }
-                          className="form-control"
+                          className={
+                            error.password && error.password.length !== 0 ? "form-control is-invalid" : "form-control"
+                          }
                           type="password"
+                          id="password"
                           name="password"
                           onChange={handleChange}
                         />
                         <div className="invalid-feedback">
-                          {/* {error.password} */}
+                          {error.password}
                         </div>
                       </div>
                       <div className="form-group col-md-6  mt-3">
                         <label className="form-label"> Confirm Password</label>
                         <input
-                          // className={
-                          //   error.repassword && error.repassword.length !== 0 ? "form-control is-invalid" : "form-control"
-                          // }
-                          className="form-control"
+                          className={
+                            error.repassword && error.repassword.length !== 0 ? "form-control is-invalid" : "form-control"
+                          }
                           type="password"
+                          id="repassword"
                           name="repassword"
                           onChange={handleChange}
                         />
                         <div className="invalid-feedback">
-                          {/* {error.repassword} */}
+                          {error.repassword}
                         </div>
                       </div>
                     </div>
@@ -185,26 +213,34 @@ const Register = () => {
                          <div className="form-group">
                           <label className="form-label">Email</label>
                           <input
-                            // className={
-                            //   error.email && error.email.length !== 0 ? "form-control is-invalid" : "form-control"
-                            // }
-                            className="form-control"
+                            className={
+                              error.email && error.email.length !== 0 ? "form-control is-invalid" : "form-control"
+                            }
                             type="text"
+                            id="email"
                             name="email"
                             onChange={handleChange}
                           />
                           <div className="invalid-feedback">
-                            {/* {error.email} */}
+                            {error.email}
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6  mt-3">
                         <div className="form-group">
                           <label className="form-label">Plant</label>
-                          <select name="plant" id="" 
-                          onChange={handleChange}
-                          className="form-select">
-                            <option value={null}></option>
+                          <select
+                            className={
+                              error.plant && error.plant.length !== 0 ? "form-control is-invalid" : "form-control"
+                            }
+                            name="plant" 
+                            id="plant" 
+                            onChange={handleChange}
+                          >
+                          <div className="invalid-feedback">
+                            {error.plant}
+                          </div>
+                          <option value={null}></option>
                           {plant.map((ptem, pdex) => (
                                     <option key={pdex} value={ptem.plantname}>
                                       {ptem.plantname}
@@ -219,31 +255,31 @@ const Register = () => {
                       <div className="form-group col-md-6  mt-3">
                         <label className="form-label"> First Name </label>
                         <input
-                          // className={
-                          //   error.firstname && error.firstname.length !== 0 ? "form-control is-invalid" : "form-control"
-                          // }
-                          className="form-control"
+                          className={
+                            error.firstname && error.firstname.length !== 0 ? "form-control is-invalid" : "form-control"
+                          }
                           type="text"
+                          id="firstname"
                           name="firstname"
                           onChange={handleChange}
                         />
                         <div className="invalid-feedback">
-                          {/* {error.firstname} */}
+                          {error.firstname}
                         </div>
                       </div>
                       <div className="form-group col-md-6  mt-3">
                         <label className="form-label"> Last Name </label>
                         <input
-                          // className={
-                          //   error.lastname && error.lastname.length !== 0 ? "form-control is-invalid" : "form-control"
-                          // }
-                          className="form-control"
+                          className={
+                            error.lastname && error.lastname.length !== 0 ? "form-control is-invalid" : "form-control"
+                          }
                           type="text"
+                          id="lastname"
                           name="lastname"
                           onChange={handleChange}
                         />
                         <div className="invalid-feedback">
-                          {/* {error.lastname} */}
+                          {error.lastname}
                         </div>
                       </div>
                       

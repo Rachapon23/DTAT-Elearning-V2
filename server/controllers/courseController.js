@@ -405,7 +405,6 @@ exports.deleteCourse = async (req, res) => {
     const course = await Coursee.findOne({ _id: req.params.id }).exec();
     const calendar = await Calendar.find({ coursee: course._id });
     await Quiz.findOneAndDelete({ course: course._id }).exec();
-    
     await Calendar.deleteMany({ coursee: course._id }).exec((err) => {
       if (err) {
         console.log(err);
