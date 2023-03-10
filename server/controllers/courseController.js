@@ -5,7 +5,8 @@ const Layout = require("../models/layout");
 const Plant = require("../models/plant");
 const Calendar = require("../models/calendar");
 const User = require("../models/userModel");
-const History = require('../models/history')
+const History = require('../models/history');
+const Quiz = require("../models/quize");
 const CourseValidation = require("../validation/courseValidation");
 // const Examiner = require("../models/examiner")
 const studentActivity = require('../models/studentActivity')
@@ -403,6 +404,7 @@ exports.deleteCourse = async (req, res) => {
   try {
     const course = await Coursee.findOne({ _id: req.params.id }).exec();
     const calendar = await Calendar.find({ coursee: course._id });
+    await Quiz.findOne({ course: course._id }).exec();
     await Calendar.deleteMany({ coursee: course._id }).exec((err) => {
       if (err) {
         console.log(err);
@@ -423,20 +425,20 @@ exports.deleteCourse = async (req, res) => {
     }
 
     // TODO: if file not found in course it cannot delete course
-    // for(let i = 0 ; i < course.topic.length ; i++){
-    //     for(let j = 0 ; j <course.topic[i].file.length ; j++ ){
-    //         console.log("name : ",course.topic[i].file[j].filename)
-    //         await fs.unlink("./public/uploads/" + course.topic[i].file[j].filename, (err) => {
-    //                     if (err) {
-    //                         console.log(err);
-    //                         res.status(400).send('err on delete file')
-    //                     } else {
-    //                         console.log("remove file Success");
-    //                     }
+    for(let i = 0 ; i < course.topic.length ; i++){
+        for(let j = 0 ; j <course.topic[i].file.length ; j++ ){
+            console.log("name : ",course.topic[i].file[j].filename)
+            await fs.unlink("./public/uploads/" + course.topic[i].file[j].filename, (err) => {
+                        if (err) {
+                            console.log(err);
+                            res.status(400).send('err on delete file')
+                        } else {
+                            console.log("remove file Success");
+                        }
 
-    //                 });
-    //     }
-    // }
+                    });
+        }
+    }
 
     const course_delete = await Coursee.findOneAndDelete({
       _id: req.params.id,

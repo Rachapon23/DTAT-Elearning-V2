@@ -372,23 +372,25 @@ const EditCourse = () => {
             ).then(async res => {
 
                 console.log("res : ", res.data)
-                const values = {
-                    id: course._id,
-                    color: course.calendar[0].color,
-                    start: course.calendar[0].start,
-                    end: course.calendar[0].end
+                if(course.statuscourse) {
+                    const values = {
+                        id: course._id,
+                        color: course.calendar[0].color,
+                        start: course.calendar[0].start,
+                        end: course.calendar[0].end
+                    }
+    
+                    await updateEvent(sessionStorage.getItem("token"), values)
+                        .then(res => {
+                            console.log(res)
+                            //   Toast.fire({
+                            //       icon: 'success',
+                            //       title: 'Your time table updated'
+                            //   })
+                        }).catch(err => {
+                            console.log(err)
+                        })
                 }
-
-                await updateEvent(sessionStorage.getItem("token"), values)
-                    .then(res => {
-                        console.log(res)
-                        //   Toast.fire({
-                        //       icon: 'success',
-                        //       title: 'Your time table updated'
-                        //   })
-                    }).catch(err => {
-                        console.log(err)
-                    })
 
 
                 if (!!file) {
@@ -458,47 +460,49 @@ const EditCourse = () => {
                             .catch((err) => {
                                 console.log(err);
                             });
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Your course updated'
-                        })
-                        navigate('/teacher/get-course/' + id)
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Your course updated'
+                            })
+                            navigate('/teacher/get-course/' + id)
                     }
                 }
 
-                    if (res.data.upload.length > 0) {
-                        const array = res.data.upload
-                        for (let i = 0; i < array.length; i++) {
-                            // console.log(array[i].topic_number, array[i].file_number,valuetopic[array[i].topic_number].file[array[i].file_number].file )
-                            const formDatafile = new FormData();
-                            formDatafile.append('id', res.data.data._id)
-                            formDatafile.append('topic_number', array[i].topic_number)
-                            formDatafile.append('file_number', array[i].file_number)
-                            formDatafile.append('file', valuetopic[array[i].topic_number].file[array[i].file_number].file)
-                            await uploadfile(sessionStorage.getItem("token"), formDatafile).then(res => {
-                                console.log(res)
-                                Toast.fire({
-                                    icon: 'success',
-                                    title: 'Your course updated'
-                                })
-                                navigate('/teacher/get-course/' + id)
-                            }).catch(err => {
-                                console.log(err)
-                            })
-                        }
-                    } else {
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Your course updated'
-                        })
-                        setLoading(false)
-                        navigate('/teacher/get-course/' + id)
-                        }
+                console.log("data uploads: ", res.data.upload)
 
-                    }).catch(err => {
-                        setLoading(false)
-                        console.log(err)
+                if (res.data.upload.length > 0) {
+                    const array = res.data.upload
+                    for (let i = 0; i < array.length; i++) {
+                        // console.log(array[i].topic_number, array[i].file_number,valuetopic[array[i].topic_number].file[array[i].file_number].file )
+                        const formDatafile = new FormData();
+                        formDatafile.append('id', res.data.data._id)
+                        formDatafile.append('topic_number', array[i].topic_number)
+                        formDatafile.append('file_number', array[i].file_number)
+                        formDatafile.append('file', valuetopic[array[i].topic_number].file[array[i].file_number].file)
+                        await uploadfile(sessionStorage.getItem("token"), formDatafile).then(res => {
+                            console.log(res)
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Your course updated'
+                            })
+                            navigate('/teacher/get-course/' + id)
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
+                } else {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Your course updated'
                     })
+                    setLoading(false)
+                    navigate('/teacher/get-course/' + id)
+                }
+
+            }).catch(err => {
+                setLoading(false)
+                console.log(err)
+            })
         }
 
     }
