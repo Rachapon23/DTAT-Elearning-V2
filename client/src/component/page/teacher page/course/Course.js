@@ -463,13 +463,7 @@ const handdleSubmit = async (e) => {
   }
     else if (valuetopic.length > 0) {
       for (let i = 0; i < valuetopic.length; i++) {
-          if (!!!valuetopic[i].title) {
-              // setErrorTopic({title: "Please enter title of topic"})
-              document.getElementById(`title${i}`).classList.add("is-invalid");
-              valid = false;
-              document.getElementById(`title${i}`).focus({ focusVisible: true });
-          }
-          else if (valuetopic[i].link.length > 0) {
+          if (valuetopic[i].link.length > 0) {
               for (let j = 0; j < valuetopic[i].link.length; j++) {
                   if (!!!valuetopic[i].link[j].name) {
                       // setErrorTopic({link_name: "Please enter name of link"})
