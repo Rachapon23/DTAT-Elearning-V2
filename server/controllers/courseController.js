@@ -277,7 +277,7 @@ exports.updateCourse = async (req, res) => {
       for (let j = 0; j < topic_after[i].file.length; j++) {
         // console.log("the last", topic_after[i].file[j])
         if (topic_after[i].file[j].filename !== "") {
-          if(topic_after[i].file[j].filetype === "video/mp4") video_amount++;
+          if (topic_after[i].file[j].filetype === "video/mp4") video_amount++;
           await fs.unlink(
             "./public/uploads/" + topic_after[i].file[j].filename,
             (err) => {
@@ -320,8 +320,8 @@ exports.updateCourse = async (req, res) => {
           description: head.description,
           // course_number: head.course_number,
           // password: head.password,
-          member:head.member,
-          calendar:head.calendar,
+          member: head.member,
+          calendar: head.calendar,
           room: head.room,
           topic: body,
         }
@@ -355,8 +355,8 @@ exports.updateCourse = async (req, res) => {
             description: head.description,
             // course_number: head.course_number,
             // password: head.password,
-            member:head.member,
-            calendar:head.calendar,
+            member: head.member,
+            calendar: head.calendar,
             room: head.room,
             topic: body,
           }
@@ -377,8 +377,8 @@ exports.updateCourse = async (req, res) => {
             description: head.description,
             // course_number: head.course_number,
             // password: head.password,
-            member:head.member,
-            calendar:head.calendar,
+            member: head.member,
+            calendar: head.calendar,
             room: head.room,
             image: head.image,
             topic: body,
@@ -424,20 +424,22 @@ exports.deleteCourse = async (req, res) => {
       });
     }
 
-    // TODO: if file not found in course it cannot delete course
-    for(let i = 0 ; i < course.topic.length ; i++){
-        for(let j = 0 ; j <course.topic[i].file.length ; j++ ){
-            console.log("name : ",course.topic[i].file[j].filename)
-            await fs.unlink("./public/uploads/" + course.topic[i].file[j].filename, (err) => {
-                        if (err) {
-                            console.log(err);
-                            res.status(400).send('err on delete file')
-                        } else {
-                            console.log("remove file Success");
-                        }
+    const deleteActivity = await studentActivity.deleteMany({ coursee: req.params.id })
 
-                    });
-        }
+    // TODO: if file not found in course it cannot delete course
+    for (let i = 0; i < course.topic.length; i++) {
+      for (let j = 0; j < course.topic[i].file.length; j++) {
+        console.log("name : ", course.topic[i].file[j].filename)
+        await fs.unlink("./public/uploads/" + course.topic[i].file[j].filename, (err) => {
+          if (err) {
+            console.log(err);
+            res.status(400).send('err on delete file')
+          } else {
+            console.log("remove file Success");
+          }
+
+        });
+      }
     }
 
     const course_delete = await Coursee.findOneAndDelete({
@@ -586,8 +588,8 @@ exports.updateCourseVideoAmount = async (req, res) => {
     const { id } = req.body
     const { data } = req.body
     console.log("-->>> ", req.body)
-    await Coursee.findOneAndUpdate({ _id: id}, {$inc: data})
-    
+    await Coursee.findOneAndUpdate({ _id: id }, { $inc: data })
+
     res.send("update course data success");
   } catch (err) {
     console.log(err);
@@ -646,7 +648,7 @@ exports.CourseSuccess = async (req, res) => {
     ).exec()
 
     Userr.history.push(history._id)
-     const update_user = await User.findOneAndUpdate(
+    const update_user = await User.findOneAndUpdate(
       { _id: user },
       { history: Userr.history, coursee: Userr.coursee }
     ).exec()
