@@ -9,7 +9,7 @@ import {
   listPlant,
 } from "../../../../function/teacher/funcMiscellaneous";
 import { createCalendar } from "../../../../function/teacher/funcCalendar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "./course.css";
 import Swal from "sweetalert2";
 import { useNavigate, Link, useLocation } from "react-router-dom";
@@ -18,11 +18,19 @@ import CalendarForcourse from "../calendar/CalendarForcourse";
 import { Card } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
+import Cropper from 'react-easy-crop'
+import ImageCropDialog from "../../childrenComponent/ImageCropDialog/ImageCropDialog";
 
 
 const { Meta } = Card;
 
 const Course = () => {
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    console.log(croppedArea, croppedAreaPixels)
+  }, [])
   const[loading,setLoading] = useState(false)
   const [valuetopic, SetValueTopic] = useState([]);
   const [nextState, setNextState] = useState([]);
@@ -502,6 +510,7 @@ const handdleSubmit = async (e) => {
     }
 
     if(valid) {
+      
       setLoading(true)
       await createCourse(sessionStorage.getItem("token"), {
         head: nameCourse,
@@ -587,7 +596,18 @@ const handdleSubmit = async (e) => {
     }
   };
 
-  const handleImg = (e) => {
+  const handleImg = async (e) => {
+    // console.log(e.target.files)
+    const reader = new FileReader()
+    reader.readAsDataURL(e.target.files[0])
+    reader.onload = e => {
+      if(sessionStorage.getItem("img")) {
+        sessionStorage.removeItem("img");
+      }
+      sessionStorage.setItem("img", e.target.result);
+    };
+    
+
     setFile(e.target.files[0]);
     console.log(e.target.files[0]);
   };
@@ -667,7 +687,18 @@ const handdleSubmit = async (e) => {
                   </div>
                 </div>
 
+                
                 <label className="form-label  mt-3">Cover Picture</label>
+                <div>
+                  {
+                    file && (
+                      <ImageCropDialog
+                        image={file}
+                        onCropped={setFile}
+                      />
+                    )
+                  }
+                </div>
                 <div className="">
                   <input
                     type="file"
@@ -803,7 +834,7 @@ const handdleSubmit = async (e) => {
                 </div>
               </div>
             </div>
-
+            
 
             {/* <div className="card mt-3">
                 <div className="card-body">
@@ -1160,6 +1191,7 @@ const handdleSubmit = async (e) => {
           </form>
         </div>
       </div>
+      
     </div>
   );
 };

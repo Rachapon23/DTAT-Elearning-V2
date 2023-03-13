@@ -474,7 +474,7 @@ const EditCourse = () => {
                                 title: 'Your course updated'
                             })
                             navigate('/teacher/get-course/' + id)
-                        }).catch(err => {
+                        }).catch(err => { 
                             console.log(err)
                         })
                     }
