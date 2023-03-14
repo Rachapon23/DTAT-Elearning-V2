@@ -114,7 +114,7 @@ const TeacherFromAdmin = () => {
             return (
                 <select onChange={(e) => handlechange(e, item._id)}
                     className="form-select " >
-                    <option selected>{item.role}</option>
+                    <option value={item.role}>{item.role}</option>
                     <option value="student">student</option>
                 </select>
             )
@@ -147,6 +147,7 @@ const TeacherFromAdmin = () => {
                             showSizeChanger: true,
                             pageSizeOptions: ['10', '20', '30'],
                         }}
+                        rowKey="_id"
                     />
                     {/* <table className="table" >
                         <thead >

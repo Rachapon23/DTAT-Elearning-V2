@@ -46,7 +46,11 @@ const Course = () => {
     name: "",
     description: "",
     quiz: null,
-    member: [],
+    member: [{
+      plant: "",
+      amount: 0,
+      registerd: 0,
+    }],
     calendar: [],
     statuscourse: false,
     room: "",
@@ -620,76 +624,85 @@ const handdleSubmit = async (e) => {
           <form onSubmit={handdleSubmit}>
             <div className="card">
               <div className="bg-primary head-form"></div>
-              <div className="card-body p-5">
-                <label className="form-label">Course Name</label>
-                <input
-                  type="text"
-                  className={
-                    error.name && error.name.length !== 0
-                      ? "form-control is-invalid"
-                      : "form-control"
-                  }
-                  name="name"
-                  id="nameCourse"
-                  onChange={handAddName}
-                />
-                <div className="invalid-feedback">{error.name}</div>
+              <div className="row card-body p-5">
+                <div className="col-md-10">
+                  <label className="form-label">Course Name</label>
+                  <input
+                    type="text"
+                    className={
+                      error.name && error.name.length !== 0
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    name="name"
+                    id="nameCourse"
+                    onChange={handAddName}
+                  />
+                  <div className="invalid-feedback">{error.name}</div>
+                </div>
 
-                <label className="form-label  mt-3">Description</label>
-                <textarea
-                  type="text"
-                  className={
-                    error.description && error.description.length !== 0
-                      ? "form-control is-invalid"
-                      : "form-control"
-                  }
-                  name="description"
-                  id="description"
-                  onChange={handAddName}
-                />
-                <div className="invalid-feedback">{error.description}</div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <label className="form-label  mt-3">Room</label>
-                    <div className="">
-                      <select
-                        name="room"
-                        id="room"
-                        className={
-                          error.room && error.room.length !== 0
-                            ? "form-control is-invalid"
-                            : "form-control"
-                        }
-                        onChange={handAddName}
-                      >
-                        <option value="">select room...</option>
-                        {room.map((item, index) => (
-                          <option key={index} value={item._id}>
-                            {item.room}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="invalid-feedback">{error.room}</div>
-                    </div>
+                <div className="col-md-2">
+                  <label className="form-label">
+                    Public or Register
+                  </label>
+                  <div >
+                    <Switch
+                      defaultChecked={nameCourse.statuscourse}
+                      onChange={(e) => {
+                        setNameCourse({ ...nameCourse, statuscourse: e });
+                      }}
+                    />
                   </div>
-                  <div className="col-md-6">
-                    <label className="form-label  mt-3">
-                      public or register
-                    </label>
-                    <div className="">
-                      <Switch
-                        defaultChecked={nameCourse.statuscourse}
-                        onChange={(e) => {
-                          setNameCourse({ ...nameCourse, statuscourse: e });
-                        }}
-                      />
-                    </div>
+                </div>
+
+                <div>
+                  <label className="form-label  mt-3">Description</label>
+                  <textarea
+                    type="text"
+                    className={
+                      error.description && error.description.length !== 0
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    name="description"
+                    id="description"
+                    onChange={handAddName}
+                  />
+                  <div className="invalid-feedback">{error.description}</div>
+                </div>
+
+                <div>
+                  <div>
+                    {
+                      nameCourse.statuscourse && 
+                      <div className="">
+                        <label className="form-label  mt-3">Room</label>
+                        <select
+                          name="room"
+                          id="room"
+                          className={
+                            error.room && error.room.length !== 0
+                              ? "form-control is-invalid"
+                              : "form-control"
+                          }
+                          onChange={handAddName}
+                        >
+                          <option value="">select room...</option>
+                          {nameCourse.statuscourse && room.map((item, index) => (
+                            <option key={index} value={item._id}>
+                              {item.room}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="invalid-feedback">{error.room}</div>
+                      </div> 
+                    }
                   </div>
                 </div>
 
                 
                 <label className="form-label  mt-3">Cover Picture</label>
-                <div>
+                {/* <div>
                   {
                     file && (
                       <ImageCropDialog
@@ -698,7 +711,8 @@ const handdleSubmit = async (e) => {
                       />
                     )
                   }
-                </div>
+                </div> */}
+
                 <div className="">
                   <input
                     type="file"
@@ -739,6 +753,7 @@ const handdleSubmit = async (e) => {
                                     SetValueTopic([...valuetopic]);
                                   }}
                                 >
+                                  <option value="">select plant...</option>
                                   {plant.map((ptem, pdex) => (
                                     <option key={pdex} value={ptem.plantname}>
                                       {ptem.plantname}
@@ -824,7 +839,7 @@ const handdleSubmit = async (e) => {
                       borderWidth: "2px",
                     }}
                     actions={[
-                      <Link class="bi bi-file-plus h5" onClick={handleAddNewQuiz} state={{ path: pathname }} />,
+                      <Link className="bi bi-file-plus h5" onClick={handleAddNewQuiz} state={{ path: pathname }} />,
                     ]}
                   >
                     <Meta

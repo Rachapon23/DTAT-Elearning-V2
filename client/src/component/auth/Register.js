@@ -237,16 +237,16 @@ const Register = () => {
                             id="plant" 
                             onChange={handleChange}
                           >
+                            <option value={null}></option>
+                            {plant.map((ptem, pdex) => (
+                                      <option key={pdex} value={ptem.plantname}>
+                                        {ptem.plantname}
+                                      </option>
+                            ))}
+                          </select>
                           <div className="invalid-feedback">
-                            {error.plant}
-                          </div>
-                          <option value={null}></option>
-                          {plant.map((ptem, pdex) => (
-                                    <option key={pdex} value={ptem.plantname}>
-                                      {ptem.plantname}
-                                    </option>
-                                  ))}
-                         </select>         
+                              {error.plant}
+                          </div>      
                         </div>
                       </div>
                        

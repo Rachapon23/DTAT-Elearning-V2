@@ -898,7 +898,7 @@ const EditCourse = () => {
                                                         }}
 
                                                         actions={[
-                                                            <Link class="bi bi-file-plus h5" to={`/teacher/quiz/${course._id}`} state={{ path: location.pathname }} />,
+                                                            <Link className="bi bi-file-plus h5" to={`/teacher/quiz/${course._id}`} state={{ path: location.pathname }} />,
                                                         ]}
                                                     >
                                                         <Meta
