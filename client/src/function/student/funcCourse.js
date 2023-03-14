@@ -24,6 +24,13 @@ headers:{
     authtoken,
 }
 });
+export const getMyHistoryStudent  = async(authtoken) =>
+await axios.get(process.env.REACT_APP_API+'/get-my-history/student',
+{
+headers:{
+    authtoken,
+}
+});
 
 
 export const getCourse  = async(authtoken,id) =>

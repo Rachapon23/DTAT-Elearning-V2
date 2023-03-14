@@ -187,13 +187,50 @@ exports.getMyCourse = async (req, res) => {
   try {
     // const { id } = req.params;
     const user = await User.findOne({ _id: req.user.user_id })
-      .populate("coursee history")
+      .populate("coursee")
       // .select("coursee")
       .exec();
     res.send(user);
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error!!! on getMyCourse");
+  }
+};
+
+exports.getMyHistoryStudent = async (req, res) => {
+  try {
+    // const { id } = req.params;
+    const history = await History.find({ student: req.user.user_id })
+      // .populate("coursee history")
+      .exec();
+    res.send(history);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error!!! on getMyHistoryStudent");
+  }
+};
+exports.getMyHistoryTeacher = async (req, res) => {
+  try {
+    // const { id } = req.params;
+    const history = await History.find({ teacher: req.user.user_id })
+      .populate("student")
+      .exec();
+    res.send(history);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error!!! on getMyHistoryTeacher");
+  }
+};
+exports.removeHistory = async (req, res) => {
+  try {
+   
+    const history = await History.deleteMany({ teacher: req.user.user_id })
+      .exec();
+    res.send(history);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error!!! on getMyHistoryTeacher");
   }
 };
 
@@ -610,27 +647,26 @@ exports.CourseSuccess = async (req, res) => {
       result: req.body.result,
       score: Activity.score,
       maxscore: Activity.max_score,
-      course: Course.name
+      course: Course.name,
+      teacher:req.user.user_id,
+      student:user
     })
-
+console.log(history)
     await history.save()
 
     for (let i = 0; i < Course.user.length; i++) {
       if (Course.user[i] == user) {
-        // console.log(Course.user[i] , user)
         Course.user.splice(i, 1);
       }
     }
     for (let i = 0; i < Course.member.length; i++) {
       if (Course.member[i].plant == Userr.plant) {
-        // console.log(Course.user[i] , user)
         Course.member[i].registerd = Course.member[i].registerd - 1
       }
     }
 
     for (let i = 0; i < Userr.coursee.length; i++) {
       if (Userr.coursee[i] == course) {
-        // console.log(Course.user[i] , user)
         Userr.coursee.splice(i, 1);
       }
     }
@@ -647,16 +683,16 @@ exports.CourseSuccess = async (req, res) => {
       }
     ).exec()
 
-    Userr.history.push(history._id)
+    // Userr.history.push(history._id)
     const update_user = await User.findOneAndUpdate(
       { _id: user },
-      { history: Userr.history, coursee: Userr.coursee }
+      { coursee: Userr.coursee }
     ).exec()
 
-    const update_teacher = await User.findOneAndUpdate(
-      { _id: req.user.user_id },
-      { targetstudent: teacher.targetstudent + 1 }
-    )
+    // const update_teacher = await User.findOneAndUpdate(
+    //   { _id: req.user.user_id },
+    //   { targetstudent: teacher.targetstudent + 1 }
+    // )
 
     res.send("success");
   } catch (err) {

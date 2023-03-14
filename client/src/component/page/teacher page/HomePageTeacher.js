@@ -1,8 +1,8 @@
 import React from 'react'
 import NavTeacher from '../../layout/NavTeacher'
 import { useState, useEffect } from 'react'
-import { getMyaccount, uploadProfile, updateProfile, postAmount} from '../../../function/teacher/funcMiscellaneous'
-import { getmyCourseTeacher } from '../../../function/teacher/funcCourse';
+import { getMyaccount, uploadProfile, updateProfile, postAmount } from '../../../function/teacher/funcMiscellaneous'
+import { getmyCourseTeacher, getMyHistoryTeacher } from '../../../function/teacher/funcCourse';
 import { listQuiz } from "../../../function/teacher/funcQuiz";
 import { Progress } from "antd";
 import './teacher.css'
@@ -14,6 +14,7 @@ const HomePageTeacher = () => {
   const [courses, setCourses] = useState([]);
   const [file, setFile] = useState();
   const [dataquiz, setDataQuiz] = useState([]);
+  const [history, setHistory] = useState([]);
   const [value, setValue] = useState(
     {
       email: "",
@@ -32,6 +33,13 @@ const HomePageTeacher = () => {
           email: res.data.email,
           tel: res.data.tel
         })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    getMyHistoryTeacher(sessionStorage.getItem("token"))
+      .then(res => {
+        setHistory(res.data)
       })
       .catch(err => {
         console.log(err)
@@ -120,20 +128,20 @@ const HomePageTeacher = () => {
 
   }
 
-  const changeTarget = () =>{
+  const changeTarget = () => {
     postAmount(sessionStorage.getItem("token"),
-    {
-      amount:amount
-    }
+      {
+        amount: amount
+      }
     )
-    .then(res => {
-      console.log(res.data)
-      loadData()
-      setEdit2(true)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(res => {
+        console.log(res.data)
+        loadData()
+        setEdit2(true)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
@@ -301,10 +309,10 @@ const HomePageTeacher = () => {
                             </div>
                           }
                           <hr />
-                          <p>จำนวนตอนนี้ : {data.targetstudent} คน</p>
+                          <p>จำนวนตอนนี้ : {history.length} คน</p>
                           <hr />
                           <Progress
-                            percent={parseInt((data.targetstudent / data.amountstudent) * 100)}
+                            percent={parseInt((history.length / data.amountstudent) * 100)}
                             strokeColor={{
                               "0%": "#108ee9",
                               "100%": "#87d068",
@@ -312,7 +320,9 @@ const HomePageTeacher = () => {
                           />
                         </div>
                       </div>
-
+                      <div className="d-grid mt-3">
+                        <a href='/teacher/history' className="btn btn-sm btn-primary">show history</a>
+                      </div>
                     </div>
                   </div>
                 </div>

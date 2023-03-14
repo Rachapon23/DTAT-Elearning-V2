@@ -75,3 +75,18 @@ headers:{
     authtoken,
 }
 });
+
+export const getMyHistoryTeacher  = async(authtoken) =>
+await axios.get(process.env.REACT_APP_API+'/get-my-history/teacher',
+{
+headers:{
+    authtoken,
+}
+});
+export const removeHistory  = async(authtoken) =>
+await axios.delete(process.env.REACT_APP_API+'/remove-history',
+{
+headers:{
+    authtoken,
+}
+});

@@ -20,7 +20,7 @@ import ManageHome from "./component/page/admin page/ManageHome";
 import HomePageTeacher from "./component/page/teacher page/HomePageTeacher";
 import CoursesPageteacher from "./component/page/teacher page/course/CoursesPageteacher";
 import CoursePageteacher from "./component/page/teacher page/course/CoursePageteacher";
-
+import HistoryTeacher from "./component/page/teacher page/HistoryTeacher";
 import Quiz from "./component/page/teacher page/quiz/Quiz";
 
 import Course from "./component/page/teacher page/course/Course";
@@ -83,6 +83,7 @@ function App() {
           <Route path="/teacher/list-courses" element={<CoursesPageteacher />} />
           <Route path="/teacher/get-course/:id" element={<CoursePageteacher />} />
           <Route path="/teacher/calendar-teacher" element={<Calendar />} /> 
+          <Route path="/teacher/history" element={<HistoryTeacher />} /> 
           <Route path="/teacher/get-course/manageuser/:id" element={<CourseManageUser/>} />
         </Route>
 

@@ -22,6 +22,9 @@ const {
     uploadfile,
     enablecourse,
     CourseSuccess,
+    getMyHistoryStudent,
+    getMyHistoryTeacher,
+    removeHistory,
 
 
     getRoom,
@@ -51,12 +54,13 @@ const {checkUser,checkAdmin,checkTeacher} = require('../middleware/middleward')
 
 
 
-// // teacher
+// // teacher 
 router.post("/upload-img",upload, checkUser, checkTeacher, uploadimg);
 router.post("/update-img",upload, checkUser, checkTeacher, updateimg);
 router.post("/upload-file",upload, checkUser ,checkTeacher, uploadfile);
 router.put("/update-video-amount", checkUser, checkTeacher, updateCourseVideoAmount);
-
+router.get("/get-my-history/teacher", checkUser, getMyHistoryTeacher);
+router.delete("/remove-history", checkUser, removeHistory);
 
 router.post("/create-course", checkUser, checkTeacher, createCourse);
 router.post("/enable-course", checkUser, checkTeacher, enablecourse);
@@ -78,6 +82,7 @@ router.post("/course-success",checkUser, checkTeacher, CourseSuccess);
 router.post("/searchcourse", checkUser, searchCourse);
 router.post("/addchcourse", checkUser, addCourse);
 router.get("/get-my-course", checkUser, getMyCourse);
+router.get("/get-my-history/student", checkUser, getMyHistoryStudent);
 
 router.get("/get-course/:id", getCourse);
 router.get("/list-public-courses", checkUser, publicCourses);
