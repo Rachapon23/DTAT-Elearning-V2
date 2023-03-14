@@ -307,26 +307,45 @@ const CoursePageteacher = () => {
                                 {item.link.length > 0 &&
                                     <div className=""><ul>
                                         {item.link.map((ttem, tdex) =>
-                                            ttem.url.includes("youtube.com") ?
-                                                (
-                                                    <div key={tdex} className="d-flex justify-content-center">
-                                                        <iframe
-                                                            width="560"
-                                                            height="315"
-                                                            src={ttem.url.replace("watch?v=", "embed/")}
-                                                            title="YouTube video player"
-                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                            allowFullScreen
-                                                        />
-                                                    </div>
-                                                )
-                                                :
-                                                (
-                                                    <li key={tdex}>
-                                                        <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
-                                                    </li>
-                                                )
-                                        )}
+                                                    ttem.url.includes("youtube.com") ?
+                                                        (
+                                                            <div key={tdex} className="mb-2 d-flex justify-content-center">
+                                                                <iframe
+                                                                    width="560"
+                                                                    height="315"
+                                                                    src={ttem.url.replace("watch?v=", "embed/")}
+                                                                    title="YouTube video player"
+                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                    allowFullScreen
+                                                                />
+                                                            </div>
+                                                        )
+                                                        :
+                                                        (
+                                                            ttem.url.includes("youtu.be") ?
+                                                            (
+                                                                <div key={tdex} className="mb-2 d-flex justify-content-center">
+                                                                    <iframe
+                                                                        width="560"
+                                                                        height="315"
+                                                                        src={ttem.url.replace(".be/", "be.com/embed/")}
+                                                                        title="YouTube video player"
+                                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                        allowFullScreen
+                                                                    />
+                                                                </div>
+                                                            )
+                                                            :
+                                                            (
+                                                                <li key={tdex}>
+                                                                    <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
+                                                                </li>
+                                                            )
+                                                            
+                                                            
+                                                        )
+                                                        
+                                                )}
                                     </ul>
                                     </div>
                                 }
