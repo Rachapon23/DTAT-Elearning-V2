@@ -309,15 +309,14 @@ const CoursePageteacher = () => {
                                         {item.link.map((ttem, tdex) =>
                                             ttem.url.includes("youtube.com") ?
                                                 (
-                                                    <div className="d-flex justify-content-center">
+                                                    <div key={tdex} className="d-flex justify-content-center">
                                                         <iframe
                                                             width="560"
                                                             height="315"
                                                             src={ttem.url.replace("watch?v=", "embed/")}
                                                             title="YouTube video player"
-                                                            frameborder="0"
                                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                            allowfullscreen
+                                                            allowFullScreen
                                                         />
                                                     </div>
                                                 )

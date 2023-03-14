@@ -23,6 +23,7 @@
     "react-bootstrap": "^2.7.0",
     "react-color-palette": "^6.2.0",
     "react-dom": "^18.2.0",
+    "react-easy-crop": "^4.7.4",
     "react-image-crop": "^10.0.9",
     "react-image-file-resizer": "^0.4.8",
     "react-player": "^2.11.2",

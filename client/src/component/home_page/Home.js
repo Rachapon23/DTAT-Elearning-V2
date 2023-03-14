@@ -70,7 +70,7 @@ navigate('/course-home/'+id)
                                         onClick={()=>checkToken(course._id)}
                                         >
                                             {course.image
-                                                ? <img src={`${process.env.REACT_APP_IMG}/${course.image}`} className="card-img-top w-100" />
+                                                ? <img src={`${process.env.REACT_APP_IMG}/${course.image}`} className="card-img-top" />
                                                 : <img src="/book-main-img-3.png" className="card-img-top w-100" />
                                             }
                                             <div className="card-body ">

@@ -134,7 +134,7 @@ const Plant = () => {
               <Table
                 columns={columns}
                 dataSource={plant}
-                // rowKey={plant._id}
+                rowKey="_id"
                 pagination={{
                   defaultPageSize: 20,
                   showSizeChanger: true,

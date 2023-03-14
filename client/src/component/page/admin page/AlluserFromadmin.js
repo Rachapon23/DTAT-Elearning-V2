@@ -89,6 +89,7 @@ const AlluserFromadmin = () => {
           showSizeChanger: true,
           pageSizeOptions: ['10', '20', '30'],
         }}
+        rowKey="_id"
       />
     {/* <table className="table">
         <thead>

@@ -9,7 +9,7 @@ import {
   listPlant,
 } from "../../../../function/teacher/funcMiscellaneous";
 import { createCalendar } from "../../../../function/teacher/funcCalendar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "./course.css";
 import Swal from "sweetalert2";
 import { useNavigate, Link, useLocation } from "react-router-dom";
@@ -18,11 +18,19 @@ import CalendarForcourse from "../calendar/CalendarForcourse";
 import { Card } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
+import Cropper from 'react-easy-crop'
+import ImageCropDialog from "../../childrenComponent/ImageCropDialog/ImageCropDialog";
 
 
 const { Meta } = Card;
 
 const Course = () => {
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    console.log(croppedArea, croppedAreaPixels)
+  }, [])
   const[loading,setLoading] = useState(false)
   const [valuetopic, SetValueTopic] = useState([]);
   const [nextState, setNextState] = useState([]);
@@ -38,7 +46,11 @@ const Course = () => {
     name: "",
     description: "",
     quiz: null,
-    member: [],
+    member: [{
+      plant: "",
+      amount: 0,
+      registerd: 0,
+    }],
     calendar: [],
     statuscourse: false,
     room: "",
@@ -502,6 +514,7 @@ const handdleSubmit = async (e) => {
     }
 
     if(valid) {
+      
       setLoading(true)
       await createCourse(sessionStorage.getItem("token"), {
         head: nameCourse,
@@ -587,7 +600,18 @@ const handdleSubmit = async (e) => {
     }
   };
 
-  const handleImg = (e) => {
+  const handleImg = async (e) => {
+    // console.log(e.target.files)
+    const reader = new FileReader()
+    reader.readAsDataURL(e.target.files[0])
+    reader.onload = e => {
+      if(sessionStorage.getItem("img")) {
+        sessionStorage.removeItem("img");
+      }
+      sessionStorage.setItem("img", e.target.result);
+    };
+    
+
     setFile(e.target.files[0]);
     console.log(e.target.files[0]);
   };
@@ -600,74 +624,95 @@ const handdleSubmit = async (e) => {
           <form onSubmit={handdleSubmit}>
             <div className="card">
               <div className="bg-primary head-form"></div>
-              <div className="card-body p-5">
-                <label className="form-label">Course Name</label>
-                <input
-                  type="text"
-                  className={
-                    error.name && error.name.length !== 0
-                      ? "form-control is-invalid"
-                      : "form-control"
-                  }
-                  name="name"
-                  id="nameCourse"
-                  onChange={handAddName}
-                />
-                <div className="invalid-feedback">{error.name}</div>
+              <div className="row card-body p-5">
+                <div className="col-md-10">
+                  <label className="form-label">Course Name</label>
+                  <input
+                    type="text"
+                    className={
+                      error.name && error.name.length !== 0
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    name="name"
+                    id="nameCourse"
+                    onChange={handAddName}
+                  />
+                  <div className="invalid-feedback">{error.name}</div>
+                </div>
 
-                <label className="form-label  mt-3">Description</label>
-                <textarea
-                  type="text"
-                  className={
-                    error.description && error.description.length !== 0
-                      ? "form-control is-invalid"
-                      : "form-control"
-                  }
-                  name="description"
-                  id="description"
-                  onChange={handAddName}
-                />
-                <div className="invalid-feedback">{error.description}</div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <label className="form-label  mt-3">Room</label>
-                    <div className="">
-                      <select
-                        name="room"
-                        id="room"
-                        className={
-                          error.room && error.room.length !== 0
-                            ? "form-control is-invalid"
-                            : "form-control"
-                        }
-                        onChange={handAddName}
-                      >
-                        <option value="">select room...</option>
-                        {room.map((item, index) => (
-                          <option key={index} value={item._id}>
-                            {item.room}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="invalid-feedback">{error.room}</div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label  mt-3">
-                      public or register
-                    </label>
-                    <div className="">
-                      <Switch
-                        defaultChecked={nameCourse.statuscourse}
-                        onChange={(e) => {
-                          setNameCourse({ ...nameCourse, statuscourse: e });
-                        }}
-                      />
-                    </div>
+                <div className="col-md-2">
+                  <label className="form-label">
+                    Public or Register
+                  </label>
+                  <div >
+                    <Switch
+                      defaultChecked={nameCourse.statuscourse}
+                      onChange={(e) => {
+                        setNameCourse({ ...nameCourse, statuscourse: e });
+                      }}
+                    />
                   </div>
                 </div>
 
+                <div>
+                  <label className="form-label  mt-3">Description</label>
+                  <textarea
+                    type="text"
+                    className={
+                      error.description && error.description.length !== 0
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    name="description"
+                    id="description"
+                    onChange={handAddName}
+                  />
+                  <div className="invalid-feedback">{error.description}</div>
+                </div>
+
+                <div>
+                  <div>
+                    {
+                      nameCourse.statuscourse && 
+                      <div className="">
+                        <label className="form-label  mt-3">Room</label>
+                        <select
+                          name="room"
+                          id="room"
+                          className={
+                            error.room && error.room.length !== 0
+                              ? "form-control is-invalid"
+                              : "form-control"
+                          }
+                          onChange={handAddName}
+                        >
+                          <option value="">select room...</option>
+                          {nameCourse.statuscourse && room.map((item, index) => (
+                            <option key={index} value={item._id}>
+                              {item.room}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="invalid-feedback">{error.room}</div>
+                      </div> 
+                    }
+                  </div>
+                </div>
+
+                
                 <label className="form-label  mt-3">Cover Picture</label>
+                {/* <div>
+                  {
+                    file && (
+                      <ImageCropDialog
+                        image={file}
+                        onCropped={setFile}
+                      />
+                    )
+                  }
+                </div> */}
+
                 <div className="">
                   <input
                     type="file"
@@ -708,6 +753,7 @@ const handdleSubmit = async (e) => {
                                     SetValueTopic([...valuetopic]);
                                   }}
                                 >
+                                  <option value="">select plant...</option>
                                   {plant.map((ptem, pdex) => (
                                     <option key={pdex} value={ptem.plantname}>
                                       {ptem.plantname}
@@ -793,7 +839,7 @@ const handdleSubmit = async (e) => {
                       borderWidth: "2px",
                     }}
                     actions={[
-                      <Link class="bi bi-file-plus h5" onClick={handleAddNewQuiz} state={{ path: pathname }} />,
+                      <Link className="bi bi-file-plus h5" onClick={handleAddNewQuiz} state={{ path: pathname }} />,
                     ]}
                   >
                     <Meta
@@ -803,7 +849,7 @@ const handdleSubmit = async (e) => {
                 </div>
               </div>
             </div>
-
+            
 
             {/* <div className="card mt-3">
                 <div className="card-body">
@@ -1160,6 +1206,7 @@ const handdleSubmit = async (e) => {
           </form>
         </div>
       </div>
+      
     </div>
   );
 };

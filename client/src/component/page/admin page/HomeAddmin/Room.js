@@ -142,7 +142,7 @@ const Room = () => {
               <Table
                 columns={columns}
                 dataSource={room}
-                // rowKey={room._id}
+                rowKey="_id"
                 pagination={{
                   defaultPageSize: 20,
                   showSizeChanger: true,
