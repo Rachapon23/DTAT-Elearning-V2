@@ -299,7 +299,7 @@ const EditCourse = () => {
             document.getElementById("description").focus({ focusVisible: true });
             setLoading(false)
         }
-        else if (!!!course.room) {
+        else if (course.statuscourse && !!!course.room) {
             setError({room: "Please select room"})
             valid = false;
             document.getElementById("room").focus({ focusVisible: true });
