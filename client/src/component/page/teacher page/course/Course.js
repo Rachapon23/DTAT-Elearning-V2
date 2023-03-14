@@ -53,7 +53,7 @@ const Course = () => {
     }],
     calendar: [],
     statuscourse: false,
-    room: "",
+    room: null,
     teacher: sessionStorage.getItem("user_id"),
   });
 
@@ -455,7 +455,7 @@ const handdleSubmit = async (e) => {
         valid = false;
         document.getElementById("description").focus({ focusVisible: true });
     }
-    else if (!!!nameCourse.room) {
+    else if (nameCourse.statuscourse && !!!nameCourse.room) {
         valid = false;
         document.getElementById("room").focus({ focusVisible: true });
     }
@@ -602,14 +602,14 @@ const handdleSubmit = async (e) => {
 
   const handleImg = async (e) => {
     // console.log(e.target.files)
-    const reader = new FileReader()
-    reader.readAsDataURL(e.target.files[0])
-    reader.onload = e => {
-      if(sessionStorage.getItem("img")) {
-        sessionStorage.removeItem("img");
-      }
-      sessionStorage.setItem("img", e.target.result);
-    };
+    // const reader = new FileReader()
+    // reader.readAsDataURL(e.target.files[0])
+    // reader.onload = e => {
+    //   if(sessionStorage.getItem("img")) {
+    //     sessionStorage.removeItem("img");
+    //   }
+    //   sessionStorage.setItem("img", e.target.result);
+    // };
     
 
     setFile(e.target.files[0]);
