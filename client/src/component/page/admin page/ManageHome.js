@@ -71,12 +71,12 @@ const ManageHome = () => {
   const loadData = () => {
     listHome(sessionStorage.getItem("token"))
       .then((res) => {
-        // console.log(res.data)
-        setIdHome(res.data.home[0]._id);
-        setIdRegis(res.data.regis[0]._id);
-        setCarouseldata(res.data.home[0].carousel);
-        setCoursedata(res.data.home[0].coursee);
-        setReGisCoursedata(res.data.regis[0].coursee);
+        console.log(res)
+        setIdHome(res.data._id);
+        // setIdRegis(res.data.regis[0]._id);
+        setCarouseldata(res.data.carousel);
+        setCoursedata(res.data.course_public);
+        setReGisCoursedata(res.data.course_private);
       })
       .catch((err) => {
         console.log(err);
@@ -119,7 +119,7 @@ const ManageHome = () => {
   const handleRemoveCourse2 = (index) => {
     console.log(index);
     removeCourse2(sessionStorage.getItem("token"), {
-      id: idRegis,
+      id: idHome,
       index: index,
     })
       .then((res) => {
@@ -151,6 +151,7 @@ const ManageHome = () => {
         console.log(err);
       });
   };
+
   const handleSubmitCourse = () => {
     // console.log(courseupload)
     if (coursedata.length >= 5) {
@@ -178,6 +179,7 @@ const ManageHome = () => {
         });
     }
   };
+
   const handleSubmitRegisterCourse = () => {
     if (reGisCoursedata.length >= 5) {
       // ควรมี middle ware ตรวจสอบด้วย
@@ -188,7 +190,7 @@ const ManageHome = () => {
       });
     } else {
       postReGiscourse(sessionStorage.getItem("token"), {
-        id: idRegis,
+        id: idHome,
         id_course: reGisCourse,
       })
         .then((res) => {

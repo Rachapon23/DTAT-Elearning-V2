@@ -27,9 +27,9 @@ const Home = () => {
         listHome(sessionStorage.getItem("token")).then(res => {
             console.log(res.data)
 
-            setCarouseldata(res.data.home[0].carousel)
-            setCoursedata(res.data.home[0].coursee)
-            setReGisCoursedata(res.data.regis[0].coursee)
+            setCarouseldata(res.data.carousel)
+            setCoursedata(res.data.course_public)
+            setReGisCoursedata(res.data.course_private)
         }).catch(err => {
             console.log(err)
         })

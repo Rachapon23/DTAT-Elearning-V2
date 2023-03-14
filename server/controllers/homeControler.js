@@ -1,6 +1,6 @@
 
 const Home = require('../models/homemanage')
-const ReGiscourse = require('../models/registerCourse')
+
 const fs = require("fs");
 
 exports.carousel = async (req, res) => {
@@ -47,18 +47,19 @@ exports.carousel = async (req, res) => {
 // }
 exports.course = async (req, res) => {
     try {
-
         const { id_course, id } = req.body
         const courselist = await Home.findOne({ _id: id }).exec()
-        if (courselist.coursee.length >= 5) {
+        // console.log(req.body)
+        if (courselist.course_public.length >= 5) {
             res.status(400).send("course is full")
         } else {
 
-            courselist.coursee.push(id_course)
-            const newcourselist = await Home.findOneAndUpdate({ _id: id }, { coursee: courselist.coursee })
+            courselist.course_public.push(id_course)
+            const newcourselist = await Home.findOneAndUpdate({ _id: id }, { course_public: courselist.course_public })
             res.send(newcourselist)
+            console.log(courselist)
         }
-
+        // res.send("ok")
     } catch (err) {
         console.log(err)
         res.status(500).send('Server Error!!! on course')
@@ -66,19 +67,16 @@ exports.course = async (req, res) => {
 }
 exports.ReGiscourse = async (req, res) => {
     try {
-
         const { id_course, id } = req.body
-        const courselist = await ReGiscourse.findOne({ _id: id }).exec()
-        if (courselist.coursee.length >= 5) {
+        const courselist = await Home.findOne({ _id: id }).exec()
+        if (courselist.course_private.length >= 5) {
             res.status(400).send("course is full")
         } else {
 
-            courselist.coursee.push(id_course)
-            const newcourselist = await ReGiscourse.findOneAndUpdate({ _id: id }, { coursee: courselist.coursee })
+            courselist.course_private.push(id_course)
+            const newcourselist = await Home.findOneAndUpdate({ _id: id }, { course_private: courselist.course_private })
             res.send(newcourselist)
         }
-      
-    
     } catch (err) {
         console.log(err)
         res.status(500).send('Server Error!!! on ReGiscourse')
@@ -86,13 +84,13 @@ exports.ReGiscourse = async (req, res) => {
 }
 exports.listHome = async (req, res) => {
     try {
-        const home = await Home.find({})
-        .populate("coursee")
+        const home = await Home.findOne({})
+        .populate("course_private course_public")
         .exec()
-        const regis = await ReGiscourse.find({})
-        .populate("coursee")
-        .exec()
-        res.send({home:home,regis:regis})
+        // const regis = await ReGiscourse.find({})
+        // .populate("coursee")
+        // .exec()
+        res.send(home)
     } catch (err) {
         console.log(err)
         res.status(500).send('Server Error!!! on list home')
@@ -128,11 +126,11 @@ exports.removeCourse = async (req, res) => {
         // const home = await Home.find({}).exec()
         const Course = await Home.findOne({ _id: req.body.id })
 
-        Course.coursee.splice(req.body.index, 1)
+        Course.course_public.splice(req.body.index, 1)
 
         const update = await Home.findOneAndUpdate(
             { _id: req.body.id },
-            { coursee: Course.coursee }
+            { course_public: Course.course_public }
         )
 
         res.send(update)
@@ -144,18 +142,18 @@ exports.removeCourse = async (req, res) => {
 exports.removeCourse2 = async (req, res) => {
     try {
         // const home = await Home.find({}).exec()
-        const Course = await ReGiscourse.findOne({ _id: req.body.id })
+        const Course = await Home.findOne({ _id: req.body.id })
 
-        Course.coursee.splice(req.body.index, 1)
+        Course.course_private.splice(req.body.index, 1)
 
-        const update = await ReGiscourse.findOneAndUpdate(
+        const update = await Home.findOneAndUpdate(
             { _id: req.body.id },
-            { coursee: Course.coursee }
+            { course_private: Course.course_private }
         )
 
         res.send(update)
     } catch (err) {
         console.log(err)
-        res.status(500).send('Server Error!!! on remove Re Course')
+        res.status(500).send('Server Error!!! on remove Course')
     }
 }
