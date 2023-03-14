@@ -70,7 +70,7 @@ const Course = () => {
     text: "Please enter sub-content of topic",
     link_name: "Please enter name of link",
     link_url: "Please enter URL of link",
-    quiz: "Please select quiz of topic",
+    // quiz: "Please select quiz of topic",
   };
 
   const handleAddTopic = () => {
@@ -81,7 +81,7 @@ const Course = () => {
         description: "",
         text: [],
         link: [],
-        quiz: [],
+        // quiz: [],
         file: [],
       },
     ]);
@@ -114,15 +114,15 @@ const Course = () => {
     setNextState([...nextState]);
   };
 
-  const handdleAddquiz = (e, index) => {
-    e.preventDefault();
-    valuetopic[index].quiz.push({
-      type: "quiz",
-      name: "",
-      quiz: "",
-    });
-    setNextState([...nextState]);
-  };
+  // const handdleAddquiz = (e, index) => {
+  //   e.preventDefault();
+  //   valuetopic[index].quiz.push({
+  //     type: "quiz",
+  //     name: "",
+  //     quiz: "",
+  //   });
+  //   setNextState([...nextState]);
+  // };
 
   const handdleAddfile = (e, index) => {
     e.preventDefault();
@@ -154,11 +154,11 @@ const Course = () => {
     valuetopic[index].link.splice(tdex, 1);
     setNextState([...nextState]);
   };
-  const handleRemoveQuiz = (e, index, tdex) => {
-    e.preventDefault();
-    valuetopic[index].quiz.splice(tdex, 1);
-    setNextState([...nextState]);
-  };
+  // const handleRemoveQuiz = (e, index, tdex) => {
+  //   e.preventDefault();
+  //   valuetopic[index].quiz.splice(tdex, 1);
+  //   setNextState([...nextState]);
+  // };
   const handleRemoveFile = (e, index, tdex) => {
     e.preventDefault();
     valuetopic[index].file.splice(tdex, 1);
@@ -1078,7 +1078,7 @@ const handdleSubmit = async (e) => {
                       ))}
                     </ul>
                   </div>
-                  <div className="d-flex justify-content-between mb-0 mt-3">
+                  {/* <div className="d-flex justify-content-between mb-0 mt-3">
                     <p className=""> Quiz </p>
                     <button
                       className="btn h4 text-primary mb-0"
@@ -1087,9 +1087,9 @@ const handdleSubmit = async (e) => {
                     >
                       +
                     </button>
-                  </div>
-                  <hr className="mt-0" />
-                  <div>
+                  </div> */}
+                  {/* <hr className="mt-0" /> */}
+                  {/* <div>
                     {item.quiz.length > 0 && (
                       <div className="d-grid">
                         <button
@@ -1152,7 +1152,7 @@ const handdleSubmit = async (e) => {
                         </div>
                       ))}
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}

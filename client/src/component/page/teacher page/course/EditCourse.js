@@ -1112,14 +1112,14 @@ const EditCourse = () => {
                                             </ul>
                                         </div>
 
-                                        <div className="d-flex justify-content-between mb-0 mt-3" >
+                                        {/* <div className="d-flex justify-content-between mb-0 mt-3" >
                                             <p className="">Quiz</p>
                                             <button className="btn h4 text-primary mb-0"
                                                 type='Button' onClick={(e) => handdleAddquiz(e, index)}
                                             >+</button>
                                         </div>
-                                        <hr className="mt-0" />
-                                        <div>
+                                        <hr className="mt-0" /> */}
+                                        {/* <div>
 
                                             {item.quiz.length > 0 &&
                                                 <div className="d-grid">
@@ -1165,7 +1165,7 @@ const EditCourse = () => {
                                                     </div>
                                                 )}
                                             </ul>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             )}
