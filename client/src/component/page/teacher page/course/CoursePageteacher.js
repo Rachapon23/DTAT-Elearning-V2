@@ -404,13 +404,15 @@ const CoursePageteacher = () => {
                                                                                     <>
                                                                                         {ttem.filetype === "video/mp4" ? (
 
-                                                                                            <div>
+                                                                                            <div className='d-flex justify-content-center my-3'>
+                                                                                                <div className="w-75">
                                                                                                 <VideoPlayer
                                                                                                     index={tdex}
                                                                                                     videoName={ttem.name}
                                                                                                     url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
                                                                                                     disableForward={false}
                                                                                                 />
+                                                                                                </div>
                                                                                             </div>
                                                                                         )
 
