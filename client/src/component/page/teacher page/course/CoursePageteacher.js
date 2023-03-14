@@ -262,7 +262,7 @@ const CoursePageteacher = () => {
                                             }}
                                             actions={[
                                                 // <Link class="bi bi-eye-fill h5" to={`/student/test/${dataQuiz._id}`} state={{path: pathname}}/>,
-                                                <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${dataQuiz._id}`}/>,
+                                                <Link className="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${dataQuiz._id}`}/>,
                                                 <Link className="bi bi bi-trash-fill h5" onClick={() => submitRemoveQuiz(dataQuiz._id)} />
                                             ]}
                                         >
@@ -304,9 +304,9 @@ const CoursePageteacher = () => {
                                     </ul>
                                     </div>
                                 }
-                                {item.link.length > 0 &&
-                                    <div className=""><ul>
-                                        {item.link.map((ttem, tdex) =>
+                                  {item.link.length > 0 &&
+                                            <div className="container">
+                                                {item.link.map((ttem, tdex) =>
                                                     ttem.url.includes("youtube.com") ?
                                                         (
                                                             <div key={tdex} className="mb-2 d-flex justify-content-center">
@@ -346,9 +346,10 @@ const CoursePageteacher = () => {
                                                         )
                                                         
                                                 )}
-                                    </ul>
-                                    </div>
-                                }
+                                           
+                                            
+                                            </div>
+                                        }
 
                                 {item.file &&
                                     <div className="">

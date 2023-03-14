@@ -87,7 +87,7 @@ const CourseManageUser = () => {
                           <td>{item.user.plant}</td>
                           <td>{item.user.firstname} {item.user.lastname}</td>
                           {!!calulateProcess(item)
-                          ? <td>calulateProcess(item)</td>
+                          ? <td>{calulateProcess(item)} %</td>
                           : <td>-</td>
                           }
                           {/* <td>

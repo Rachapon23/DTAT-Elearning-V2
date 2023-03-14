@@ -34,7 +34,7 @@ const Course = () => {
   const[loading,setLoading] = useState(false)
   const [valuetopic, SetValueTopic] = useState([]);
   const [nextState, setNextState] = useState([]);
-  const [dataquiz, setDataQuiz] = useState();
+  // const [dataquiz, setDataQuiz] = useState();
   const [newCourse, setNewCourse] = useState("");
   const [room, setRoom] = useState([]);
   const [file, setFile] = useState("");
@@ -175,16 +175,16 @@ const Course = () => {
     setNextState([...nextState]);
   };
 
-  const loadQuiz = () => {
-    getQuizByCourseID(sessionStorage.getItem("token"), nameCourse.quiz)
-      .then((res) => {
-        // console.log(res.data)
-        setDataQuiz(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const loadQuiz = () => {
+  //   getQuizByCourseID(sessionStorage.getItem("token"), nameCourse.quiz)
+  //     .then((res) => {
+  //       // console.log(res.data)
+  //       setDataQuiz(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const loadRoom = () => {
     listRoom(sessionStorage.getItem("token"))
       .then((res) => {
@@ -301,7 +301,7 @@ const Course = () => {
 
 
   useEffect(() => {
-    loadQuiz();
+    // loadQuiz();
     loadRoom();
     loadPlant();
   }, []);
@@ -500,16 +500,16 @@ const handdleSubmit = async (e) => {
                   }
               }
           }
-          if (valuetopic[i].quiz.length > 0) {
-              for (let j = 0; j < valuetopic[i].quiz.length; j++) {
-                  if (!!!valuetopic[i].quiz[j].quiz) {
-                      // setErrorTopic({quiz: "Please select quiz of topic"})
-                      document.getElementById(`quiz${i}${j}`).classList.add("is-invalid");
-                      valid = false;
-                      document.getElementById(`quiz${i}${j}`).focus({ focusVisible: true });
-                  }
-              }
-          }
+          // if (valuetopic[i].quiz.length > 0) {
+          //     for (let j = 0; j < valuetopic[i].quiz.length; j++) {
+          //         if (!!!valuetopic[i].quiz[j].quiz) {
+          //             // setErrorTopic({quiz: "Please select quiz of topic"})
+          //             document.getElementById(`quiz${i}${j}`).classList.add("is-invalid");
+          //             valid = false;
+          //             document.getElementById(`quiz${i}${j}`).focus({ focusVisible: true });
+          //         }
+          //     }
+          // }
       }
     }
 

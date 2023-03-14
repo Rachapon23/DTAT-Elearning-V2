@@ -22,15 +22,15 @@ const Mycourse = ({ item, loadMycourse, courseID }) => {
 
   const nextToCourse = (params) => {
     // console.log(params)
-    if (item.enabled) {
+    // if (item.enabled) {
       navigate('/student/get-course/' + params)
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'This course is now not available, plase try again later',
-      })
-    }
+    // } else {
+    //   Swal.fire({
+    //     icon: 'error',
+    //     title: 'Error',
+    //     text: 'This course is now not available, plase try again later',
+    //   })
+    // }
   }
 
   const fetchProcess = ()  => {

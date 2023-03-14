@@ -51,46 +51,52 @@ const PublicCourse = ({ course, topic }) => {
                                             </ul>
                                         </div>
                                     }
-                                    {item.link.map((ttem, tdex) =>
-                                        ttem.url.includes("youtube.com") ?
-                                            (
-                                                <div key={tdex} className="mb-2 d-flex justify-content-center">
-                                                    <iframe
-                                                        width="560"
-                                                        height="315"
-                                                        src={ttem.url.replace("watch?v=", "embed/")}
-                                                        title="YouTube video player"
-                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                        allowFullScreen
-                                                    />
-                                                </div>
-                                            )
-                                            :
-                                            (
-                                                ttem.url.includes("youtu.be") ?
-                                                    (
-                                                        <div key={tdex} className="mb-2 d-flex justify-content-center">
-                                                            <iframe
-                                                                width="560"
-                                                                height="315"
-                                                                src={ttem.url.replace(".be/", "be.com/embed/")}
-                                                                title="YouTube video player"
-                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                                allowFullScreen
-                                                            />
-                                                        </div>
-                                                    )
-                                                    :
-                                                    (
-                                                        <li key={tdex}>
-                                                            <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
-                                                        </li>
-                                                    )
-
-
-                                            )
-
-                                    )}
+                                    {item.link.length > 0 &&
+                                            <div className="container">
+                                                {item.link.map((ttem, tdex) =>
+                                                    ttem.url.includes("youtube.com") ?
+                                                        (
+                                                            <div key={tdex} className="mb-2 d-flex justify-content-center">
+                                                                <iframe
+                                                                    width="560"
+                                                                    height="315"
+                                                                    src={ttem.url.replace("watch?v=", "embed/")}
+                                                                    title="YouTube video player"
+                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                    allowFullScreen
+                                                                />
+                                                            </div>
+                                                        )
+                                                        :
+                                                        (
+                                                            ttem.url.includes("youtu.be") ?
+                                                            (
+                                                                <div key={tdex} className="mb-2 d-flex justify-content-center">
+                                                                    <iframe
+                                                                        width="560"
+                                                                        height="315"
+                                                                        src={ttem.url.replace(".be/", "be.com/embed/")}
+                                                                        title="YouTube video player"
+                                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                        allowFullScreen
+                                                                    />
+                                                                </div>
+                                                            )
+                                                            :
+                                                            (
+                                                                <li key={tdex}>
+                                                                    <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
+                                                                </li>
+                                                            )
+                                                            
+                                                            
+                                                        )
+                                                        
+                                                )}
+                                           
+                                            
+                                            </div>
+                                        }
                                     {item.file.length > 0 &&
                                         <div className="">
 
@@ -202,7 +208,7 @@ const PublicCourse = ({ course, topic }) => {
                 </div>
                 :
                 <div className="border bg-white my-3 p-4">
-                    <p className="text-center text-danger">This course is now not available, plase try again later</p>
+                      <p className="text-center text-info pt-3">This course is now not available, plase try again later</p>
                 </div>
             }
 
