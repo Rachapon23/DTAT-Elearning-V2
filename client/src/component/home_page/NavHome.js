@@ -9,10 +9,28 @@ import { checkRole } from "../../function/funcroute";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
+
+
 
 const NavHome = ({ open, setOpen }) => {
     // const [open, setOpen] = useState(false);
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+    const[loading,setLoading] = useState(false)
 
     const navigate = useNavigate();
     const [email, setEmail] = useState({});
@@ -53,9 +71,11 @@ const NavHome = ({ open, setOpen }) => {
 
     const handleSendEmail = (e) => {
         e.preventDefault();
+        setLoading(true)
         console.log(email);
         sendEmail(email)
             .then((res) => {
+                setLoading(false)
                 console.log(res);
                 Swal.fire(
                     "Success",
@@ -65,6 +85,7 @@ const NavHome = ({ open, setOpen }) => {
                 // navigate("/");
             })
             .catch((err) => {
+                setLoading(false)
                 const err_obj = err.response.data;
                 console.log(err);
 
@@ -91,7 +112,12 @@ const NavHome = ({ open, setOpen }) => {
                 // sessionStorage.setItem("role", res.data.Payload.user.role)
 
                 // roleBaseRedirect(res.data.Payload.user.role);
+
                 setOpen(false)
+                Toast.fire({
+                    icon: 'success',
+                    title: 'login success'
+                })
             })
             .catch((err) => {
                 const err_obj = err.response.data;
@@ -136,6 +162,25 @@ const NavHome = ({ open, setOpen }) => {
         setEmail({ ...email, [e.target.name]: e.target.value });
         setError({ ...error, [e.target.name]: "" });
     };
+
+    const OK = (e) => {
+      return (
+        <div>
+          {loading
+                ?
+                 <button className="btn" type="button">
+                  <Spin indicator={antIcon} />
+                </button>
+                : <button type="button" 
+                onClick={handleSendEmail}
+                className="btn btn-primary btn-sm px-3">
+                  {" "}
+                  send{" "}
+                </button>
+              }
+        </div>
+      )
+    };
     return (
 
         <Navbar className="bg-nav px-4 mb-5" expand="lg">
@@ -160,6 +205,7 @@ const NavHome = ({ open, setOpen }) => {
                         >
                             <Button>{sessionStorage.getItem('firstname')}</Button>
                         </Dropdown> 
+                        
                         <Button type="primary" onClick={roleBaseRedirect} className="ms-2">
                             go to my Home
                         </Button>
@@ -255,8 +301,11 @@ const NavHome = ({ open, setOpen }) => {
                                         <Modal
                                             title="Reset Password"
                                             open={isModalOpen}
-                                            onOk={handleSendEmail}
+                                            // onOk={handleSendEmail}
                                             onCancel={closeModal}
+                                            footer={[
+                                                OK(),
+                                            ]}
                                         >
                                             <div className="form-group mt-3">
                                                 <label className="form-label"> Email </label>
@@ -290,153 +339,7 @@ const NavHome = ({ open, setOpen }) => {
 
             </Navbar.Collapse>
         </Navbar>
-        // <nav className="navbar navbar-light  bg-nav d-flex justify-content-between px-5 mb-5">
-        //     <a className="navbar-brand text-white brand" href="/">
-        //         <img src="/navbrand3.png" className="logo-nav" />&nbsp;
-        //     </a>
-
-        //     <>
-        //         {!!sessionStorage.getItem('token')
-        //             ?
-        //             <div>
-        //                 <Button type="primary" onClick={roleBaseRedirect} className="me-2">
-        //                     go to my Home
-        //                 </Button>
-        //                 <Dropdown
-        //                     menu={{
-        //                         items,
-        //                         onClick: handleMenuClick,
-        //                     }}
-        //                     placement="bottomRight"
-        //                 >
-        //                     <Button>{sessionStorage.getItem('firstname')}</Button>
-        //                 </Dropdown>
-        //             </div>
-
-        //             : <>
-        //                 <Button type="primary" onClick={() => setOpen(true)}>
-        //                     Sing In
-        //                 </Button>
-        //                 <Modal
-        //                     title="Sing In"
-        //                     centered
-        //                     open={open}
-        //                     onOk={() => setOpen(false)}
-        //                     onCancel={() => setOpen(false)}
-        //                     footer={
-        //                         <div>
-        //                             <div className="d-flex justify-content-center">
-        //                                 <button className='btn btn-outline-primary' onClick={handleSubmit}>Sign In</button>
-        //                             </div>
-        //                             <div className='d-flex justify-content-between'>
-        //                                 <div className="">
-        //                                     <a className='btn text-muted' onClick={showModal}>forgot password</a>
-        //                                 </div>
-
-        //                                 <div className="">
-        //                                     <a className='btn text-muted' href="register">register</a>
-        //                                 </div>
-        //                             </div>
-
-        //                         </div>
-        //                     }
-        //                 // width={1000}
-        //                 >
-        //                     <div className="d-flex justify-content-center">
-
-        //                         <div className="mx-4 mt-3">
-        //                             {/* <h3 className="text-center my-4"> Login </h3> */}
-        //                             {/* <form onSubmit={handleSubmit}> */}
-        //                             <div className="form-group">
-        //                                 <label className="form-label"> Employee ID</label>
-        //                                 <input
-        //                                     //   className={
-        //                                     //     error.employee_ID && error.employee_ID.length !== 0
-        //                                     //       ? "form-control is-invalid"
-        //                                     //       : "form-control"
-        //                                     //   }
-        //                                     className='form-control'
-        //                                     type="text"
-        //                                     name="employee_ID"
-        //                                     id="employee_ID"
-        //                                     onChange={handleChange}
-
-        //                                 />
-        //                                 {/* <div className="invalid-feedback">{error.employee_ID}</div> */}
-        //                             </div>
-
-        //                             <div className="form-group mt-3">
-        //                                 <label className="form-label"> Password </label>
-        //                                 <input
-        //                                     //   className={
-        //                                     //     error.password && error.password.length !== 0
-        //                                     //       ? "form-control is-invalid"
-        //                                     //       : "form-control"
-        //                                     //   }
-        //                                     className='form-control'
-        //                                     type="password"
-        //                                     name="password"
-        //                                     id="password"
-        //                                     onChange={handleChange}
-        //                                 />
-
-        //                                 {/* <div className="invalid-feedback">{error.password}</div> */}
-        //                             </div>
-
-        //                             <br />
-        //                             {/* <div className="d-flex justify-content-center">
-        //                                 <button type="submit" className="btn btn-outline-primary">
-        //                                     login
-        //                                 </button>
-        //                             </div> */}
-        //                             {/* </form> */}
-
-        //                             <div className="d-flex justify-content-between">
-        //                                 {/* <a
-        //                             className="text-muted"
-        //                             style={{ cursor: "pointer" }}
-        //                             onClick={showModal}
-        //                         >
-        //                             {" "}
-        //                             forgot password{" "}
-        //                         </a> */}
-
-        //                                 <Modal
-        //                                     title="Reset Password"
-        //                                     open={isModalOpen}
-        //                                     onOk={handleSendEmail}
-        //                                     onCancel={closeModal}
-        //                                 >
-        //                                     <div className="form-group mt-3">
-        //                                         <label className="form-label"> Email </label>
-        //                                         <input
-        //                                             // className={
-        //                                             //   error.email && error.email.length !== 0
-        //                                             //     ? "form-control is-invalid"
-        //                                             //     : "form-control"
-        //                                             // }
-        //                                             className='form-control'
-        //                                             type="text"
-        //                                             name="email"
-        //                                             onChange={handleEmail}
-        //                                         />
-        //                                         {/* <div className="invalid-feedback">{error.email}</div> */}
-        //                                     </div>
-        //                                 </Modal>
-
-        //                                 {/* <a className="text-muted" href="register">
-        //                             register
-        //                         </a> */}
-        //                             </div>
-        //                         </div>
-
-        //                     </div>
-        //                 </Modal>
-        //             </>
-        //         }
-
-        //     </>
-        // </nav>
+       
     )
 }
 

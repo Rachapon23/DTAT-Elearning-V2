@@ -8,11 +8,26 @@
     min-width: 100%;
     min-height: 100%;
     background-size: cover;
-    min-height: 1000px;
+    min-height: 1200px;
     background-position: center;
+    padding-bottom: 50px;
 
     /* z-index: 0; */
-    position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+    /* position: absolute; top: 0; right: 0; bottom: 0; left: 0; */
+
+}
+.black-g-course{
+    background-image: url("../../../public/back-login.png");
+    position: relative;
+    min-width: 100%;
+    min-height: 100%;
+    background-size: cover;
+    min-height: 1200px;
+    background-position: center;
+    padding-bottom: 50px;
+
+    /* z-index: 0; */
+    /* position: absolute; top: 0; right: 0; bottom: 0; left: 0; */
 
 }
 .bg-nav{

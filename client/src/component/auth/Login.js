@@ -3,15 +3,19 @@ import { login } from "../../function/auth";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { Modal } from "antd";
+import { Button, Modal } from 'antd';
 import "./auth.css";
 import { sendEmail } from "../../function/auth";
 import { checkRole } from "../../function/funcroute";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState({});
   const [isModalOpen, setIsMoalOpen] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   const [value, setValue] = useState({
     employee_ID: "",
@@ -120,9 +124,11 @@ const Login = () => {
   const handleSendEmail = (e) => {
     e.preventDefault();
     console.log(email);
+    setLoading(true)
     sendEmail(email)
       .then((res) => {
         console.log(res);
+        setLoading(false)
         Swal.fire(
           "Success",
           "Send email success, Please check your email inbox",
@@ -131,6 +137,7 @@ const Login = () => {
         // navigate("/");
       })
       .catch((err) => {
+        setLoading(false)
         const err_obj = err.response.data;
         console.log(err);
         try {
@@ -222,42 +229,44 @@ const Login = () => {
                   <Modal
                     title="Reset Password"
                     open={isModalOpen}
-                    onOk={handleSendEmail}
-                    onCancel={closeModal}
+                    // onOk={handleSendEmail}
+                    // onCancel={closeModal}
+                  
                   >
-                    <div className="form-group mt-3">
-                      <label className="form-label"> Email </label>
-                      <input
-                        className={
-                          error.email && error.email.length !== 0
-                            ? "form-control is-invalid"
-                            : "form-control"
-                        }
-                        type="text"
-                        name="email"
-                        onChange={handleEmail}
-                      />
-                      <div className="invalid-feedback">{error.email}</div>
-                    </div>
-                  </Modal>
-
-                  <a className="text-muted" href="register">
-                    register
-                  </a>
+                <div className="form-group mt-3">
+                  <label className="form-label"> Email </label>
+                  <label className="form-label"> Email Hello </label>
+                  <input
+                    className={
+                      error.email && error.email.length !== 0
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    type="text"
+                    name="email"
+                    onChange={handleEmail}
+                  />
+                  <div className="invalid-feedback">{error.email}</div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="mt-5">
-            <div className="d-flex justify-content-center">
-              <a href="/" className="btn btn-outline-secondary">
-                Home page
+              </Modal>
+
+              <a className="text-muted" href="register">
+                register
               </a>
             </div>
           </div>
         </div>
       </div>
+      <div className="mt-5">
+        <div className="d-flex justify-content-center">
+          <a href="/" className="btn btn-outline-secondary">
+            Home page
+          </a>
+        </div>
+      </div>
     </div>
+      </div >
+    </div >
   );
 };
 

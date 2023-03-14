@@ -34,21 +34,21 @@ const Home = () => {
             console.log(err)
         })
     }
-const checkToken = (id) =>{
+    const checkToken = (id) => {
 
-        
-        if(!!sessionStorage.getItem('token')){
-navigate('/course-home/'+id)
-        }else{
+
+        if (!!sessionStorage.getItem('token')) {
+            navigate('/course-home/' + id)
+        } else {
             setOpen(true)
         }
         // console.log(id)
-      
-}
+
+    }
     return (
         <div className="black-g-home">
-          
-            <NavHome setOpen={setOpen} open={open}/>
+
+            <NavHome setOpen={setOpen} open={open} />
             <div className=''>
                 <div className="content ">
                     <div className="head-content">
@@ -67,7 +67,7 @@ navigate('/course-home/'+id)
                                 {coursedata.map((course, index) =>
                                     <div className="col-md-4 p-2 course-home" key={index}>
                                         <div className="card shadow-sm "
-                                        onClick={()=>checkToken(course._id)}
+                                            onClick={() => checkToken(course._id)}
                                         >
                                             {course.image
                                                 ? <img src={`${process.env.REACT_APP_IMG}/${course.image}`} className="card-img-top" />
@@ -83,9 +83,9 @@ navigate('/course-home/'+id)
                                 )}
                                 <div className="col-md-4 p-2 course-home">
                                     <div className="card shadow-sm"
-                                    onClick={() => {
-                                        navigate('/public-course')
-                                      }}
+                                        onClick={() => {
+                                            navigate('/public-course')
+                                        }}
                                     >
                                         <div className="card-body ">
                                             <p className="card-title">show more +</p>
@@ -95,14 +95,14 @@ navigate('/course-home/'+id)
                             </div>
                         </div>
                     </div>
-                    <div className="body-content-2 mt-5 ">
+                    <div className="body-content-2 mt-5  ">
                         <div className="container">
                             <label className="form-label">Open for Registration</label>
-                            <div className="row ">
+                            <div className="row">
                                 {reGisCoursedata.map((course, index) =>
                                     <div className="col-md-4 p-2 course-home" key={index}>
                                         <div className="card shadow-sm "
-                                        onClick={()=>checkToken(course._id)}
+                                            onClick={() => checkToken(course._id)}
                                         >
                                             {course.image
                                                 ? <img src={`${process.env.REACT_APP_IMG}/${course.image}`} className="card-img-top w-100" />
@@ -118,9 +118,9 @@ navigate('/course-home/'+id)
                                 )}
                                 <div className="col-md-4 p-2 course-home">
                                     <div className="card shadow-sm "
-                                      onClick={() => {
-                                        navigate('/private-course')
-                                      }}
+                                        onClick={() => {
+                                            navigate('/private-course')
+                                        }}
                                     >
                                         <div className="card-body ">
                                             <p className="card-title">show more +</p>
@@ -131,8 +131,8 @@ navigate('/course-home/'+id)
                         </div>
                     </div>
                 </div>
-          
-                </div>
+
+            </div>
 
         </div>
     )

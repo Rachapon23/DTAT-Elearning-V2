@@ -32,7 +32,7 @@ const HomeCourseClose = () => {
     }
   }
   return (
-    <div className="black-g-home">
+    <div className="black-g-course">
        <NavHome setOpen={setOpen} open={open} />
       <div className='mt-5'>
         <div className="container">

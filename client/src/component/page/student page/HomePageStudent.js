@@ -86,7 +86,7 @@ const HomePageStudent = () => {
         <div className="row">
           <div className="">
             <div className="bg-white mt-3 border">
-              <div className="">
+              <div className="my-4">
                 <PublicCourse />
               </div>
             </div>

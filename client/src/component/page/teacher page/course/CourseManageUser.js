@@ -86,9 +86,13 @@ const CourseManageUser = () => {
                           <td>{item.user.department_ID}</td>
                           <td>{item.user.plant}</td>
                           <td>{item.user.firstname} {item.user.lastname}</td>
-                          <td>
+                          {!!calulateProcess(item)
+                          ? <td>calulateProcess(item)</td>
+                          : <td>-</td>
+                          }
+                          {/* <td>
                             {calulateProcess(item)}
-                          </td>
+                          </td> */}
                           {!!item.score
                           ? <td>{item.score}/{item.max_score}</td>
                           : <td>-</td>
