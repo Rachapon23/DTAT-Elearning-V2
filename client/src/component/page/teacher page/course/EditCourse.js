@@ -336,17 +336,17 @@ const EditCourse = () => {
                         }
                     }
                 }
-                if (valuetopic[i].quiz.length > 0) {
-                    for (let j = 0; j < valuetopic[i].quiz.length; j++) {
-                        if (!!!valuetopic[i].quiz[j].quiz) {
-                            // setErrorTopic({quiz: "Please select quiz of topic"})
-                            document.getElementById(`quiz${i}${j}`).classList.add("is-invalid");
-                            valid = false;
-                            document.getElementById(`quiz${i}${j}`).focus({ focusVisible: true });
-                            setLoading(false)
-                        }
-                    }
-                }
+                // if (valuetopic[i].quiz.length > 0) {
+                //     for (let j = 0; j < valuetopic[i].quiz.length; j++) {
+                //         if (!!!valuetopic[i].quiz[j].quiz) {
+                //             // setErrorTopic({quiz: "Please select quiz of topic"})
+                //             document.getElementById(`quiz${i}${j}`).classList.add("is-invalid");
+                //             valid = false;
+                //             document.getElementById(`quiz${i}${j}`).focus({ focusVisible: true });
+                //             setLoading(false)
+                //         }
+                //     }
+                // }
             }
         }
 
