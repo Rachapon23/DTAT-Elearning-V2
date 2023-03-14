@@ -18,7 +18,15 @@ const HistorySchema = new mongoose.Schema({
     },
     course:{
         type:String
-    }
+    },
+    teacher: {
+        type: ObjectId,
+        ref: "users",
+      },
+    student: {
+        type: ObjectId,
+        ref: "users",
+      },
 
 }, {timestamps: true});
 

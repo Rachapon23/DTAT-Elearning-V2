@@ -5,7 +5,7 @@ import Search from "./ChildrenHome/Search";
 import PublicCourse from "./ChildrenHome/PublicCourse";
 import Calendar from "./ChildrenHome/Calendar";
 import { Table } from "antd";
-import { getMycourse, getProcess} from "../../../function/student/funcCourse";
+import { getMycourse,getMyHistoryStudent, getProcess} from "../../../function/student/funcCourse";
 import { useState, useEffect } from "react";
 
 const HomePageStudent = () => {
@@ -15,6 +15,7 @@ const HomePageStudent = () => {
 
   useEffect(() => {
     loadMycourse();
+    loadMyHistory();
   }, []);
 
   const loadMycourse = () => {
@@ -24,7 +25,18 @@ const HomePageStudent = () => {
       .then((res) => {
         // console.log(res.data)
         setData(res.data.coursee);
-        setHistory(res.data.history);
+        // setHistory(res.data.history);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  };
+  const loadMyHistory = () => {
+    getMyHistoryStudent(sessionStorage.getItem("token"))
+      .then((res) => {
+        console.log(res.data)
+        setHistory(res.data);
       })
       .catch((err) => {
         console.log(err);
