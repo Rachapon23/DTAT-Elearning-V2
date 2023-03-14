@@ -8,8 +8,10 @@ const User = require("../models/userModel");
 const History = require('../models/history');
 const Quiz = require("../models/quize");
 const CourseValidation = require("../validation/courseValidation");
-// const Examiner = require("../models/examiner")
+
 const studentActivity = require('../models/studentActivity')
+const Home = require('../models/homemanage')
+
 
 exports.createCourse = async (req, res) => {
   try {
@@ -478,6 +480,9 @@ exports.deleteCourse = async (req, res) => {
         });
       }
     }
+
+    // const delete_home = await Home.deleteMany({coursee:req.params.id}).exec()
+    // const delete_regisCourse = await ReGiscourse.deleteMany({coursee:req.params.id}).exec()
 
     const course_delete = await Coursee.findOneAndDelete({
       _id: req.params.id,

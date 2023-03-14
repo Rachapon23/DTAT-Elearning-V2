@@ -18,8 +18,8 @@
 }
 
 .card-img-teacher:hover {
-    /* background-image: url('https://img.freepik.com/free-photo/elegant-young-teacher-with-brunette-hair-stylish-light-shirt-black-striped-suit-glasses-holding-writings-pen-giving-lecture_197531-24666.jpg?w=1380&t=st=1677117678~exp=1677118278~hmac=b12c641f1ab64693350fafe6e877a9748e6bdb38d0308c642cb9e5d57c1aea6d'); */
-    background-image: url('https://soranews24.com/wp-content/uploads/sites/3/2014/09/suugaku.jpg?resize=640,577');
+    background-image: url('https://img.freepik.com/free-photo/elegant-young-teacher-with-brunette-hair-stylish-light-shirt-black-striped-suit-glasses-holding-writings-pen-giving-lecture_197531-24666.jpg?w=1380&t=st=1677117678~exp=1677118278~hmac=b12c641f1ab64693350fafe6e877a9748e6bdb38d0308c642cb9e5d57c1aea6d');
+    /* background-image: url('https://soranews24.com/wp-content/uploads/sites/3/2014/09/suugaku.jpg?resize=640,577'); */
     height: 600px;
     background-size: cover;
     background-position: center;
@@ -57,8 +57,8 @@
 }
 
 .card-img-student:hover{
-    /* background-image: url('https://img.freepik.com/free-photo/positive-happy-teacher-clenches-fist-with-joyful-expression-holds-spiral-notepad-writes-notes-notepad-dressed-red-shirt_273609-25182.jpg?t=st=1677117652~exp=1677118252~hmac=4e54c3507ca71b6b2e159eb73e3a628898345740aae36be7ef69070d1ad0109f'); */
-    background-image: url('https://i.pinimg.com/474x/f7/ca/b3/f7cab3879372f6a0cf0d649abf25cfda.jpg');
+    background-image: url('https://img.freepik.com/free-photo/positive-happy-teacher-clenches-fist-with-joyful-expression-holds-spiral-notepad-writes-notes-notepad-dressed-red-shirt_273609-25182.jpg?t=st=1677117652~exp=1677118252~hmac=4e54c3507ca71b6b2e159eb73e3a628898345740aae36be7ef69070d1ad0109f');
+    /* background-image: url('https://i.pinimg.com/474x/f7/ca/b3/f7cab3879372f6a0cf0d649abf25cfda.jpg'); */
     height: 600px;
     background-size: cover;
     background-position: center;
