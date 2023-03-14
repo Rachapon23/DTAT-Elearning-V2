@@ -120,6 +120,13 @@ const Register = () => {
         navigate("/");
       })
       .catch((err) => {
+        if(err.response.data == "This email has been used"){
+          Swal.fire(
+            'Error',
+            'This email has been used',
+            'error'
+          )
+        }
         console.log(err)
       });
       

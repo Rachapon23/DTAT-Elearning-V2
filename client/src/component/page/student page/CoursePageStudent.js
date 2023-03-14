@@ -279,17 +279,24 @@ const CoursePageStudent = () => {
                                     <div className="mt-3 px-2">
                                         <h3 className="card-title mb-3 fw-bold">{course.name}</h3>
                                         <p className="card-text fs-6">Detail : {course.description}</p>
-                                        {course.status !== "public" ?
                                             <div className="d-flex">
-                                                {/* <p className="text-muted "> Course ID : {course.course_number}&nbsp;&nbsp;</p> */}
                                                 <p className="text-muted "> Teacher :&nbsp;</p>
                                                 <a onClick={showModal} className="text-info teacher-link">{course.teacher.firstname}</a>
 
                                             </div>
+                                            {
+                                                    studentProcess &&
+                                                    <div className="row">
+                                                        <Progress
+                                                            percent={totalProcess}
+                                                            strokeColor={{
+                                                                "0%": "#108ee9",
+                                                                "100%": "#87d068",
+                                                            }}
+                                                        />
+                                                    </div>
 
-                                            : <div></div>
-                                        }
-
+                                                }
                                     </div>
                                 </div>
                             </div>
@@ -299,10 +306,12 @@ const CoursePageStudent = () => {
                                     <div className="mt-3 px-2 text-dark">
                                         <h3 className="card-title mb-3 fw-bold">{course.name}</h3>
                                         <p className="card-text fs-6">Detail : {course.description}</p>
-                                        {course.status !== "public" ?
                                             <div className="container">
-                                                {/* <p className="text-muted "> Course ID : {course.course_number}&nbsp;&nbsp;</p> */}
-                                                <p className="row text-muted ">Teacher : {course.teacher.firstname}</p>
+                                            <div className="d-flex">
+                                                <p className="text-muted "> Teacher :&nbsp;</p>
+                                                <a onClick={showModal} className="text-info teacher-link">{course.teacher.firstname}</a>
+
+                                            </div>
                                                 {
                                                     studentProcess &&
                                                     <div className="row">
@@ -318,8 +327,6 @@ const CoursePageStudent = () => {
                                                 }
                                             </div>
 
-                                            : <div></div>
-                                        }
                                     </div>
                                 </div>
                             </div>
@@ -328,7 +335,8 @@ const CoursePageStudent = () => {
 
 
                 }
-
+{course.enabled
+                    ? <>
                 {
                     quiz && studentProcess && (
                         studentProcess.completed ? (
@@ -384,8 +392,9 @@ const CoursePageStudent = () => {
                     )
                 }
 
-                {course.enabled
-                    ? <div>
+                
+                    
+                    <div>
                         <div className="border bg-white my-3 ">
                             {topic && topic.map((item, index) => (
                                 <div key={index} className="px-5 mt-4">
@@ -407,7 +416,7 @@ const CoursePageStudent = () => {
                                             </div>
                                         }
                                         {item.link.length > 0 &&
-                                            <div className=""><ul>
+                                            <div className="container">
                                                 {item.link.map((ttem, tdex) =>
                                                     ttem.url.includes("youtube.com") ?
                                                         (
@@ -448,7 +457,7 @@ const CoursePageStudent = () => {
                                                         )
                                                         
                                                 )}
-                                            </ul>
+                                           
                                             
                                             </div>
                                         }
@@ -604,10 +613,11 @@ const CoursePageStudent = () => {
                             </div>
                         </Modal>
                     </div>
+                    </>
                     :
                     (
-                        <div className="border bg-white my-3 p-4">
-                            <p className="text-center text-danger">This course is now not available, plase try again later</p>
+                        <div className="border bg-white my-3 p-4 ">
+                            <p className="text-center text-info pt-3">This course is now not available, plase try again later</p>
                         </div>
                     )
                 }
