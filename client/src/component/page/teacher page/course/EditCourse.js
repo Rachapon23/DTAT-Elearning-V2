@@ -299,7 +299,7 @@ const EditCourse = () => {
             document.getElementById("description").focus({ focusVisible: true });
             setLoading(false)
         }
-        else if (!!!course.room) {
+        else if (course.statuscourse && !!!course.room) {
             setError({room: "Please select room"})
             valid = false;
             document.getElementById("room").focus({ focusVisible: true });
@@ -336,17 +336,17 @@ const EditCourse = () => {
                         }
                     }
                 }
-                if (valuetopic[i].quiz.length > 0) {
-                    for (let j = 0; j < valuetopic[i].quiz.length; j++) {
-                        if (!!!valuetopic[i].quiz[j].quiz) {
-                            // setErrorTopic({quiz: "Please select quiz of topic"})
-                            document.getElementById(`quiz${i}${j}`).classList.add("is-invalid");
-                            valid = false;
-                            document.getElementById(`quiz${i}${j}`).focus({ focusVisible: true });
-                            setLoading(false)
-                        }
-                    }
-                }
+                // if (valuetopic[i].quiz.length > 0) {
+                //     for (let j = 0; j < valuetopic[i].quiz.length; j++) {
+                //         if (!!!valuetopic[i].quiz[j].quiz) {
+                //             // setErrorTopic({quiz: "Please select quiz of topic"})
+                //             document.getElementById(`quiz${i}${j}`).classList.add("is-invalid");
+                //             valid = false;
+                //             document.getElementById(`quiz${i}${j}`).focus({ focusVisible: true });
+                //             setLoading(false)
+                //         }
+                //     }
+                // }
             }
         }
 
