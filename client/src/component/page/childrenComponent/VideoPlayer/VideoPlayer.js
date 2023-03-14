@@ -92,7 +92,7 @@ export default ({
             }
         }
 
-        if(count > 3) {
+        if(count >= 1) {
             playerControl.current.style.opacity = 0
             playerControl.current.style.cursor = "none";
             // playerControl.current.style.visibility = "hidden";
