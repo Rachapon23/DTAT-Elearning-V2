@@ -39,17 +39,17 @@ const CoursePageStudent = () => {
     const { id } = useParams()
     const { pathname } = useLocation()
 
-    const fetchProcess = ()  => {
-        getProcess(sessionStorage.getItem("token"), {course: id})
-          .then((response) => {
-            console.log("process -> ",response.data);
-            setStudentProcess(response.data);
-            
-          })
-          .catch((err) => {
-            console.log(err);
-            Swal.fire("Alert!", "Cannot fetch course data", "error");
-          });
+    const fetchProcess = () => {
+        getProcess(sessionStorage.getItem("token"), { course: id })
+            .then((response) => {
+                console.log("process -> ", response.data);
+                setStudentProcess(response.data);
+
+            })
+            .catch((err) => {
+                console.log(err);
+                Swal.fire("Alert!", "Cannot fetch course data", "error");
+            });
     };
 
     const fetchQuiz = () => {
@@ -64,36 +64,36 @@ const CoursePageStudent = () => {
     }
 
     useEffect(() => {
-        if(course.video_amount === 0) {
+        if (course.video_amount === 0) {
             setHasVideo(false)
             return
         }
-        if(course.video_amount > 0) {
+        if (course.video_amount > 0) {
             setHasVideo(true)
-            if(studentProcess) {
+            if (studentProcess) {
                 let complete = 0;
-                console.log("process after course: ",studentProcess)
-                for(let i = 0; i < studentProcess.process.length; i++) {
-                    console.log("in loop: ",studentProcess.process[i])
-                    if(studentProcess.process[i] === 1) {
+                console.log("process after course: ", studentProcess)
+                for (let i = 0; i < studentProcess.process.length; i++) {
+                    console.log("in loop: ", studentProcess.process[i])
+                    if (studentProcess.process[i] === 1) {
                         complete++;
                     }
-                    
+
                 }
-                
-                console.log("rec: ",studentProcess.process)
-                for(let i = 0 ; i < 3; i++) {
+
+                console.log("rec: ", studentProcess.process)
+                for (let i = 0; i < 3; i++) {
                     console.log(studentProcess.process[i])
                 }
-                setTotalProcess(parseInt((complete * 100) /  course.video_amount));
+                setTotalProcess(parseInt((complete * 100) / course.video_amount));
             }
         }
     }, [studentProcess])
 
     useEffect(() => {
         console.log("totalProcess:", totalProcess)
-        if(totalProcess !== 100) {
-            updateProcess(sessionStorage.getItem("token"), {course: course._id, completed: false})
+        if (totalProcess !== 100) {
+            updateProcess(sessionStorage.getItem("token"), { course: course._id, completed: false })
                 .then((res) => {
                     console.log(res)
                     fetchProcess();
@@ -102,8 +102,8 @@ const CoursePageStudent = () => {
                     console.log(err)
                 })
         }
-        else if(totalProcess === 100) {
-            updateProcess(sessionStorage.getItem("token"), {course: course._id, completed: true})
+        else if (totalProcess === 100) {
+            updateProcess(sessionStorage.getItem("token"), { course: course._id, completed: true })
                 .then((res) => {
                     console.log(res)
                     fetchProcess();
@@ -112,7 +112,7 @@ const CoursePageStudent = () => {
                     console.log(err)
                 })
         }
-        
+
     }, [totalProcess, course])
 
     const fetchCourse = () => {
@@ -178,9 +178,9 @@ const CoursePageStudent = () => {
     useEffect(() => {
         window.addEventListener("beforeunload", alertUser);
         return () => {
-          window.removeEventListener("beforeunload", alertUser);
+            window.removeEventListener("beforeunload", alertUser);
         };
-      }, []);
+    }, []);
 
 
     useEffect(() => {
@@ -188,7 +188,7 @@ const CoursePageStudent = () => {
         fetchQuiz();
     }, []);
 
-    
+
 
     const alertUser = (e) => {
         e.preventDefault();
@@ -202,7 +202,7 @@ const CoursePageStudent = () => {
         // if(total_process === 100) {
         //     completed = true
         // }
-        
+
         // updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess, completed: completed})
         // .then((res) => {
         //     console.log(res)
@@ -224,29 +224,29 @@ const CoursePageStudent = () => {
         setIsModalOpen(false);
     };
 
-    
+
     const handleVideoEnded = (data, index) => {
         videoEnded.splice(index, 1, data)
         console.log("on end before update: ", videoProcess)
-        
+
         // const totalProcess = videoAmount * 100 
-        
+
         let complete = 0;
-        for(let i = 0 ; i < videoEnded.length ; i++) {
-            videoProcess.splice(index, 1, videoEnded[index].played) 
-            if(videoEnded[index].played === 1) complete++;
+        for (let i = 0; i < videoEnded.length; i++) {
+            videoProcess.splice(index, 1, videoEnded[index].played)
+            if (videoEnded[index].played === 1) complete++;
         }
         console.log("on end updated: ", videoProcess)
 
-        const total_process = parseInt((complete * 100) /  course.video_amount);
+        const total_process = parseInt((complete * 100) / course.video_amount);
 
         let completed = false
-        if(total_process === 100) {
+        if (total_process === 100) {
             completed = true
         }
         console.log("is complete ->>>>> ", studentProcess.completed, complete)
-        if(!studentProcess.completed) {
-            updateProcess(sessionStorage.getItem("token"), {course: course._id, process: videoProcess, completed: completed})
+        if (!studentProcess.completed) {
+            updateProcess(sessionStorage.getItem("token"), { course: course._id, process: videoProcess, completed: completed })
                 .then((res) => {
                     console.log(res)
                     fetchProcess();
@@ -284,12 +284,12 @@ const CoursePageStudent = () => {
                                                 {/* <p className="text-muted "> Course ID : {course.course_number}&nbsp;&nbsp;</p> */}
                                                 <p className="text-muted "> Teacher :&nbsp;</p>
                                                 <a onClick={showModal} className="text-info teacher-link">{course.teacher.firstname}</a>
-                                                
+
                                             </div>
-                                            
+
                                             : <div></div>
                                         }
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -314,10 +314,10 @@ const CoursePageStudent = () => {
                                                             }}
                                                         />
                                                     </div>
-                                                        
+
                                                 }
                                             </div>
-                                            
+
                                             : <div></div>
                                         }
                                     </div>
@@ -329,29 +329,29 @@ const CoursePageStudent = () => {
 
                 }
 
-                    {
-                        quiz && studentProcess && (
-                            studentProcess.completed ? (
-                                <div className="card mt-3">
-                                    <div className="card-body">
-                                        <Card
-                                            style={{
-                                                width: "100%",
-                                                borderWidth: "2px",
-                                            }}
-                                            actions={[
-                                                <Link class="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{path: pathname}}/>,
-                                                // <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
-                                            ]}
-                                        >
-                                            <Meta
-                                                title={<h4>Quiz</h4>}
-                                                description={<h5>{quiz.name}</h5>}
-                                            />
-                                        </Card>
-                                    </div>
+                {
+                    quiz && studentProcess && (
+                        studentProcess.completed ? (
+                            <div className="card mt-3">
+                                <div className="card-body">
+                                    <Card
+                                        style={{
+                                            width: "100%",
+                                            borderWidth: "2px",
+                                        }}
+                                        actions={[
+                                            <Link class="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{ path: pathname }} />,
+                                            // <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
+                                        ]}
+                                    >
+                                        <Meta
+                                            title={<h4>Quiz</h4>}
+                                            description={<h5>{quiz.name}</h5>}
+                                        />
+                                    </Card>
                                 </div>
-                            )
+                            </div>
+                        )
                             :
                             (
                                 !hasVideo ? (
@@ -363,7 +363,7 @@ const CoursePageStudent = () => {
                                                     borderWidth: "2px",
                                                 }}
                                                 actions={[
-                                                    <Link class="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{path: pathname}}/>,
+                                                    <Link class="bi bi-eye-fill h5" to={`/student/test/${quiz._id}`} state={{ path: pathname }} />,
                                                     // <Link class="bi bi-pencil-square h5" to={`/teacher/edit-quiz/${quiz._id}`}/>,
                                                 ]}
                                             >
@@ -375,14 +375,14 @@ const CoursePageStudent = () => {
                                         </div>
                                     </div>
                                 )
-                                :
-                                (
-                                    <div/>
-                                )
+                                    :
+                                    (
+                                        <div />
+                                    )
                             )
 
-                        ) 
-                    }
+                    )
+                }
 
                 {course.enabled
                     ? <div>
@@ -409,13 +409,47 @@ const CoursePageStudent = () => {
                                         {item.link.length > 0 &&
                                             <div className=""><ul>
                                                 {item.link.map((ttem, tdex) =>
-
-                                                    <li key={tdex}>
-                                                        <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
-                                                    </li>
-
+                                                    ttem.url.includes("youtube.com") ?
+                                                        (
+                                                            <div key={tdex} className="mb-2 d-flex justify-content-center">
+                                                                <iframe
+                                                                    width="560"
+                                                                    height="315"
+                                                                    src={ttem.url.replace("watch?v=", "embed/")}
+                                                                    title="YouTube video player"
+                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                    allowFullScreen
+                                                                />
+                                                            </div>
+                                                        )
+                                                        :
+                                                        (
+                                                            ttem.url.includes("youtu.be") ?
+                                                            (
+                                                                <div key={tdex} className="mb-2 d-flex justify-content-center">
+                                                                    <iframe
+                                                                        width="560"
+                                                                        height="315"
+                                                                        src={ttem.url.replace(".be/", "be.com/embed/")}
+                                                                        title="YouTube video player"
+                                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                        allowFullScreen
+                                                                    />
+                                                                </div>
+                                                            )
+                                                            :
+                                                            (
+                                                                <li key={tdex}>
+                                                                    <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
+                                                                </li>
+                                                            )
+                                                            
+                                                            
+                                                        )
+                                                        
                                                 )}
                                             </ul>
+                                            
                                             </div>
                                         }
                                         {item.file.length > 0 &&
@@ -484,7 +518,7 @@ const CoursePageStudent = () => {
                                                                                                         onRender={handleRendered}
                                                                                                         isComplete={studentProcess.process[tdex]}
                                                                                                     />
-                                                                                                    
+
                                                                                                     //  <div className="container">
                                                                                                     //     {/* <p>{(ttem.name).split('.')[0]}</p> */}
                                                                                                     //     <div className="d-flex justify-content-center">
@@ -510,7 +544,7 @@ const CoursePageStudent = () => {
 
                                                                                                                 <div>
                                                                                                                     <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-success">
-                                                                                                                    <i className="bi bi-file-arrow-down"></i>  {ttem.name}</a>
+                                                                                                                        <i className="bi bi-file-arrow-down"></i>  {ttem.name}</a>
                                                                                                                 </div>
                                                                                                             </>
                                                                                                         }
