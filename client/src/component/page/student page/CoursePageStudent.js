@@ -15,7 +15,8 @@ import Swal from "sweetalert2";
 import { Modal } from 'antd';
 import VideoPlayer from '../childrenComponent/VideoPlayer/VideoPlayer';
 import { Card, Progress } from 'antd';
-
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Space } from 'antd';
 
 const { Meta } = Card;
 const CoursePageStudent = () => {
@@ -34,6 +35,7 @@ const CoursePageStudent = () => {
     const [totalProcess, setTotalProcess] = useState(0)
     const [videoProcess, setVideoProcess] = useState([]);
     const [hasVideo, setHasVideo] = useState(false);
+    
 
     const navigate = useNavigate()
     const { id } = useParams()
@@ -285,7 +287,7 @@ const CoursePageStudent = () => {
 
                                             </div>
                                             {
-                                                    studentProcess &&
+                                                    hasVideo && studentProcess &&
                                                     <div className="row">
                                                         <Progress
                                                             percent={totalProcess}
@@ -313,7 +315,7 @@ const CoursePageStudent = () => {
 
                                             </div>
                                                 {
-                                                    studentProcess &&
+                                                    hasVideo && studentProcess &&
                                                     <div className="row">
                                                         <Progress
                                                             percent={totalProcess}
@@ -596,7 +598,19 @@ const CoursePageStudent = () => {
                         <Modal title={`Teacher : ${teacher.firstname} ${teacher.lastname}`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={[]}>
                             <div className="row p-2">
                                 <div className="col-md-6 mt-2">
-                                    <img src={`${process.env.REACT_APP_IMG}/${teacher.profile}`} className="w-100" />
+                                    {
+                                        teacher.profile ? (
+                                            <img src={`${process.env.REACT_APP_IMG}/${teacher.profile}`} className="w-100" />
+                                        )
+                                        :
+                                        (
+                                            <div className="d-flex justify-content-center">
+                                                <Avatar shape="square" size={128} icon={<UserOutlined />} />
+                                            </div>
+
+                                        )
+                                    }
+
                                 </div>
                                 <div className="col-md-6 mt-2">
                                     <h6><label className="form-label">Email</label></h6>

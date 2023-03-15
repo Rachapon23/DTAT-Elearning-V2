@@ -153,7 +153,7 @@ const Register = () => {
                     <div className="row">
                       <div className="form-group col-md-6 mt-3">
                         <label className="form-label"> Employee ID</label>
-                        {JSON.stringify(error.employee_ID && error.employee_ID.length !== 0)}
+                        {/* {JSON.stringify(error.employee_ID && error.employee_ID.length !== 0)} */}
                         <input
                           className={
                             error.employee_ID && error.employee_ID.length !== 0 ? "form-control is-invalid" : "form-control"

@@ -31,7 +31,7 @@ const handleMenuClick = (e) => {
   return (
     <Navbar className="bg-nav" expand="lg">
       <Container>
-        <Navbar.Brand href="/admin/home" className="text-white">
+        <Navbar.Brand href="/" className="text-white">
           <img src="/navbrand3.png" className="logo-nav" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
