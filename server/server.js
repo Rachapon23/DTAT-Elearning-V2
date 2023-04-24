@@ -14,7 +14,8 @@ app.use(express.static('public'))
 //connect cloud Database
 mongoose.connect(process.env.DATABASE2,{
     useNewUrlParser:true,
-    useUnifiedTopology:false
+    useUnifiedTopology:false,
+    dbName: 'version2',
 })
 .then(()=>console.log("Connect DataBase success..."))
 .catch((err)=>console.log("Connect DataBase error!!! :"+err))

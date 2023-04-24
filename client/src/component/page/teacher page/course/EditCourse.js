@@ -33,7 +33,7 @@ const EditCourse = () => {
     const [file, setFile] = useState('');
     const [videoAmount, setVideoAmount] = useState(0);
     const location = useLocation();
-    const [plant, setPlant] = useState([]);
+    const [plant, setPlant] = useState([{ plantname: "...select" }]);
 
     const errorTopic = {
         title: "Please enter title of topic",
@@ -60,37 +60,37 @@ const EditCourse = () => {
     //     teacher: sessionStorage.getItem('user_id')
     // })
 
-    const submitRemoveQuiz = (id) =>{
+    const submitRemoveQuiz = (id) => {
         Swal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#d33',
-          //   cancelButtonColor: '#3085d6',
-          confirmButtonText: 'Yes, delete it!'
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            //   cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
         })
-        .then((result) => {
-          if (result.isConfirmed) {
-            removeQuiz(sessionStorage.getItem("token"), id)
-            .then(res => {
-                console.log(res)
-                Toast.fire({
-                  icon: 'success',
-                  title: 'Your Quiz has been deleted successfully'
-              })
-                loadQuiz()
-              }).catch(err => {
-                console.log(err)
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: 'Something went wrong!',
-                  footer: '<a href="">Why do I have this issue?</a>'
-                })
-              })
-            }
-        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    removeQuiz(sessionStorage.getItem("token"), id)
+                        .then(res => {
+                            console.log(res)
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Your Quiz has been deleted successfully'
+                            })
+                            loadQuiz()
+                        }).catch(err => {
+                            console.log(err)
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                                footer: '<a href="">Why do I have this issue?</a>'
+                            })
+                        })
+                }
+            })
     }
 
     const fetchCourse = () => {
@@ -114,7 +114,7 @@ const EditCourse = () => {
         listPlant(sessionStorage.getItem("token"))
             .then((res) => {
                 console.log(res.data);
-                setPlant(res.data);
+                setPlant([...plant, ...res.data]);
             })
             .catch((err) => {
                 console.log(err);
@@ -189,6 +189,7 @@ const EditCourse = () => {
     }
     const handdleAddStudent = (e, index) => {
         e.preventDefault();
+        console.log(e)
         course.member.push({
             plant: "",
             amount: 0,
@@ -284,7 +285,7 @@ const EditCourse = () => {
 
     const handdleSubmit = async (e) => {
         e.preventDefault();
-        
+
         let valid = true;
 
         if (!!!course.name) {
@@ -300,15 +301,27 @@ const EditCourse = () => {
             setLoading(false)
         }
         else if (course.statuscourse && !!!course.room) {
-            setError({room: "Please select room"})
+            setError({ room: "Please select room" })
             valid = false;
             document.getElementById("room").focus({ focusVisible: true });
+        }
+        else if (course?.member) {
+            console.log(course?.member)
+            for (let i = 0; i < course?.member.length; i++) {
+                if (course?.member[i]?.plant === "") {
+                    valid = false;
+                    Toast.fire({
+                        icon: 'error',
+                        title: "Please select plant"
+                    })
+                }
+            }
         }
         else if (valuetopic.length > 0) {
             // console.log("for")
             for (let i = 0; i < valuetopic.length; i++) {
                 // console.log("for 2")
-                 if (valuetopic[i].link.length > 0) {
+                if (valuetopic[i].link.length > 0) {
                     for (let j = 0; j < valuetopic[i].link.length; j++) {
                         if (!!!valuetopic[i].link[j].name) {
                             // setErrorTopic({link_name: "Please enter name of link"})
@@ -360,14 +373,14 @@ const EditCourse = () => {
             ).then(async res => {
 
                 console.log("res : ", res.data)
-                if(course.statuscourse) {
+                if (course.statuscourse) {
                     const values = {
                         id: course._id,
                         color: course.calendar[0].color,
                         start: course.calendar[0].start,
                         end: course.calendar[0].end
                     }
-    
+
                     await updateEvent(sessionStorage.getItem("token"), values)
                         .then(res => {
                             console.log(res)
@@ -448,11 +461,11 @@ const EditCourse = () => {
                             .catch((err) => {
                                 console.log(err);
                             });
-                            Toast.fire({
-                                icon: 'success',
-                                title: 'Your course updated'
-                            })
-                            navigate('/teacher/get-course/' + id)
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Your course updated'
+                        })
+                        navigate('/teacher/get-course/' + id)
                     }
                 }
 
@@ -474,7 +487,7 @@ const EditCourse = () => {
                                 title: 'Your course updated'
                             })
                             navigate('/teacher/get-course/' + id)
-                        }).catch(err => { 
+                        }).catch(err => {
                             console.log(err)
                         })
                     }
@@ -1186,17 +1199,17 @@ const EditCourse = () => {
                             </div>
 
                             <div className="d-grid my-3">
-              {loading
-                ? <button className="btn" type="button">
-                  <Spin indicator={antIcon} />
-                </button>
-                : <button type="submit" className="btn btn-warning">
-                  {" "}
-                  Save{" "}
-                </button>
-              }
+                                {loading
+                                    ? <button className="btn" type="button">
+                                        <Spin indicator={antIcon} />
+                                    </button>
+                                    : <button type="submit" className="btn btn-warning">
+                                        {" "}
+                                        Save{" "}
+                                    </button>
+                                }
 
-            </div>
+                            </div>
 
                         </form>
                     }

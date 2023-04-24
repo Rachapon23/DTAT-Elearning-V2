@@ -163,8 +163,8 @@ const HomePageTeacher = () => {
                     </span>
                     {edit
                       ? <>
-                        {data.profile
-                          ? <img src={`${process.env.REACT_APP_IMG}/${data.profile}`} className="rounded-circle Avatar-2 shadow" />
+                        {data?.profile
+                          ? <img src={`${process.env.REACT_APP_IMG}/${data?.profile}`} className="rounded-circle Avatar-2 shadow" />
                           :
                           <div className="my-4">
                             <label className="form-label">Add profile picture</label>
@@ -174,8 +174,8 @@ const HomePageTeacher = () => {
                         }
                       </>
                       : <>
-                        {data.profile
-                          ? <img src={`${process.env.REACT_APP_IMG}/${data.profile}`} className="rounded Avatar-2" />
+                        {data?.profile
+                          ? <img src={`${process.env.REACT_APP_IMG}/${data?.profile}`} className="rounded Avatar-2" />
                           : <div className="bg-secondary-css p-2 rounded">
                             <div className="m-2 d-flex justify-content-center">
                               <i className="bi bi-person-circle Avatar d-flex text-white" ></i>
@@ -198,7 +198,7 @@ const HomePageTeacher = () => {
                     <div className="mb-3 row">
                       <label className="col-sm-3 col-form-label">Name</label>
                       <div className="col-sm-9">
-                        <input type="text" readOnly className="form-control-plaintext" value={`${data.firstname} ${data.lastname}`} />
+                        <input type="text" readOnly className="form-control-plaintext" value={`${data?.firstname} ${data?.lastname}`} />
                       </div>
                     </div>
                     <div className="mb-3 row">
@@ -226,7 +226,7 @@ const HomePageTeacher = () => {
                     <div className="mb-3 row">
                       <label className="col-sm-3 col-form-label">Name</label>
                       <div className="col-sm-9">
-                        <input type="text" readOnly className="form-control-plaintext" value={`${data.firstname} ${data.lastname}`} />
+                        <input type="text" readOnly className="form-control-plaintext" value={`${data?.firstname} ${data.lastname}`} />
                       </div>
                     </div>
                     <div className="mb-3 row">
@@ -296,20 +296,20 @@ const HomePageTeacher = () => {
                         <div className="row">
                           {edit2
                             ?
-                            <p>เป้าหมายประจำปี : {data.amountstudent} คน</p>
+                            <p>Target : {data.amountstudent}</p>
                             :
                             <div className="form-froup  mb-4">
-                              <label className="form-label">กำหนดเป้าหมาย</label>
+                              <label className="form-label">Define Target</label>
                               <div className="input-group">
                                 <input type="number" className="form-control"
                                   onChange={(e) => setAmount(e.target.value)}
                                 />
-                                <button className="btn btn-info text-white" onClick={changeTarget}>อัพเดต</button>
+                                <button className="btn btn-info text-white" onClick={changeTarget}>Update</button>
                               </div>
                             </div>
                           }
                           <hr />
-                          <p>จำนวนตอนนี้ : {history.length} คน</p>
+                          <p>Current : {history.length} </p>
                           <hr />
                           <Progress
                             percent={parseInt((history.length / data.amountstudent) * 100)}

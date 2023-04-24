@@ -226,7 +226,7 @@ const CoursePageteacher = () => {
                                         <h3 className="card-title mb-3 fw-bold">{course.name}</h3>
                                         <p className="card-text fs-6">Detail: {course.description}</p>
                                         {course.status !== "public" ?
-                                            <p className="text-muted ">Teacher : {course.teacher.firstname}</p>
+                                            <p className="text-muted ">Teacher : {course?.teacher?.firstname}</p>
                                             : <div></div>
                                         }
                                     </div>
@@ -239,7 +239,7 @@ const CoursePageteacher = () => {
                                         <h3 className="card-title mb-3 fw-bold">{course.name}</h3>
                                         <p className="card-text fs-6">Detail : {course.description}</p>
                                         {course.status !== "public" ?
-                                            <p className="text-muted ">Teacher : {course.teacher.firstname}</p>
+                                            <p className="text-muted ">Teacher : {course?.teacher?.firstname}</p>
                                             : <div></div>
                                         }
                                     </div>

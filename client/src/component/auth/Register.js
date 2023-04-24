@@ -90,11 +90,11 @@ const Register = () => {
       valid = false;
       document.getElementById("email").focus({ focusVisible: true });
     }
-    else if (!!!value.plant) {
-      setError({plant: "Please select room"})
-      valid = false;
-      document.getElementById("plant").focus({ focusVisible: true });
-    }
+    // else if (!!!value.plant) {
+    //   setError({plant: "Please select room"})
+    //   valid = false;
+    //   document.getElementById("plant").focus({ focusVisible: true });
+    // }
     else if (!!!value.firstname) {
       setError({firstname: "Please select room"})
       valid = false;

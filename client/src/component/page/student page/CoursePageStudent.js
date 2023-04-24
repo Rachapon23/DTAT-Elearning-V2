@@ -44,7 +44,7 @@ const CoursePageStudent = () => {
     const fetchProcess = () => {
         getProcess(sessionStorage.getItem("token"), { course: id })
             .then((response) => {
-                console.log("process -> ", response.data);
+                // console.log("process -> ", response.data);
                 setStudentProcess(response.data);
 
             })
@@ -74,30 +74,30 @@ const CoursePageStudent = () => {
             setHasVideo(true)
             if (studentProcess) {
                 let complete = 0;
-                console.log("process after course: ", studentProcess)
+                // console.log("process after course: ", studentProcess)
                 for (let i = 0; i < studentProcess.process.length; i++) {
-                    console.log("in loop: ", studentProcess.process[i])
+                    // console.log("in loop: ", studentProcess.process[i])
                     if (studentProcess.process[i] === 1) {
                         complete++;
                     }
 
                 }
 
-                console.log("rec: ", studentProcess.process)
-                for (let i = 0; i < 3; i++) {
-                    console.log(studentProcess.process[i])
-                }
+                // console.log("rec: ", studentProcess.process)
+                // for (let i = 0; i < 3; i++) {
+                //     // console.log(studentProcess.process[i])
+                // }
                 setTotalProcess(parseInt((complete * 100) / course.video_amount));
             }
         }
     }, [studentProcess])
 
     useEffect(() => {
-        console.log("totalProcess:", totalProcess)
+        // console.log("totalProcess:", totalProcess)
         if (totalProcess !== 100) {
             updateProcess(sessionStorage.getItem("token"), { course: course._id, completed: false })
                 .then((res) => {
-                    console.log(res)
+                    // console.log(res)
                     fetchProcess();
                 })
                 .catch((err) => {
@@ -120,9 +120,10 @@ const CoursePageStudent = () => {
     const fetchCourse = () => {
         getCourse(sessionStorage.getItem("token"), id)
             .then(async (response) => {
-                console.log(response)
+                // console.log(response)
                 setCourse(response.data)
                 setTopic(response.data.topic)
+                console.log(response.data)
                 setTeacher(response.data.teacher)
                 fetchProcess();
             })
@@ -283,10 +284,10 @@ const CoursePageStudent = () => {
                                         <p className="card-text fs-6">Detail : {course.description}</p>
                                             <div className="d-flex">
                                                 <p className="text-muted "> Teacher :&nbsp;</p>
-                                                <a onClick={showModal} className="text-info teacher-link">{course.teacher.firstname}</a>
+                                                <a onClick={showModal} className="text-info teacher-link">{course?.teacher?.firstname}</a>
 
                                             </div>
-                                            {
+                                            {/* {
                                                     hasVideo && studentProcess &&
                                                     <div className="row">
                                                         <Progress
@@ -298,7 +299,7 @@ const CoursePageStudent = () => {
                                                         />
                                                     </div>
 
-                                                }
+                                                } */}
                                     </div>
                                 </div>
                             </div>
@@ -311,7 +312,7 @@ const CoursePageStudent = () => {
                                             <div className="container">
                                             <div className="d-flex">
                                                 <p className="text-muted "> Teacher :&nbsp;</p>
-                                                <a onClick={showModal} className="text-info teacher-link">{course.teacher.firstname}</a>
+                                                <a onClick={showModal} className="text-info teacher-link">{course?.teacher?.firstname}</a>
 
                                             </div>
                                                 {
@@ -340,8 +341,7 @@ const CoursePageStudent = () => {
 {course.enabled
                     ? <>
                 {
-                    quiz && studentProcess && (
-                        studentProcess.completed ? (
+                    quiz  ? (
                             <div className="card mt-3">
                                 <div className="card-body">
                                     <Card
@@ -361,10 +361,10 @@ const CoursePageStudent = () => {
                                     </Card>
                                 </div>
                             </div>
-                        )
+                            )
                             :
                             (
-                                !hasVideo ? (
+                                !hasVideo && studentProcess.completed ? (
                                     <div className="card mt-3">
                                         <div className="card-body">
                                             <Card
@@ -389,7 +389,6 @@ const CoursePageStudent = () => {
                                     (
                                         <div />
                                     )
-                            )
 
                     )
                 }
@@ -519,16 +518,20 @@ const CoursePageStudent = () => {
                                                                                             <>
 
                                                                                                 {studentProcess && ttem.filetype == "video/mp4" ?
-                                                                                                    <VideoPlayer
-                                                                                                        index={tdex}
-                                                                                                        videoName={ttem.name}
-                                                                                                        url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
-                                                                                                        disableForward={true}
-                                                                                                        onEnded={handleVideoEnded}
-                                                                                                        onProcess={handleVideoProcess}
-                                                                                                        onRender={handleRendered}
-                                                                                                        isComplete={studentProcess.process[tdex]}
-                                                                                                    />
+                                                                                                    <div className="d-flex justify-content-center my-2">
+                                                                                                        <div className="w-75">
+                                                                                                            <VideoPlayer
+                                                                                                                index={tdex}
+                                                                                                                videoName={ttem.name}
+                                                                                                                url={`${process.env.REACT_APP_IMG}/${ttem.filename}`}
+                                                                                                                disableForward={true}
+                                                                                                                onEnded={handleVideoEnded}
+                                                                                                                onProcess={handleVideoProcess}
+                                                                                                                onRender={handleRendered}
+                                                                                                                isComplete={studentProcess.process[tdex]}
+                                                                                                            />
+                                                                                                        </div>
+                                                                                                    </div>
 
                                                                                                     //  <div className="container">
                                                                                                     //     {/* <p>{(ttem.name).split('.')[0]}</p> */}
@@ -595,12 +598,12 @@ const CoursePageStudent = () => {
                                 > Leave course </button>
                             </div>
                         } */}
-                        <Modal title={`Teacher : ${teacher.firstname} ${teacher.lastname}`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={[]}>
+                        <Modal title={`Teacher : ${teacher?.firstname} ${teacher?.lastname}`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={[]}>
                             <div className="row p-2">
                                 <div className="col-md-6 mt-2">
                                     {
-                                        teacher.profile ? (
-                                            <img src={`${process.env.REACT_APP_IMG}/${teacher.profile}`} className="w-100" />
+                                        teacher?.profile ? (
+                                            <img src={`${process.env.REACT_APP_IMG}/${teacher?.profile}`} className="w-100" />
                                         )
                                         :
                                         (
@@ -613,13 +616,13 @@ const CoursePageStudent = () => {
 
                                 </div>
                                 <div className="col-md-6 mt-2">
-                                    <h6><label className="form-label">Email</label></h6>
-                                    {!teacher.email
+                                    <h6><label className="form-label">Email{console.log(teacher)}</label></h6>
+                                    {!teacher?.email
                                         ? <p>-</p>
                                         : <p>{teacher.email}</p>
                                     }
                                     <h6><label className="form-label">Tel</label></h6>
-                                    {!teacher.tel
+                                    {!teacher?.tel
                                         ? <p>-</p>
                                         : <p>{teacher.tel}</p>
                                     }

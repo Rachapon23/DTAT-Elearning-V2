@@ -40,7 +40,7 @@ const CoursePageStudent = () => {
                             <div className="col pt-3 pb-2">
                                 <Link to={`/student/get-course/${course._id}`}><h2>{course.name}</h2></Link>
                                 <p>{(course.description.substring(0,200))}...</p>
-                                <p className="text-muted">Teacher {course.teacher.firstname}</p>
+                                <p className="text-muted">Teacher {course?.teacher?.firstname}</p>
                             </div>
                         </div>
                     ))

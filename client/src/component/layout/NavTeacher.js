@@ -33,7 +33,7 @@ const NavTeacher = () => {
   return (
     <Navbar className="bg-nav" expand="lg">
       <Container>
-        <Navbar.Brand href="/" className="text-white">
+        <Navbar.Brand href="/teacher/home" className="text-white">
           <img src="/navbrand3.png" className="logo-nav" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
