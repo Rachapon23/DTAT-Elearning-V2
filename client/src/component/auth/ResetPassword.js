@@ -74,7 +74,7 @@ const Register = () => {
                     <label className="form-label"> New Password </label>
                     <input
                       className="form-control"
-                      type="text"
+                      type="password"
                       name="new_password"
                       onChange={handleChange}
                     />
@@ -84,7 +84,7 @@ const Register = () => {
                     <label className="form-label"> Confirm New Password </label>
                     <input
                       className="form-control"
-                      type="text"
+                      type="password"
                       name="confirm_new_password"
                       onChange={handleChange}
                     />

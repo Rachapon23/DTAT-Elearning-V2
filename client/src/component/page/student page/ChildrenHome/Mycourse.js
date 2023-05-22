@@ -112,7 +112,7 @@ useEffect(() => {
             ? <p style={{ fontSize: '14px' }} className="card-text text-muted">Detail : {(item.description)}</p>
             : <p style={{ fontSize: '14px' }} className="card-text text-muted">Detail : {(item.description.substring(0, 45))}...</p>
           }
-          {
+          {/* {
             hasVideo &&
               <Progress
                 percent={totalProcess}
@@ -121,7 +121,7 @@ useEffect(() => {
                     "100%": "#87d068",
                 }}
               />
-          }
+          } */}
         </div>
       </div>
     </div>

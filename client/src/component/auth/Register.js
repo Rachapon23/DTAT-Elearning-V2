@@ -90,11 +90,11 @@ const Register = () => {
       valid = false;
       document.getElementById("email").focus({ focusVisible: true });
     }
-    else if (!!!value.plant) {
-      setError({plant: "Please select room"})
-      valid = false;
-      document.getElementById("plant").focus({ focusVisible: true });
-    }
+    // else if (!!!value.plant) {
+    //   setError({plant: "Please select room"})
+    //   valid = false;
+    //   document.getElementById("plant").focus({ focusVisible: true });
+    // }
     else if (!!!value.firstname) {
       setError({firstname: "Please select room"})
       valid = false;
@@ -153,7 +153,7 @@ const Register = () => {
                     <div className="row">
                       <div className="form-group col-md-6 mt-3">
                         <label className="form-label"> Employee ID</label>
-                        {JSON.stringify(error.employee_ID && error.employee_ID.length !== 0)}
+                        {/* {JSON.stringify(error.employee_ID && error.employee_ID.length !== 0)} */}
                         <input
                           className={
                             error.employee_ID && error.employee_ID.length !== 0 ? "form-control is-invalid" : "form-control"

@@ -119,9 +119,9 @@ const PrivateCourse = ({ course, member }) => {
                     member.map((item, index) => (
                       <div className="mt-2" key={index}>
                         <p>
-                          รับแผนก : {item.plant} จำนวน : {item.amount} คน
+                          Plant : {item.plant} / Amount : {item.amount}
                         </p>
-                        <p>ลงชื่อแล้ว : {item.registerd} คน</p>
+                        <p>Registered : {item.registerd} </p>
                         <Progress
                         
                           percent={parseInt(((item.registerd)/(parseInt(item.amount)))*100)}
@@ -143,7 +143,7 @@ const PrivateCourse = ({ course, member }) => {
           <div className="mt-3">
             <div className="d-grid">
               <button onClick={registerCourse} className="btn btn-success">
-                ลงชื่อเข้าอบรม
+                Register
               </button>
             </div>
           </div>

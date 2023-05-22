@@ -30,7 +30,7 @@ const handleMenuClick = (e) => {
   // console.log(user)
   return (
     <Navbar className="bg-nav px-4" expand="lg">
-        <Navbar.Brand href="/student/home" className="text-white">
+        <Navbar.Brand href="/" className="text-white">
         <img src="/navbrand3.png" className="logo-nav" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

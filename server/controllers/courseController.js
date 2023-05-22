@@ -46,11 +46,8 @@ exports.createCourse = async (req, res) => {
 
 exports.listCourses = async (req, res) => {
   try {
-    await Coursee.find({})
-      .populate("teacher", "-password")
-      .exec((err, courses) => {
-        res.json(courses);
-      });
+    const courses = await Coursee.find({}).populate("teacher", "-password")
+    return res.json(courses);
   } catch (err) {
     console.log("fail to fetch courses");
     res.status(500).json({ error: "fail to fetch courses" });
@@ -74,10 +71,9 @@ exports.getCourse = async (req, res) => {
     const { id } = req.params;
     const course = await Coursee.findOne({ _id: id })
       .populate("teacher room")
-      .exec();
     res.send(course);
   } catch (err) {
-    console.log("fail to get courses");
+    console.log(err);
     res.status(500).json({ error: "fail to get courses" });
   }
 };
@@ -225,7 +221,7 @@ exports.getMyHistoryTeacher = async (req, res) => {
 };
 exports.removeHistory = async (req, res) => {
   try {
-   
+
     const history = await History.deleteMany({ teacher: req.user.user_id })
       .exec();
     res.send(history);
@@ -653,10 +649,10 @@ exports.CourseSuccess = async (req, res) => {
       score: Activity.score,
       maxscore: Activity.max_score,
       course: Course.name,
-      teacher:req.user.user_id,
-      student:user
+      teacher: req.user.user_id,
+      student: user
     })
-console.log(history)
+    console.log(history)
     await history.save()
 
     for (let i = 0; i < Course.user.length; i++) {

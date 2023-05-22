@@ -52,24 +52,24 @@ const PublicCourse = ({ course, topic }) => {
                                         </div>
                                     }
                                     {item.link.length > 0 &&
-                                            <div className="container">
-                                                {item.link.map((ttem, tdex) =>
-                                                    ttem.url.includes("youtube.com") ?
-                                                        (
-                                                            <div key={tdex} className="mb-2 d-flex justify-content-center">
-                                                                <iframe
-                                                                    width="560"
-                                                                    height="315"
-                                                                    src={ttem.url.replace("watch?v=", "embed/")}
-                                                                    title="YouTube video player"
-                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                                    allowFullScreen
-                                                                />
-                                                            </div>
-                                                        )
-                                                        :
-                                                        (
-                                                            ttem.url.includes("youtu.be") ?
+                                        <div className="container">
+                                            {item.link.map((ttem, tdex) =>
+                                                ttem.url.includes("youtube.com") ?
+                                                    (
+                                                        <div key={tdex} className="mb-2 d-flex justify-content-center">
+                                                            <iframe
+                                                                width="560"
+                                                                height="315"
+                                                                src={ttem.url.replace("watch?v=", "embed/")}
+                                                                title="YouTube video player"
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                allowFullScreen
+                                                            />
+                                                        </div>
+                                                    )
+                                                    :
+                                                    (
+                                                        ttem.url.includes("youtu.be") ?
                                                             (
                                                                 <div key={tdex} className="mb-2 d-flex justify-content-center">
                                                                     <iframe
@@ -88,15 +88,15 @@ const PublicCourse = ({ course, topic }) => {
                                                                     <a className='text-info' href={ttem.url}><i className="bi bi-link"></i>&nbsp;{ttem.name}</a>
                                                                 </li>
                                                             )
-                                                            
-                                                            
-                                                        )
-                                                        
-                                                )}
-                                           
-                                            
-                                            </div>
-                                        }
+
+
+                                                    )
+
+                                            )}
+
+
+                                        </div>
+                                    }
                                     {item.file.length > 0 &&
                                         <div className="">
 
@@ -173,7 +173,10 @@ const PublicCourse = ({ course, topic }) => {
                                                                                                         :
                                                                                                         <>
 
-                                                                                                            <p>Cannot read file</p>
+                                                                                                            <div>
+                                                                                                                <a href={`${process.env.REACT_APP_IMG}/${ttem.filename}`} className="text-success">
+                                                                                                                    <i className="bi bi-file-arrow-down"></i> {ttem.name}</a>
+                                                                                                            </div>
                                                                                                         </>
                                                                                                     }
                                                                                                 </>
@@ -208,7 +211,7 @@ const PublicCourse = ({ course, topic }) => {
                 </div>
                 :
                 <div className="border bg-white my-3 p-4">
-                      <p className="text-center text-info pt-3">This course is now not available, plase try again later</p>
+                    <p className="text-center text-info pt-3">This course is now not available, plase try again later</p>
                 </div>
             }
 

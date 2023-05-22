@@ -42,14 +42,6 @@ const UserSchema = new mongoose.Schema({
         ref: "coursee",
         // unique: true,
     }],
-    // history: [{
-    //     type: ObjectId,
-    //     ref: "history",
-    // }],
-    // targetstudent: {
-    //     type: Number,
-    //     default: 0,
-    // },
     amountstudent: {
         type: Number,
         default: 0,
