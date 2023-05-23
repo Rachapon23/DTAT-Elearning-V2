@@ -64,7 +64,7 @@ const Home = () => {
                         <div className="container">
                             <label className="form-label">Interesting Course</label>
                             <div className="row">
-                                {coursedata.map((course, index) =>
+                                {coursedata?.map((course, index) =>
                                     <div className="col-md-4 p-2 course-home" key={index}>
                                         <div className="card shadow-sm "
                                             onClick={() => checkToken(course._id)}
@@ -99,7 +99,7 @@ const Home = () => {
                         <div className="container">
                             <label className="form-label">Open for Registration</label>
                             <div className="row">
-                                {reGisCoursedata.map((course, index) =>
+                                {reGisCoursedata?.map((course, index) =>
                                     <div className="col-md-4 p-2 course-home" key={index}>
                                         <div className="card shadow-sm "
                                             onClick={() => checkToken(course._id)}
