@@ -32,16 +32,16 @@ const PublicCourse = ({ course, topic }) => {
             {course.enabled
                 ? <div>
                     <div className="border bg-white my-3 ">
-                        {topic && topic.map((item, index) => (
+                        {topic && topic?.map((item, index) => (
                             <div key={index} className="px-5 mt-4">
-                                <h5 id="titleTopic" className="fw-bold">{item.title}</h5>
+                                <h5 id="titleTopic" className="fw-bold">{item?.title}</h5>
 
                                 <div className="">
                                     <p className="fs-6">{item.description}</p>
-                                    {item.text.length > 0 &&
+                                    {item?.text?.length > 0 &&
                                         <div className="">
                                             <ul>
-                                                {item.text.map((ttem, tdex) =>
+                                                {item?.text?.map((ttem, tdex) =>
 
                                                     <li className="fs-6" key={tdex}>
                                                         {ttem.content}
@@ -51,9 +51,9 @@ const PublicCourse = ({ course, topic }) => {
                                             </ul>
                                         </div>
                                     }
-                                    {item.link.length > 0 &&
+                                    {item?.link?.length > 0 &&
                                         <div className="container">
-                                            {item.link.map((ttem, tdex) =>
+                                            {item?.link?.map((ttem, tdex) =>
                                                 ttem.url.includes("youtube.com") ?
                                                     (
                                                         <div key={tdex} className="mb-2 d-flex justify-content-center">
@@ -69,7 +69,7 @@ const PublicCourse = ({ course, topic }) => {
                                                     )
                                                     :
                                                     (
-                                                        ttem.url.includes("youtu.be") ?
+                                                        ttem?.url?.includes("youtu.be") ?
                                                             (
                                                                 <div key={tdex} className="mb-2 d-flex justify-content-center">
                                                                     <iframe
@@ -97,11 +97,11 @@ const PublicCourse = ({ course, topic }) => {
 
                                         </div>
                                     }
-                                    {item.file.length > 0 &&
+                                    {item?.file?.length > 0 &&
                                         <div className="">
 
 
-                                            {item.file.map((ttem, tdex) =>
+                                            {item?.file?.map((ttem, tdex) =>
 
                                                 <div key={tdex} className="mb-2">
                                                     {ttem.filetype === 'image/jpeg'
