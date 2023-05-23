@@ -32,7 +32,7 @@ const ManageHome = () => {
   const [reGisCoursedata, setReGisCoursedata] = useState([]);
 
   const submitCacousel = () => {
-    if (carouseldata.length >= 3) {
+    if (carouseldata?.length >= 3) {
       // ควรมี middle ware ตรวจสอบด้วย
       Swal.fire({
         icon: "error",
@@ -154,7 +154,7 @@ const ManageHome = () => {
 
   const handleSubmitCourse = () => {
     // console.log(courseupload)
-    if (coursedata.length >= 5) {
+    if (coursedata?.length >= 5) {
       // ควรมี middle ware ตรวจสอบด้วย
       Swal.fire({
         icon: "error",
@@ -181,7 +181,7 @@ const ManageHome = () => {
   };
 
   const handleSubmitRegisterCourse = () => {
-    if (reGisCoursedata.length >= 5) {
+    if (reGisCoursedata?.length >= 5) {
       // ควรมี middle ware ตรวจสอบด้วย
       Swal.fire({
         icon: "error",
@@ -347,7 +347,7 @@ const ManageHome = () => {
                   <option value="" className="text-muted">
                     select
                   </option>
-                  {courseSelectOpen.map((item, index) => (
+                  {courseSelectOpen?.map((item, index) => (
                     <option key={index} value={item._id}>
                       {item.name}
                     </option>
@@ -440,7 +440,7 @@ const ManageHome = () => {
                   <option value="" className="text-muted">
                     select
                   </option>
-                  {courseSelectClose.map((item, index) => (
+                  {courseSelectClose?.map((item, index) => (
                     <option key={index} value={item._id}>
                       {item.name}
                     </option>
