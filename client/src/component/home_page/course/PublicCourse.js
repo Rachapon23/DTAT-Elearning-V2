@@ -32,18 +32,19 @@ const PublicCourse = ({ course, topic }) => {
             {course.enabled
                 ? <div>
                     <div className="border bg-white my-3 ">
-                        {topic && topic?.map((item, index) => (
+                        {console.log(topic)}
+                        {topic && topic.map((item, index) => (
                             <div key={index} className="px-5 mt-4">
                                 <h5 id="titleTopic" className="fw-bold">{item?.title}</h5>
 
                                 <div className="">
                                     <p className="fs-6">{item.description}</p>
-                                    {item?.text?.length > 0 &&
+                                    {Array.isArray(item?.text) &&
                                         <div className="">
                                             {
-                                                Array.isArray(item?.text) && item?.text ? (
+                                                item?.text?.length > 0 ? (
                                                     <ul>
-                                                        {item?.text?.map((ttem, tdex) =>
+                                                        {item?.text.map((ttem, tdex) =>
 
                                                             <li className="fs-6" key={tdex}>
                                                                 {ttem.content}
@@ -60,7 +61,7 @@ const PublicCourse = ({ course, topic }) => {
                                             {
                                                 Array.isArray(item?.link) && item?.link ? (
                                                     <>
-                                                        {item?.link?.map((ttem, tdex) =>
+                                                        {item?.link.map((ttem, tdex) =>
                                                             ttem.url.includes("youtube.com") ?
                                                                 (
                                                                     <div key={tdex} className="mb-2 d-flex justify-content-center">
@@ -76,7 +77,7 @@ const PublicCourse = ({ course, topic }) => {
                                                                 )
                                                                 :
                                                                 (
-                                                                    ttem?.url?.includes("youtu.be") ?
+                                                                    ttem?.url.includes("youtu.be") ?
                                                                         (
                                                                             <div key={tdex} className="mb-2 d-flex justify-content-center">
                                                                                 <iframe
@@ -111,7 +112,7 @@ const PublicCourse = ({ course, topic }) => {
                                                 Array.isArray(item?.file) && item?.file ?
                                                     (
                                                         <>
-                                                            {item?.file?.map((ttem, tdex) =>
+                                                            {item?.file.map((ttem, tdex) =>
 
                                                                 <div key={tdex} className="mb-2">
                                                                     {ttem.filetype === 'image/jpeg'

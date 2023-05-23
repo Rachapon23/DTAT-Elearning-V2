@@ -41,7 +41,7 @@ const PublicCourse = () => {
                 <div className="container">
                     <label className="form-label">Interesting Course</label>
                     <div className="row">
-                        {coursedata.map((course, index) =>
+                        {coursedata?.map((course, index) =>
                             <div className="col-md-4 p-2 course-home" key={index}>
                                 <div className="card shadow-sm "
                                     onClick={() => {
@@ -78,14 +78,14 @@ const PublicCourse = () => {
                 <div className="container">
                     <label className="form-label">Open for Registration</label>
                     <div className="row ">
-                        {reGisCoursedata.map((course, index) =>
+                        {reGisCoursedata?.map((course, index) =>
                             <div className="col-md-4 p-2 course-home" key={index}>
                                 <div className="card shadow-sm "
                                     onClick={() => {
                                         navigate('/course-home/' + course._id)
                                     }}
                                 >
-                                    {course.image
+                                    {course?.image
                                         ? <img src={`${process.env.REACT_APP_IMG}/${course.image}`} className="card-img-top w-100" />
                                         : <img src="/book-main-img-3.png" className="card-img-top w-100" />
                                     }
