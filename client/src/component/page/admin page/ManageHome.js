@@ -232,88 +232,91 @@ const ManageHome = () => {
                   recommend size 820px * 312px{" "}
                 </p>
                 <div className="mt-3">
-                  <ul>
-                    <li>
-                      image 1 :{" "}
-                      {!!carouseldata[0] && (
-                        <i
-                          id="remove"
-                          className="bi bi-trash text-danger"
-                          onClick={() => handleRemoveIMG(0)}
-                        ></i>
-                      )}
-                      {!!carouseldata[0] ? (
-                        <div className="d-flex justify-content-center">
-                          <div className="w-25">
-                            <img
-                              src={`${process.env.REACT_APP_IMG}/${carouseldata[0]}`}
-                              className="w-100"
-                            />
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="d-flex justify-content-center">
-                          <h1>
-                            <i className="bi bi-image-fill text-muted"></i>
-                          </h1>
-                        </div>
-                      )}
-                    </li>
+                  {
+                    Array.isArray(carouseldata) ? (
+                      <ul>
+                        <li>
+                          image 1 :{" "}
+                          {!!carouseldata[0] && (
+                            <i
+                              id="remove"
+                              className="bi bi-trash text-danger"
+                              onClick={() => handleRemoveIMG(0)}
+                            ></i>
+                          )}
+                          {!!carouseldata[0] ? (
+                            <div className="d-flex justify-content-center">
+                              <div className="w-25">
+                                <img
+                                  src={`${process.env.REACT_APP_IMG}/${carouseldata[0]}`}
+                                  className="w-100"
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="d-flex justify-content-center">
+                              <h1>
+                                <i className="bi bi-image-fill text-muted"></i>
+                              </h1>
+                            </div>
+                          )}
+                        </li>
+                        <li>
+                          image 2 :{" "}
+                          {!!carouseldata[1] && (
+                            <i
+                              id="remove"
+                              className="bi bi-trash text-danger"
+                              onClick={() => handleRemoveIMG(1)}
+                            ></i>
+                          )}
+                          {!!carouseldata[1] ? (
+                            <div className="d-flex justify-content-center">
+                              <div className="w-25">
+                                <img
+                                  src={`${process.env.REACT_APP_IMG}/${carouseldata[1]}`}
+                                  className="w-100"
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="d-flex justify-content-center">
+                              <h1>
+                                <i className="bi bi-image-fill text-muted"></i>
+                              </h1>
+                            </div>
+                          )}
+                        </li>
 
-                    <li>
-                      image 2 :{" "}
-                      {!!carouseldata[1] && (
-                        <i
-                          id="remove"
-                          className="bi bi-trash text-danger"
-                          onClick={() => handleRemoveIMG(1)}
-                        ></i>
-                      )}
-                      {!!carouseldata[1] ? (
-                        <div className="d-flex justify-content-center">
-                          <div className="w-25">
-                            <img
-                              src={`${process.env.REACT_APP_IMG}/${carouseldata[1]}`}
-                              className="w-100"
-                            />
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="d-flex justify-content-center">
-                          <h1>
-                            <i className="bi bi-image-fill text-muted"></i>
-                          </h1>
-                        </div>
-                      )}
-                    </li>
-
-                    <li>
-                      image 3 :{" "}
-                      {!!carouseldata[2] && (
-                        <i
-                          id="remove"
-                          className="bi bi-trash text-danger"
-                          onClick={() => handleRemoveIMG(2)}
-                        ></i>
-                      )}
-                      {!!carouseldata[2] ? (
-                        <div className="d-flex justify-content-center">
-                          <div className="w-25">
-                            <img
-                              src={`${process.env.REACT_APP_IMG}/${carouseldata[2]}`}
-                              className="w-100"
-                            />
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="d-flex justify-content-center">
-                          <h1>
-                            <i className="bi bi-image-fill text-muted"></i>
-                          </h1>
-                        </div>
-                      )}
-                    </li>
-                  </ul>
+                        <li>
+                          image 3 :{" "}
+                          {!!carouseldata[2] && (
+                            <i
+                              id="remove"
+                              className="bi bi-trash text-danger"
+                              onClick={() => handleRemoveIMG(2)}
+                            ></i>
+                          )}
+                          {!!carouseldata[2] ? (
+                            <div className="d-flex justify-content-center">
+                              <div className="w-25">
+                                <img
+                                  src={`${process.env.REACT_APP_IMG}/${carouseldata[2]}`}
+                                  className="w-100"
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="d-flex justify-content-center">
+                              <h1>
+                                <i className="bi bi-image-fill text-muted"></i>
+                              </h1>
+                            </div>
+                          )}
+                        </li>
+                      </ul>
+                    ) : (null)
+                  }
                 </div>
               </div>
               <div className="d-grid">
@@ -362,63 +365,68 @@ const ManageHome = () => {
               </div>
             </div>
             <div className="mt-3">
-              <ul>
-                <li>
-                  course 1 :{" "}
-                  {!!coursedata[0] && (
-                    <i
-                      id="remove"
-                      className="bi bi-trash text-danger"
-                      onClick={() => handleRemoveCourse(0)}
-                    ></i>
-                  )}
-                  {!!coursedata[0] ? <p>{coursedata[0].name}</p> : <p>-</p>}
-                </li>
-                <li>
-                  course 2 :{" "}
-                  {!!coursedata[1] && (
-                    <i
-                      id="remove"
-                      className="bi bi-trash text-danger"
-                      onClick={() => handleRemoveCourse(1)}
-                    ></i>
-                  )}
-                  {!!coursedata[1] ? <p>{coursedata[1].name}</p> : <p>-</p>}
-                </li>
-                <li>
-                  course 3 :{" "}
-                  {!!coursedata[2] && (
-                    <i
-                      id="remove"
-                      className="bi bi-trash text-danger"
-                      onClick={() => handleRemoveCourse(2)}
-                    ></i>
-                  )}
-                  {!!coursedata[2] ? <p>{coursedata[2].name}</p> : <p>-</p>}
-                </li>
-                <li>
-                  course 4 :{" "}
-                  {!!coursedata[3] && (
-                    <i
-                      id="remove"
-                      className="bi bi-trash text-danger"
-                      onClick={() => handleRemoveCourse(3)}
-                    ></i>
-                  )}
-                  {!!coursedata[3] ? <p>{coursedata[3].name}</p> : <p>-</p>}
-                </li>
-                <li>
-                  course 5 :{" "}
-                  {!!coursedata[4] && (
-                    <i
-                      id="remove"
-                      className="bi bi-trash text-danger"
-                      onClick={() => handleRemoveCourse(4)}
-                    ></i>
-                  )}
-                  {!!coursedata[4] ? <p>{coursedata[4].name}</p> : <p>-</p>}
-                </li>
-              </ul>
+              {
+                Array.isArray(coursedata) ? (
+                  <ul>
+                    <li>
+                      course 1 :{" "}
+                      {!!coursedata[0] && (
+                        <i
+                          id="remove"
+                          className="bi bi-trash text-danger"
+                          onClick={() => handleRemoveCourse(0)}
+                        ></i>
+                      )}
+                      {!!coursedata[0] ? <p>{coursedata[0].name}</p> : <p>-</p>}
+                    </li>
+                    <li>
+                      course 2 :{" "}
+                      {!!coursedata[1] && (
+                        <i
+                          id="remove"
+                          className="bi bi-trash text-danger"
+                          onClick={() => handleRemoveCourse(1)}
+                        ></i>
+                      )}
+                      {!!coursedata[1] ? <p>{coursedata[1].name}</p> : <p>-</p>}
+                    </li>
+                    <li>
+                      course 3 :{" "}
+                      {!!coursedata[2] && (
+                        <i
+                          id="remove"
+                          className="bi bi-trash text-danger"
+                          onClick={() => handleRemoveCourse(2)}
+                        ></i>
+                      )}
+                      {!!coursedata[2] ? <p>{coursedata[2].name}</p> : <p>-</p>}
+                    </li>
+                    <li>
+                      course 4 :{" "}
+                      {!!coursedata[3] && (
+                        <i
+                          id="remove"
+                          className="bi bi-trash text-danger"
+                          onClick={() => handleRemoveCourse(3)}
+                        ></i>
+                      )}
+                      {!!coursedata[3] ? <p>{coursedata[3].name}</p> : <p>-</p>}
+                    </li>
+                    <li>
+                      course 5 :{" "}
+                      {!!coursedata[4] && (
+                        <i
+                          id="remove"
+                          className="bi bi-trash text-danger"
+                          onClick={() => handleRemoveCourse(4)}
+                        ></i>
+                      )}
+                      {!!coursedata[4] ? <p>{coursedata[4].name}</p> : <p>-</p>}
+                    </li>
+                  </ul>
+                ) : (null)
+              }
+
             </div>
           </div>
         </div>
@@ -455,83 +463,87 @@ const ManageHome = () => {
               </div>
             </div>
             <div className="mt-3">
-              <ul>
-                <li>
-                  course 1 :{" "}
-                  {!!reGisCoursedata[0] && (
-                    <i
-                      id="remove"
-                      className="bi bi-trash text-danger"
-                      onClick={() => handleRemoveCourse2(0)}
-                    ></i>
-                  )}
-                  {!!reGisCoursedata[0] ? (
-                    <p>{reGisCoursedata[0].name}</p>
-                  ) : (
-                    <p>-</p>
-                  )}
-                </li>
-                <li>
-                  course 2 :{" "}
-                  {!!reGisCoursedata[1] && (
-                    <i
-                      id="remove"
-                      className="bi bi-trash text-danger"
-                      onClick={() => handleRemoveCourse2(1)}
-                    ></i>
-                  )}
-                  {!!reGisCoursedata[1] ? (
-                    <p>{reGisCoursedata[1].name}</p>
-                  ) : (
-                    <p>-</p>
-                  )}
-                </li>
-                <li>
-                  course 3 :{" "}
-                  {!!reGisCoursedata[2] && (
-                    <i
-                      id="remove"
-                      className="bi bi-trash text-danger"
-                      onClick={() => handleRemoveCourse2(2)}
-                    ></i>
-                  )}
-                  {!!reGisCoursedata[2] ? (
-                    <p>{reGisCoursedata[2].name}</p>
-                  ) : (
-                    <p>-</p>
-                  )}
-                </li>
-                <li>
-                  course 4 :{" "}
-                  {!!reGisCoursedata[3] && (
-                    <i
-                      id="remove"
-                      className="bi bi-trash text-danger"
-                      onClick={() => handleRemoveCourse2(3)}
-                    ></i>
-                  )}
-                  {!!reGisCoursedata[3] ? (
-                    <p>{reGisCoursedata[3].name}</p>
-                  ) : (
-                    <p>-</p>
-                  )}
-                </li>
-                <li>
-                  course 5 :{" "}
-                  {!!reGisCoursedata[4] && (
-                    <i
-                      id="remove"
-                      className="bi bi-trash text-danger"
-                      onClick={() => handleRemoveCourse2(4)}
-                    ></i>
-                  )}
-                  {!!reGisCoursedata[4] ? (
-                    <p>{reGisCoursedata[4].name}</p>
-                  ) : (
-                    <p>-</p>
-                  )}
-                </li>
-              </ul>
+              {
+                Array.isArray(reGisCoursedata) ? (
+                  <ul>
+                    <li>
+                      course 1 :{" "}
+                      {!!reGisCoursedata[0] && (
+                        <i
+                          id="remove"
+                          className="bi bi-trash text-danger"
+                          onClick={() => handleRemoveCourse2(0)}
+                        ></i>
+                      )}
+                      {!!reGisCoursedata[0] ? (
+                        <p>{reGisCoursedata[0].name}</p>
+                      ) : (
+                        <p>-</p>
+                      )}
+                    </li>
+                    <li>
+                      course 2 :{" "}
+                      {!!reGisCoursedata[1] && (
+                        <i
+                          id="remove"
+                          className="bi bi-trash text-danger"
+                          onClick={() => handleRemoveCourse2(1)}
+                        ></i>
+                      )}
+                      {!!reGisCoursedata[1] ? (
+                        <p>{reGisCoursedata[1].name}</p>
+                      ) : (
+                        <p>-</p>
+                      )}
+                    </li>
+                    <li>
+                      course 3 :{" "}
+                      {!!reGisCoursedata[2] && (
+                        <i
+                          id="remove"
+                          className="bi bi-trash text-danger"
+                          onClick={() => handleRemoveCourse2(2)}
+                        ></i>
+                      )}
+                      {!!reGisCoursedata[2] ? (
+                        <p>{reGisCoursedata[2].name}</p>
+                      ) : (
+                        <p>-</p>
+                      )}
+                    </li>
+                    <li>
+                      course 4 :{" "}
+                      {!!reGisCoursedata[3] && (
+                        <i
+                          id="remove"
+                          className="bi bi-trash text-danger"
+                          onClick={() => handleRemoveCourse2(3)}
+                        ></i>
+                      )}
+                      {!!reGisCoursedata[3] ? (
+                        <p>{reGisCoursedata[3].name}</p>
+                      ) : (
+                        <p>-</p>
+                      )}
+                    </li>
+                    <li>
+                      course 5 :{" "}
+                      {!!reGisCoursedata[4] && (
+                        <i
+                          id="remove"
+                          className="bi bi-trash text-danger"
+                          onClick={() => handleRemoveCourse2(4)}
+                        ></i>
+                      )}
+                      {!!reGisCoursedata[4] ? (
+                        <p>{reGisCoursedata[4].name}</p>
+                      ) : (
+                        <p>-</p>
+                      )}
+                    </li>
+                  </ul>
+                ) : (null)
+              }
             </div>
           </div>
         </div>
