@@ -25,7 +25,7 @@ const Home = () => {
 
     const loadData = () => {
         listHome(sessionStorage.getItem("token")).then(res => {
-            console.log(res.data)
+            // console.log(res.data)
 
             setCarouseldata(res.data.carousel)
             setCoursedata(res.data.course_public)
@@ -54,7 +54,7 @@ const Home = () => {
                     <div className="head-content">
                         <div className="d-flex justify-content-center">
                             <div className="w-75 shadow-sm">
-                                {carouseldata.length > 0 &&
+                                {carouseldata?.length > 0 &&
                                     <Carousel carouseldata={carouseldata} />
                                 }
                             </div>
