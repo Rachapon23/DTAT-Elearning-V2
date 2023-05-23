@@ -41,7 +41,7 @@ const PublicCourse = ({ course, topic }) => {
                                     {item?.text?.length > 0 &&
                                         <div className="">
                                             {
-                                                Array.isArray(item?.text) ? (
+                                                Array.isArray(item?.text) && item?.text ? (
                                                     <ul>
                                                         {item?.text?.map((ttem, tdex) =>
 
@@ -58,7 +58,7 @@ const PublicCourse = ({ course, topic }) => {
                                     {item?.link?.length > 0 &&
                                         <div className="container">
                                             {
-                                                Array.isArray(item?.link) ? (
+                                                Array.isArray(item?.link) && item?.link ? (
                                                     <>
                                                         {item?.link?.map((ttem, tdex) =>
                                                             ttem.url.includes("youtube.com") ?
@@ -108,7 +108,7 @@ const PublicCourse = ({ course, topic }) => {
                                     {item?.file?.length > 0 &&
                                         <div className="">
                                             {
-                                                Array.isArray(item?.file) ?
+                                                Array.isArray(item?.file) && item?.file ?
                                                     (
                                                         <>
                                                             {item?.file?.map((ttem, tdex) =>
