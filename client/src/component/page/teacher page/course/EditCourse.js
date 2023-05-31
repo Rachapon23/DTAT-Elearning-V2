@@ -294,19 +294,26 @@ const EditCourse = () => {
             document.getElementById("name_course").focus({ focusVisible: true });
             setLoading(false)
         }
-        else if (!!!course.description) {
+        if (!!!course.description) {
             setError({ description: "Please enter name of course id" })
             valid = false;
             document.getElementById("description").focus({ focusVisible: true });
             setLoading(false)
         }
-        else if (course.statuscourse && !!!course.room) {
+        if (course.statuscourse && !!!course.room) {
             setError({ room: "Please select room" })
             valid = false;
             document.getElementById("room").focus({ focusVisible: true });
         }
-        else if (course?.member) {
-            console.log(course?.member)
+        if (course.statuscourse) {
+            // console.log("-> ",course?.member)
+            if(course?.member.length < 1) {
+                valid = false;
+                Toast.fire({
+                    icon: 'error',
+                    title: "Please select plant"
+                })
+            }
             for (let i = 0; i < course?.member.length; i++) {
                 if (course?.member[i]?.plant === "") {
                     valid = false;
@@ -317,7 +324,7 @@ const EditCourse = () => {
                 }
             }
         }
-        else if (valuetopic.length > 0) {
+        if (valuetopic.length > 0) {
             // console.log("for")
             for (let i = 0; i < valuetopic.length; i++) {
                 // console.log("for 2")
