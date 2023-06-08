@@ -21,11 +21,12 @@ const {
     returnRoute,
     ChangeAmount
 } = require('../controllers/userController')
+const { resolve } = require('path');
 
 /* Multer  */
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './public/uploads')
+        cb(null, resolve('./public/uploads'))
     },
     filename: (req, file, cb) => {
         cb(null, 'file-' + Date.now() + '.' +
