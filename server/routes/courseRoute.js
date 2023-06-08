@@ -41,6 +41,7 @@ const { resolve } = require('path');
 /* Multer  */
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        console.log("=-=-=-> ",resolve('./public/uploads'))
         cb(null, resolve('./public/uploads'))
     },
     filename: (req, file, cb) => {
