@@ -13,12 +13,13 @@ const {
 
     // privateCreate,
 } = require('../controllers/homeControler')
+const { resolve } = require('path');
 
 
 /* Multer  */
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './public/uploads')
+        cb(null, resolve('./public/uploads'))
     },
     filename: (req, file, cb) => {
         cb(null, 'file-' + Date.now() + '.' +
@@ -31,8 +32,8 @@ const upload = multer({ storage: storage }).single('file')
 // router.post('/home/course-private',  privateCreate)
 
 router.post('/home/carousel', upload, carousel)
-router.post('/home/course',  course)
-router.post('/home/regiscourse',  ReGiscourse)
+router.post('/home/course', course)
+router.post('/home/regiscourse', ReGiscourse)
 router.get('/home/list', listHome)
 router.put('/home/remove', removeCarousel)
 router.put('/home/remove-course', removeCourse)
